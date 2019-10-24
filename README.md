@@ -1,3 +1,4 @@
 # bigpapa-machine
-crap...
-**Where I put my work and do my learning.
+Random crap...
+
+*Where I put my work and do my learning.
