@@ -1,8 +1,20 @@
-<form action="basiccal.php" method="GET">
+<?php
+include 'function.php';
+?>
+
+<html>
+<head>
+	<meta charset = "UTF-8">
+	<title>Basic Calculator</title>
+
+<link href = "BasicC.css" rel ="stylesheet" type ="text/css"/>
+</head>
+
+<form action="basiccal.php" method="GET" class="Bascalcu">
 
 <input type="number" name="num1">
 
-<input list="operators" name="operator">
+<input list="operators" name="operator" id="operator">
 <datalist id="operators">
 <option value="*">
 <option value="/">
@@ -10,6 +22,12 @@
 <option value="-">
 <option value="%">
 </datalist>
+
+
+
+	</html>
+ 
+
 
 <input type="number" name="num2">
 
