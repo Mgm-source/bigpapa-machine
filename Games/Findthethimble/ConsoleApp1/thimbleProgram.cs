@@ -12,7 +12,9 @@ namespace FindTheThimble
 
         static int Guess = 1;
 
-        static string thimble = "t"; //"thimble"
+       static string thimble = " "; //"thimble"
+
+        static string thimble2 = "#t";
 
         static string[,] gameroom = new string[10, 10];
 
@@ -48,9 +50,9 @@ namespace FindTheThimble
 
                         UserCoordinates();
 
-                        display();
-
                         distance();
+
+                        display();
 
                     } while (gameroom[x, y] != thimble);
 
@@ -88,7 +90,7 @@ namespace FindTheThimble
 
                 {
 
-                    gameroom[j, i] = " ";
+                    gameroom[j, i] = "#";
 
                 }
 
@@ -117,9 +119,11 @@ namespace FindTheThimble
             {
 
                 gameroom[x, y] = "*";
-
+                Guess++;
             }
-            Guess++;
+            
+
+            gameroom[randomthimbleX, randomthimbleY] = thimble;
         }
 
         static void rando()
@@ -150,7 +154,11 @@ namespace FindTheThimble
 
                 System.Console.WriteLine("\nYou managed to find the Thimble in " + Guess + " guess(es).");
 
+                Yn();
+
                 Guess++;
+
+              
 
             }
 
@@ -160,7 +168,7 @@ namespace FindTheThimble
 
             {
 
-                System.Console.WriteLine("Freezing");
+                System.Console.WriteLine("\nFreezing");
 
             }
 
@@ -168,7 +176,7 @@ namespace FindTheThimble
 
             {
 
-                System.Console.WriteLine("cold");
+                System.Console.WriteLine("\ncold");
 
             }
 
@@ -176,7 +184,7 @@ namespace FindTheThimble
 
             {
 
-                System.Console.WriteLine("warm");
+                System.Console.WriteLine("\nwarm");
 
             }
 
@@ -184,9 +192,11 @@ namespace FindTheThimble
 
             {
 
-                System.Console.WriteLine("hot");
+                System.Console.WriteLine("\nhot");
 
             }
+            gameroom[randomthimbleX, randomthimbleY] = thimble2;
+           
 
         }
 
@@ -205,7 +215,7 @@ namespace FindTheThimble
         static void display()
 
         {
-
+            
             // show grid
 
             System.Console.WriteLine("  | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |");
@@ -226,7 +236,7 @@ namespace FindTheThimble
 
                 }
 
-                System.Console.WriteLine("|");
+                System.Console.WriteLine(" |");
 
                 System.Console.WriteLine("----------------------------------------------------------------------------------------------");
 
