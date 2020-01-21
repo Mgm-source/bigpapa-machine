@@ -27,7 +27,5 @@ angular.module('routingApp',['ui.router'])
  
     })
     // this has the otherwise stuff
-    $urlServiceProvider.rules
-    .otherwise('/Index');
     
 }]);
