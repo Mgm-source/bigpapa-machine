@@ -5,7 +5,7 @@ angular.module('routingApp',['ui.router'])
 // html go button; reference basically 
     self.go = function(page){
         //$go Transition to a different state
-        $state.go(page);
+        $state.go(page,{reload: true});
         console.log($state.go(page));
     };
 
