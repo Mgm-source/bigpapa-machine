@@ -6,13 +6,14 @@ angular.module('routingApp',['ui.router'])
     self.go = function(page){
         //$go Transition to a different state
         $state.go(page);
+        console.log($state.go(page));
        /* Code below not needed, '$state' does the url change*/
                     // $location.path(page);
-        console.log($state.go(page));
+
     };
 
 })
- // basically a constructor  just choose the same name as the services just not to get confused 
+ // Basically a constructor just choose the same name as the services, just not to get confused 
 .config(['$stateProvider','$urlServiceProvider',function($stateProvider,$urlServiceProvider){
 
     $stateProvider
@@ -20,8 +21,7 @@ angular.module('routingApp',['ui.router'])
     .state('Index', {
         url:'/Index',
         templateUrl:"views/index.html",
-
-       
+        
     })
     // different states 
     .state('Name', {
