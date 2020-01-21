@@ -1,11 +1,13 @@
 angular.module('routingApp',['ui.router'])
-.controller("routingAppController",function($state){
+.controller("routingAppController",function($state,$location){
     // needed otherwise js doesnt know where to look
     var self = this;
 // html go button; reference basically 
     self.go = function(page){
         //$go Transition to a different state
-        $state.go(page,{reload: true});
+        $state.go(page);
+       /* Code below not needed, '$state' does the url change*/
+                    // $location.path(page);
         console.log($state.go(page));
     };
 
@@ -16,16 +18,19 @@ angular.module('routingApp',['ui.router'])
     $stateProvider
     // different states 
     .state('Index', {
-        Url:'/Index',
+        url:'/Index',
         templateUrl:"views/index.html",
+
        
     })
     // different states 
     .state('Name', {
-        Url:'/Name',
+        url:'/Name',
         templateUrl:"views/Entername.html",
  
     })
-   // this has the otherwise stuff
+    // this has the otherwise stuff
+    $urlServiceProvider.rules
+    .otherwise('/Index');
     
 }]);
