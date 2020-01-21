@@ -26,6 +26,6 @@ angular.module('routingApp',['ui.router'])
         templateUrl:"views/Entername.html",
  
     })
-    // this has the otherwise stuff
+   // this has the otherwise stuff
     
 }]);
