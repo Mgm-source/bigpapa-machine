@@ -18,7 +18,6 @@ angular.module('routingApp',['ui.router'])
     .state('Index', {
         Url:'/Index',
         templateUrl:"views/index.html",
-
        
     })
     // different states 
