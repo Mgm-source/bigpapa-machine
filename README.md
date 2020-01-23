@@ -2,4 +2,5 @@
 Random crap...
 
 *Where I put my work and do my learning.
-[Site](https://mgm-source.github.io/bigpapa-machine/app.html)
+[AngularSite](https://mgm-source.github.io/bigpapa-machine/app.html)
+[FindthethimbleSite](https://mgm-source.github.io/bigpapa-machine/ftthimble.html)
