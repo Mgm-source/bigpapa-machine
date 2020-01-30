@@ -8,5 +8,5 @@
 
         const gameroom = new Array(2);
 
-        const Yesno;
+        var Yesno;
 
