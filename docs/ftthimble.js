@@ -10,3 +10,11 @@
 
         var Yesno;
 
+
+for (var i = 0; i < gameroom.length(0); i++) {
+        
+        for ( var j = 0; j < gameroom.length(1); j++){
+                
+                gameroom[i,j] = "#";
+        }
+}
