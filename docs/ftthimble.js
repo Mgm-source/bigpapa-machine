@@ -34,6 +34,7 @@ function startupWebPage()
       for (var j = 0; j < gameroom[0].length; j++)
       {
          gameroom[j, i] = "#";
+         console.log(gameroom[j, i] = "#");
       }
    }
  }
