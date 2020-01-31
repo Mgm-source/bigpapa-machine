@@ -22,8 +22,6 @@ function startupWebPage()
  const cvs = document.getElementById("gameSpace");
  const ctx = cvs.getContext("2d");
 
- cvs = document.getElementById("scale");
-
  var x,y,guess,randtx,randty,col,row;
  var thimbleplaceholder,thimblecheat,Yesno;
 
