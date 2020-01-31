@@ -1,6 +1,21 @@
 //Makes sure that the web page is fully loaded before it starts working/listening
 document.addEventListener("DOMContentLoaded",startupWebPage);
 
+function grid(x, y){
+    var grid = [];
+   
+    for(i=1; i<=y; i++){
+       var row = [];
+   
+       for(j=1; j<=x; j++){
+          row.push(j)
+   
+       }
+       grid.push(row)
+     }
+       return grid;
+   }
+
 function startupWebPage()
 { 
  // declaring the canvas 
@@ -10,8 +25,10 @@ function startupWebPage()
  cvs = document.getElementById("scale");
 
  var x,y,guess,randtx,randty,col,row;
- var thimble,thimble2,Yesno;
- var  gameroom = new array[10,10];
+ var thimbleplaceholder,thimblecheat,Yesno;
+ 
+ var  gameroom = grid(10,10)
+ 
  function draw()
  {
    
