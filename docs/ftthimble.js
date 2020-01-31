@@ -29,7 +29,13 @@ function startupWebPage()
  
  function draw()
  {
-   
+   for(var i = 0; i< gameroom.length;i++)
+   {
+      for (var j = 0; j < gameroom[0].length; j++)
+      {
+         gameroom[j, i] = "#";
+      }
+   }
  }
 }
 
