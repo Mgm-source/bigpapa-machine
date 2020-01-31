@@ -1,6 +1,7 @@
 //Makes sure that the web page is fully loaded before it starts working/listening
 document.addEventListener("DOMContentLoaded",startupWebPage);
 
+
 function grid(x, y){
     var grid = [];
    
@@ -15,6 +16,11 @@ function grid(x, y){
      }
        return grid;
    }
+
+function getRand(max){
+
+   return Math.floor(Math.random()*max+1);
+}
 
 function startupWebPage()
 { 
@@ -37,9 +43,16 @@ function startupWebPage()
          console.log(gameroom[j, i]);
       }
    }
-    var rnd = Math.floor(Math.random()*10+1);
+   // pure laziness that what is. 
+    var rnd = getRand(10);
     console.log(rnd);
-   gameroom[randtx, randty] = thimbleplaceholder;
+    randtx = rnd;
+
+    var rnd = getRand(10);
+    console.log(rnd);
+    randty = rnd;
+
+   gameroom[randtx][randty] = thimbleplaceholder;
  }
  draw();
 }
