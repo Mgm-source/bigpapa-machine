@@ -19,14 +19,14 @@ function grid(x, y){
 function startupWebPage()
 { 
  // declaring the canvas 
- const cvs = document.getElementById("canvas");
+ const cvs = document.getElementById("gameSpace");
  const ctx = cvs.getContext("2d");
 
  cvs = document.getElementById("scale");
 
  var x,y,guess,randtx,randty,col,row;
  var thimbleplaceholder,thimblecheat,Yesno;
- 
+
  var  gameroom = grid(10,10)
  
  function draw()
@@ -34,3 +34,4 @@ function startupWebPage()
    
  }
 }
+
