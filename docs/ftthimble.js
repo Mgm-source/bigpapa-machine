@@ -34,10 +34,11 @@ function startupWebPage()
       for (var j = 0; j < gameroom[0].length; j++)
       {
          gameroom[j, i] = "#";
-         console.log(gameroom[j, i],rnd);
+         console.log(gameroom[j, i]);
       }
    }
-    var rnd = Math.floor(Math.random()*10);
+    var rnd = Math.floor(Math.random()*10+1);
+    console.log(rnd);
    gameroom[randtx, randty] = thimbleplaceholder;
  }
  draw();
