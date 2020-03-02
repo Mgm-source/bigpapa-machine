@@ -1,7 +1,7 @@
 // making the connect variables
 var mqtt;
-var reconnectTimeout=2000;
-var host="127.0.0.1";
+var reconnectTimeout=1000;
+var host="localhost";
 var port=1883;
 
 function onConnect(){
