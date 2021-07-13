@@ -150,10 +150,11 @@ function startupWebPage() {
    function startTimbleGame() {
       var booleanPrompt;
       //playPrompt();
+      hideThimble();
       render() (randtx,randty);
       booleanPrompt = playPrompt();
       
-      hideThimble();
+      
       while (booleanPrompt == true) {
 
             userGuess();
