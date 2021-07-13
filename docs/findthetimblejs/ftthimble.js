@@ -12,15 +12,19 @@ function startupWebPage() {
       // dimension
       let dim = 64;
       
-      return function drawBoard(width, height) {
-         for (var i = 0; i < width; i++) {
-            for (let j = 0; j < height; j++) {
+      return function drawBoard(thimblex, thimbley) {
+         for (var i = 0; i < gameroomx; i++) {
+            for (let j = 0; j < gameroomy; j++) {
                ctx.strokeStyle = 'rgba(0, 0, 0, 0.7)';
                ctx.beginPath();
                ctx.strokeRect(i * dim, j * dim, dim, dim);
                ctx.closePath();
             }
          }
+         ctx.beginPath();
+         ctx.strokeStyle = "green";
+         ctx.strokeRect(thimblex * dim, thimbley * dim, dim/2, dim/2);
+
 
       };
 
@@ -135,14 +139,10 @@ function startupWebPage() {
             console.log(gameroom[j][i]);
          }
       }
-      // pure laziness that what is. 
-      var rnd = getRand(10);
-      console.log(rnd);
-      randtx = rnd;
 
-      var rnd = getRand(10);
-      console.log(rnd);
-      randty = rnd;
+      // pure laziness thats what it is. 
+      randtx = getRand(gameroomx);
+      randty = getRand(gameroomy);
 
       gameroom[randtx][randty] = thimbleplaceholder;
 
@@ -150,7 +150,7 @@ function startupWebPage() {
    function startTimbleGame() {
       var booleanPrompt;
       //playPrompt();
-      render() (gameroomx,gameroomy);
+      render() (randtx,randty);
       booleanPrompt = playPrompt();
       
       hideThimble();
