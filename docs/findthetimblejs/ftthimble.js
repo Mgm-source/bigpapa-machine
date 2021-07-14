@@ -1,16 +1,27 @@
 //Makes sure that the web page is fully loaded before it starts working/listening
 document.addEventListener("DOMContentLoaded", startupWebPage);
 
+// dimension
+const dim = 64;
+
+var userx = 0;
+var usery = 0;
+var userCoordinate = [];
+
 function startupWebPage() {
    function render() {
       // declaring the canvas 
       const cvs = document.getElementById("gameSpace");
       const ctx = cvs.getContext('2d');
       // the canvas is as large as the screen
-      cvs.width = window.screen.width;
-      cvs.height = window.screen.height;
-      // dimension
-      let dim = 64;
+      cvs.width = dim*gameroomx
+      cvs.height = dim*gameroomy;
+      cvs.addEventListener("click", event => {
+        userx = Math.floor(event.x/dim);
+        usery = Math.floor(event.y/dim);
+        checkGuess(userx,usery);
+      })
+      
       
       return function drawBoard(thimblex, thimbley) {
          for (var i = 0; i < gameroomx; i++) {
@@ -30,15 +41,8 @@ function startupWebPage() {
 
    }
 
-   var userCoordinate = [];
-   var userx = 0;
-   var usery = 0;
-
    var thimbleplaceholder = " ";
-   var thimblecheat = "T";
-
-   var UserAnswer = "No response";
-
+   
    var randtx = 0;
    var randty = 0;
 
@@ -66,34 +70,7 @@ function startupWebPage() {
 
    function getRand(max) {
 
-      return Math.floor(Math.random() * max + 1);
-   }
-
-   function playPrompt() {
-
-      UserAnswer = prompt("Do you want to play Find The Thimble? Y/N");
-
-      if (UserAnswer.toLocaleUpperCase() === "Y") {
-         return true;
-      }
-      else {
-         return false;
-      }
-   }
-
-   function userGuess() {
-
-      userx = prompt("Enter the X-coordinate:");
-      usery = prompt("Enter the Y-coordinate:");
-
-      userCoordinate.push(userx);
-      userCoordinate.push(usery);
-
-      if (gameroom[userx][usery] != thimbleplaceholder) {
-         gameroom[userx][usery] = "*";
-      }
-
-      return userCoordinate
+      return Math.floor(Math.random() * max);
    }
 
    function checkGuess(checkx, checky) {
@@ -101,28 +78,21 @@ function startupWebPage() {
       if (gameroom[checkx][checky] == gameroom[randtx][randty]) {
 
          alert("Congratulations you found the Thimble");
-         if (playPrompt() == false) {
-            alert("Quit of the tab then");
-         }
-         else {
-            location.reload();
-         }
+         location.reload();
       }
-      else if ((randty - checky) >= 7 || (randtx - checkx) >= 7) {
 
-         console.log("Freezing");
-      }
-      else if ((randty - checky) >= 5 || (randtx - checkx) >= 5) {
-
-         console.log("Cold");
-      }
-      else if ((randty - checky) >= 3 || (randtx - checkx) >= 5) {
-
-         console.log("Warm");
-      }
-      else if ((randty - checky) >= 1 || (randtx - checkx) >= 5) {
-
-         console.log("Hot");
+      switch (true){
+         case (Math.abs(randty - checky) + Math.abs(randtx - checkx) >= 7):
+            console.log("Freezing");
+            break;
+         case (Math.abs(randty - checky) + Math.abs(randtx - checkx) >= 5):
+            console.log("Cold");
+            break;
+         case (Math.abs(randty - checky) + Math.abs(randtx - checkx) >= 3):
+            console.log("Warm");
+            break;
+         default:
+            console.log("Hot");
       }
 
       console.log(gameroom);
@@ -144,24 +114,14 @@ function startupWebPage() {
       randtx = getRand(gameroomx);
       randty = getRand(gameroomy);
 
+      console.log(randtx,randty);
       gameroom[randtx][randty] = thimbleplaceholder;
 
    }
+
    function startTimbleGame() {
-      var booleanPrompt;
-      //playPrompt();
       hideThimble();
       render() (randtx,randty);
-      booleanPrompt = playPrompt();
-      
-      
-      while (booleanPrompt == true) {
-
-            userGuess();
-            checkGuess(userCoordinate[0], userCoordinate[1]);
-            console.log(booleanPrompt);
-         } 
-      
    }
    startTimbleGame();
 }
