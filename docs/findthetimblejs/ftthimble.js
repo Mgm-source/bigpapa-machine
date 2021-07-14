@@ -14,15 +14,14 @@ function startupWebPage() {
       const cvs = document.getElementById("gameSpace");
       const ctx = cvs.getContext('2d');
       // the canvas is as large as the screen
-      cvs.width = dim*gameroomx
-      cvs.height = dim*gameroomy;
+      cvs.width = dim * gameroomx
+      cvs.height = dim * gameroomy;
       cvs.addEventListener("click", event => {
-        userx = Math.floor(event.x/dim);
-        usery = Math.floor(event.y/dim);
-        checkGuess(userx,usery);
+         userx = Math.floor(event.x / dim);
+         usery = Math.floor(event.y / dim);
+         checkGuess(userx, usery);
       })
-      
-      
+
       return function drawBoard(thimblex, thimbley) {
          for (var i = 0; i < gameroomx; i++) {
             for (let j = 0; j < gameroomy; j++) {
@@ -34,7 +33,7 @@ function startupWebPage() {
          }
          ctx.beginPath();
          ctx.strokeStyle = "green";
-         ctx.strokeRect(thimblex * dim, thimbley * dim, dim/2, dim/2);
+         ctx.strokeRect(thimblex * dim, thimbley * dim, dim / 2, dim / 2);
 
 
       };
@@ -42,7 +41,7 @@ function startupWebPage() {
    }
 
    var thimbleplaceholder = " ";
-   
+
    var randtx = 0;
    var randty = 0;
 
@@ -81,7 +80,7 @@ function startupWebPage() {
          location.reload();
       }
 
-      switch (true){
+      switch (true) {
          case (Math.abs(randty - checky) + Math.abs(randtx - checkx) >= 7):
             console.log("Freezing");
             break;
@@ -114,14 +113,14 @@ function startupWebPage() {
       randtx = getRand(gameroomx);
       randty = getRand(gameroomy);
 
-      console.log(randtx,randty);
+      console.log(randtx, randty);
       gameroom[randtx][randty] = thimbleplaceholder;
 
    }
 
    function startTimbleGame() {
       hideThimble();
-      render() (randtx,randty);
+      render()(randtx, randty);
    }
    startTimbleGame();
 }
