@@ -3,20 +3,20 @@ document.addEventListener("DOMContentLoaded", startupWebPage);
 
 function startupWebPage() {
 
-         // declaring the canvas 
-         const cvs = document.getElementById("gameSpace");
-         const ctx = cvs.getContext('2d');
-   
-         // referencing element/s 
-         const restartBtn = document.getElementById("restartBtn");
+   // declaring the canvas 
+   const cvs = document.getElementById("gameSpace");
+   const ctx = cvs.getContext('2d');
 
-         var randtx = 0;
-         var randty = 0;
-      
-         // how big the game is
-         const gameroom = 10;
+   // referencing element/s 
+   const restartBtn = document.getElementById("restartBtn");
 
-         
+   var randtx = 0;
+   var randty = 0;
+
+   // how big the game is
+   const gameroom = 10;
+
+
    function render() {
 
       // dimension **how big a square should be 
@@ -37,13 +37,13 @@ function startupWebPage() {
 
          ctx.beginPath();
          // making the rectangle go to the center of the square
-         ctx.strokeRect((userx * dim) + dim/4, (usery * dim) + dim/4, dim/2, dim/2);
+         ctx.strokeRect((userx * dim) + dim / 4, (usery * dim) + dim / 4, dim / 2, dim / 2);
          ctx.closePath();
-         
+
       })
 
       // refreshes page when user click on new game button
-      restartBtn.addEventListener("click",()=>{
+      restartBtn.addEventListener("click", () => {
          startTimbleGame();
       })
 
@@ -100,7 +100,7 @@ function startupWebPage() {
 
    function hideThimble() {
 
-   // pure laziness thats what it is. pefection.
+      // pure laziness thats what it is. pefection.
       randtx = getRand(gameroom);
       randty = getRand(gameroom);
 
@@ -118,17 +118,17 @@ function startupWebPage() {
       // // console game *** old stuff 
       // var gameroom = [];
       // gameroom = new grid(gameroomx, gameroomy);
-   
+
       // function grid(x, y) {
-   
+
       //    var grid = [];
-   
+
       //    for (i = 1; i <= y; i++) {
       //       var row = [];
-   
+
       //       for (j = 1; j <= x; j++) {
       //          row.push(j)
-   
+
       //       }
       //       grid.push(row)
       //    }
