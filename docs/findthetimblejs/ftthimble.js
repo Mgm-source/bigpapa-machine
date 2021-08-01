@@ -10,12 +10,11 @@ function startupWebPage() {
    // referencing element/s 
    const restartBtn = document.getElementById("restartBtn");
 
-   var randtx = 0;
-   var randty = 0;
+   let randtx = 0;
+   let randty = 0;
 
    // how big the game is
    const gameroom = 10;
-
 
    function render() {
 
