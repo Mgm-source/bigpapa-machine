@@ -96,14 +96,11 @@ function startupWebPage() {
             ctx.strokeStyle = "red";
       }
 
-      console.log((randty - checky));
-      console.log((randtx - checkx));
-
    }
 
    function hideThimble() {
 
-   // pure laziness thats what it is. 
+   // pure laziness thats what it is. pefection.
       randtx = getRand(gameroom);
       randty = getRand(gameroom);
 

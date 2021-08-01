@@ -1,0 +1,12 @@
+#gameSpace{
+    margin: 10px;
+    float: left;
+}
+#findtbimg{
+    float: left;
+    top: 0;
+}
+#restartBtn{
+    float: left;
+    margin: 10px;
+}
