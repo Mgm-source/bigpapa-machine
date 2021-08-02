@@ -7,47 +7,41 @@ function startupWebPage() {
    const cvs = document.getElementById("gameSpace");
    const ctx = cvs.getContext('2d');
 
+   // canvas click event listener
+   cvs.addEventListener("click", checkGuess);
+
    // referencing element/s 
    const restartBtn = document.getElementById("restartBtn");
+      // refreshes page when user click on new game button
+      restartBtn.addEventListener("click", reset)
 
-   var randtx = 0;
-   var randty = 0;
+   const promptP = document.getElementById("prompt");
+   const modelBox = document.getElementsByClassName("container")[0];
 
    // how big the game is
    const gameroom = 10;
 
+   // storing the location of thimble
+   let randtx = 0;
+   let randty = 0;
+
+   // counter 
+   let guess = 0;
+
+   // dimension **how big a square should be 
+   const dim = 62;
 
    function render() {
 
-      // dimension **how big a square should be 
-      const dim = 64;
+      // clear canvas before drawing on it 
+      ctx.clearRect(0, 0, cvs.width, cvs.height);
 
-      // storing user mouse coordinates
-      let userx = 0;
-      let usery = 0;
-
-      // the canvas is as large as the screen
+      // The canvas is proportional to the dimension set
       cvs.width = dim * gameroom;
       cvs.height = dim * gameroom;
 
-      cvs.addEventListener("click", event => {
-         userx = Math.floor(event.offsetX / dim);
-         usery = Math.floor(event.offsetY / dim);
-         checkGuess(userx, usery);
-
-         ctx.beginPath();
-         // making the rectangle go to the center of the square
-         ctx.strokeRect((userx * dim) + dim / 4, (usery * dim) + dim / 4, dim / 2, dim / 2);
-         ctx.closePath();
-
-      })
-
-      // refreshes page when user click on new game button
-      restartBtn.addEventListener("click", () => {
-         startTimbleGame();
-      })
-
       return function drawBoard() {
+
          for (var i = 0; i < gameroom; i++) {
             for (let j = 0; j < gameroom; j++) {
                ctx.strokeStyle = 'rgba(0, 0, 0, 0.7)';
@@ -56,46 +50,56 @@ function startupWebPage() {
                ctx.closePath();
             }
          }
-         // where the timble is
-         // ctx.beginPath();
-         // ctx.strokeStyle = "green";
-         // // making the rectangle go to the center of the square
-         // ctx.strokeRect((thimblex * dim) + dim/4, (thimbley * dim) + dim/4, dim/2, dim/2);
-
 
       };
 
    }
 
-   function getRand(max) {
+   function reset() {
+      // hides model box, zeros the guess counter and restarts the game
+      modelBox.style.visibility = "hidden";
+      guess = 0;
+      startTimbleGame();
+   }
 
+   function getRand(max) {
       return Math.floor(Math.random() * max);
    }
 
-   function checkGuess(checkx, checky) {
+   function checkGuess(event) {
+
+      // storing user mouse coordinates
+      let userx = Math.floor(event.offsetX / dim);
+      let usery = Math.floor(event.offsetY / dim);
 
       switch (true) {
-         case (Math.abs(randty - checky) + Math.abs(randtx - checkx) >= 7):
-            console.log("Freezing");
+         case (Math.abs(randty - usery) + Math.abs(randtx - userx) >= 7):
+            //console.log("Freezing");
             ctx.strokeStyle = "blue";
             break;
-         case (Math.abs(randty - checky) + Math.abs(randtx - checkx) >= 5):
-            console.log("Cold");
+         case (Math.abs(randty - usery) + Math.abs(randtx - userx) >= 5):
+            //console.log("Cold");
             ctx.strokeStyle = "aqua";
             break;
-         case (Math.abs(randty - checky) + Math.abs(randtx - checkx) >= 3):
-            console.log("Warm");
+         case (Math.abs(randty - usery) + Math.abs(randtx - userx) >= 3):
+            //console.log("Warm");
             ctx.strokeStyle = "orange";
             break;
-         case (Math.abs(randty - checky) + Math.abs(randtx - checkx) == 0):
+         case (Math.abs(randty - usery) + Math.abs(randtx - userx) == 0):
             ctx.strokeStyle = "green";
-            alert("Congratulations you found the Thimble");
+            modelBox.style.visibility = "visible";
+            promptP.textContent = `Congratulations, you found the thimble! Failed attempts: ${guess} `;
             break;
          default:
-            console.log("Hot");
+            //console.log("Hot");
             ctx.strokeStyle = "red";
       }
+      // making the rectangle go to the center of the square
+      ctx.beginPath();
+      ctx.strokeRect((userx * dim) + dim / 4, (usery * dim) + dim / 4, dim / 2, dim / 2);
+      ctx.closePath();
 
+      guess++;
    }
 
    function hideThimble() {
@@ -103,19 +107,16 @@ function startupWebPage() {
       // pure laziness thats what it is. pefection.
       randtx = getRand(gameroom);
       randty = getRand(gameroom);
-
    }
 
    function startTimbleGame() {
-      ctx.clearRect(0, 0, cvs.width, cvs.height);
       hideThimble();
       render()();
    }
+
    startTimbleGame();
 }
-
-
-      // // console game *** old stuff 
+      // // console game *** old stuff
       // var gameroom = [];
       // gameroom = new grid(gameroomx, gameroomy);
 
@@ -145,3 +146,9 @@ function startupWebPage() {
       // }
       // console.log(randtx, randty);
       // gameroom[randtx][randty] = thimbleplaceholder;
+
+      // where the timble is "cheat"
+      // ctx.beginPath();
+      // ctx.strokeStyle = "green";
+      // making the rectangle go to the center of the square
+      // ctx.strokeRect((thimblex * dim) + dim/4, (thimbley * dim) + dim/4, dim/2, dim/2);

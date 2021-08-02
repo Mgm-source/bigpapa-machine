@@ -1,12 +1,42 @@
-#gameSpace{
-    margin: 10px;
-    float: left;
+* {
+    box-sizing: border-box;
 }
-#findtbimg{
-    float: left;
+
+.container {
+    background-color: rgba(0,0, 0, 0.5);
+    position: fixed;
     top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    pointer-events: visible;
+    visibility: hidden;
 }
-#restartBtn{
-    float: left;
-    margin: 10px;
+
+.model{
+    background-color: white;
+    padding: 30px 50px;
+    width: 600px;
+    max-width: 100%;
+    border-radius: 5px;
+    text-align: center;
 }
+
+.model p {
+    font-size: 20px;
+    color: midnightblue;
+}
+
+body{
+    display: flex;
+    align-items: flex-start;
+    justify-content: left;
+    height: 100vh;
+    width: 100vh;
+    margin: 10;
+
+}
+
