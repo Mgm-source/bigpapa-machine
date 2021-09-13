@@ -25,7 +25,7 @@ angular.module('routingApp',['ui.router'])
     })
     // different states 
     .state('name', {
-        url:'/Name',
+        url:'/name',
         templateUrl:"views/Entername.html",
  
     })
