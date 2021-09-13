@@ -18,13 +18,13 @@ angular.module('routingApp',['ui.router'])
 
     $stateProvider
     // different states 
-    .state('Index', {
-        url:'/Index',
+    .state('index', {
+        url:'/index',
         templateUrl:"views/index.html",
         
     })
     // different states 
-    .state('Name', {
+    .state('name', {
         url:'/Name',
         templateUrl:"views/Entername.html",
  
