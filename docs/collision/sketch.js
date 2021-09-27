@@ -1,7 +1,7 @@
 let balls = [];
 
 function setup() {
-  createCanvas(window.innerWidth-100, window.innerHeight-100);
+  createCanvas(500, 500);
   balls.push(new Bounce(0, 435, 0, -6, 5));
   balls.push(new Bounce(0, 0, 1, 4, 3));
   balls.push(new Bounce(200, 235, 2, 6, 10));
