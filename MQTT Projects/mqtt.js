@@ -1,8 +1,7 @@
 // making the connect variables
-var mqtt;
-var reconnectTimeout=1000;
-var host="localhost";
-var port=1883;
+let reconnectTimeout=1000;
+const HOST = "localhost";
+const PORT = 1883;
 
 function onConnect(){
     // If there's a connection subscribe to the mqtt and send a message
@@ -19,9 +18,9 @@ function onConnect(){
 
 function MQTTconnect(){
     // show connection details to the console
-    console.log("connecting to "+host+":"+port);
+    console.log("connecting to "+HOST+":"+PORT);
     //Creating a client object 
-    mqtt = new Paho.MQTT.Client(host,port,"clientjs");
+    mqtt = new Paho.MQTT.Client(HOST,PORT,"clientjs");
     var options = {
         timeout: 3,
         onSuccess: onConnect,
