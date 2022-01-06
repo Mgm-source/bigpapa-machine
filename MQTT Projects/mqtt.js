@@ -1,20 +1,24 @@
 // making the connect variables
+const HOST = "localhost";
+const PORT = 80;
+
 let reconnectTimeout=1000;
 let mqtt = new Paho.MQTT.Client(HOST,PORT,"clientjs");
-const HOST = "localhost";
-const PORT = 1883;
 
 function onConnect(){
-    // If there's a connection subscribe to the mqtt and send a message
+    
     console.log("connected");
-    //mqtt.subscribe("senor1");
     message = new Paho.MQTT.Message("hello World");
+    
+    // topic sensor1
+     message.destinationName = "test";
+     // publish topic sensor1
+     mqtt.send(message);
 
-     // topic sensor1
-   message.destinationName = "sensor1";
-  // publish topic sensor1
-   mqtt.send(message);
+}
 
+function onFailed(){
+    console.log("offline");
 }
 
 function MQTTconnect(){
@@ -23,8 +27,13 @@ function MQTTconnect(){
     //Creating a client object 
     
     let options = {
-        timeout: 3,
         onSuccess: onConnect,
+        onFailure: onFailed,
+        userName : "bob1",
+        password : "yes"
+
+
+
     };
     // connects to the server
     mqtt.connect(options);
