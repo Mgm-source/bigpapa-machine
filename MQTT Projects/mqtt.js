@@ -2,11 +2,10 @@
 const HOST = "localhost";
 const PORT = 80;
 
-let reconnectTimeout=1000;
 let mqtt = new Paho.MQTT.Client(HOST,PORT,"clientjs");
 
 function onConnect(){
-    
+
     console.log("connected");
     message = new Paho.MQTT.Message("hello World");
     
@@ -29,11 +28,8 @@ function MQTTconnect(){
     let options = {
         onSuccess: onConnect,
         onFailure: onFailed,
-        userName : "bob1",
-        password : "yes"
-
-
-
+        userName: "admin",
+        password: "pass"
     };
     // connects to the server
     mqtt.connect(options);
