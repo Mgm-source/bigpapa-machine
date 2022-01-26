@@ -89,6 +89,8 @@ class Shape {
 
   }
 
+}
+
   coll(other) {
 
     if (this.type == 'rectangle' && other.type == 'rectangle') {
