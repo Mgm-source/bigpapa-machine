@@ -59,13 +59,13 @@ class Shape {
 
       if (this.x < 0) {
         this.vx = this.vx * -1;
-
-      if (this.x >= width - this.w) {
-        this.vx = this.vx * -1;
       }
 
-    }
+      if (this.x >= width - this.w) {
+        this.vx = this.vx * - 1;
+      }
 
+  }
 
     if (this.type == "circle") {
 
@@ -86,9 +86,7 @@ class Shape {
       }
 
     }
-
-  }
-
+  
 }
 
   coll(other) {
@@ -281,12 +279,11 @@ class Circle extends Shape {
 
   }
 
+}
+
   // move(x,y){
   //   if(x != undefined && x > 0 || y != undefined && y > 0){
   //     this.x = x;
   //     this.y = y;
   //   }
   // }
-
-
-}
