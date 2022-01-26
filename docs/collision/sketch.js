@@ -1,36 +1,38 @@
-let balls = [];
+let shape = [];
 
 function setup() {
-  createCanvas(500, 500);
-  balls.push(new Bounce(0, 435, 0, -6, 5));
-  balls.push(new Bounce(0, 0, 1, 4, 3));
-  balls.push(new Bounce(200, 235, 2, 6, 10));
-  balls.push(new Bounce(300, 435, 1, 4, 3));
+  createCanvas(600, 600);
+  shape.push(new Rectangle(500, 150, 1, 0, 3));
+  shape.push(new Rectangle(500, 250, 1, 0, 3));
+  shape.push(new Circle(220, 140, 1, 0, 3));
+  shape.push(new Circle(140, 200, 0, 1, 3));
 }
 
 function draw() {
 
+  //shape[1].move(mouseX,mouseY);
+
   background(255);
-  
-  for (let i = 0; i < balls.length; i++) {
 
-    balls[i].update();
+  for (let i = 0; i < shape.length; i++) {
 
-    for (let j = 0; j < balls.length; j++) {
-      if (balls[j] != balls[i]) {
-        balls[i].ballcoll(balls[j]);
+    for (let j = 0; j < shape.length; j++) {
+      if (shape[j] != shape[i]) {
+        shape[i].coll(shape[j]);
       }
     }
+    shape[i].update();
   }
 
 }
 
-class Bounce {
+class Shape {
+  w = 40;
+  h = 40;
+  speed = 1;
 
-  imgWidth;
-  imgHeight;
+  type = null;
 
-  // constructor 
   constructor(x, y, vx, vy, m) {
     this.x = x;
     this.y = this.y;
@@ -39,125 +41,257 @@ class Bounce {
     this.y = y;
     this.m = m;
 
-    this.greenball = loadImage('greencircle.png');
-    this.blueball = loadImage('bluecircle.png');
-    this.redball = loadImage('redcircle.png');
-    this.orangeball = loadImage('orangecircle.png');
   }
 
-  display() {
+  display() {}
 
-
-    if (this.vx < 0 && this.vy < 0 || this.vx < 0 && this.vy > 0) {
-      //moving left up and down 
-      image(this.blueball, this.x, this.y);
-      this.imgWidth = this.blueball.width;
-      this.imgHeight = this.blueball.height;
-    }
-
-    if (this.vx > 0 && this.vy < 0 || this.vx > 0 && this.vy > 0) {
-      //moving right up and down
-      image(this.redball, this.x, this.y);
-      this.imgWidth = this.redball.width;
-      this.imgHeight = this.redball.height;
-    }
-
-    if (this.vx > 0 && this.vy == 0 || this.vx < 0 && this.vy == 0 || this.vy > 0 && this.vx == 0 || this.vy < 0 && this.vx == 0) {
-      // moving the cardinal directions
-      image(this.greenball, this.x, this.y);
-      this.imgWidth = this.greenball.width;
-      this.imgHeight = this.greenball.height;
-    }
-
-    if (this.vx == 0 && this.vy == 0) {
-      // ball not moving
-      image(this.orangeball, this.x, this.y);
-      this.imgWidth = this.greenball.width;
-      this.imgHeight = this.greenball.height;
-    }
-
-  }
-
-  // this.redball width 
   wallColl() {
 
-    if (this.y < 0) {
-      this.y = 0;
-      this.vy = this.vy * -1; // switch to this.moving downwards
+    if (this.type == "rectangle") {
+
+      if (this.y < 0) {
+        this.vy = this.vy * -1; // switch to this.moving downwards
+      }
+
+      if (this.y >= height - this.h) {
+        this.vy = this.vy * -1;
+      }
+
+      if (this.x < 0) {
+        this.vx = this.vx * -1; // switch to this.moving right
+      }
+
+      if (this.x >= width - this.w) {
+        this.vx = this.vx * -1;
+      }
+
     }
 
-    if (this.y >= height - this.imgHeight) {
-      this.y = height - this.imgHeight;
-      this.vy = this.vy * -1;
+
+    if (this.type == "circle") {
+
+      if (this.y < this.w) {
+        this.vy = this.vy * -1; // switch to this.moving downwards
+      }
+
+      if (this.y > height - this.w) {
+        this.vy = this.vy * -1;
+      }
+
+      if (this.x < this.w) {
+        this.vx = this.vx * -1; // switch to this.moving right
+      }
+
+      if (this.x >= width - this.w) {
+        this.vx = this.vx * - 1;
+      }
+
     }
 
-    if (this.x < 0) {
-      this.x = 0;
-      this.vx = this.vx * -1; // switch to this.moving right
+  }
+
+  coll(other) {
+
+    if (this.type == 'rectangle' && other.type == 'rectangle') {
+
+      if (this.x < (other.x + other.w) && (this.x + this.w) > other.x && this.y < (other.y + other.h) && (this.y + this.h) > other.y) {
+
+        this.elastic(other);
+
+      }
     }
 
-    if (this.x >= width - this.imgWidth) {
-      this.x = width - this.imgWidth;
-      this.vx = this.vx * - 1;
+    if (this.type == 'circle' && other.type == 'circle') {
+
+      if (Math.abs(((other.x - this.x) ** 2) + ((other.y - this.y) ** 2)) < ((this.w + other.w) ** 2)) {
+
+        this.elastic(other);
+
+      }
     }
+
+    if (this.type == 'circle' && other.type == 'rectangle') {
+
+      const distanceX = other.x - this.x;
+      const distanceY = other.y - this.y;
+
+      const angle = atan2(other.y + (other.h / 2) - this.y, other.x + (other.w / 2) - this.x) * 180 / PI;
+
+      if ((distanceX < (this.w + other.w) / 4 && distanceX > -(this.w + other.w - this.w / 4) && distanceY <= (this.w + other.h) / 4 && distanceY > -(this.w + other.w - this.w / 4)) || distanceX > - (this.w + other.w) && distanceX < (this.w) && distanceY > -(this.w + other.h) && distanceY <= (this.w)) {
+
+        let nAngle;
+
+        if (angle < 60 && angle > 30) {
+          nAngle = 45 * PI / 180
+          console.log("top left");
+        }
+
+        if (angle > -30 && angle < 30) {
+          nAngle = 0 * PI / 180;
+          console.log("left side");
+        }
+
+        if (angle > -60 && angle < -30) {
+          nAngle = -45 * PI / 180
+          console.log("bottom left");
+        }
+
+        if (angle < 150 && angle > 120) {
+          nAngle = 135 * PI / 180
+          console.log("top right");
+        }
+
+        if (angle <= 180 && angle > 150 || angle >= -180 && angle < -150) {
+          nAngle = 180 * PI / 180;
+          console.log("right side");
+        }
+
+        if (angle > -150 && angle < -120) {
+          nAngle = -135 * PI / 180
+          console.log("bottom rigt");
+        }
+        if (angle < -60 && angle > -120) {
+          nAngle = -90 * PI / 180
+          console.log("bottom");
+        }
+
+        if (angle > 60 && angle < 120) {
+          nAngle = 90 * PI / 180
+          console.log("top");
+        }
+
+        this.vx = Math.cos(nAngle);
+        this.vy = Math.sin(nAngle);
+
+        other.vx = -Math.cos(nAngle)
+        other.vy = -Math.sin(nAngle)
+
+        this.elastic(other)
+      }
+
+      // if(distanceX < (other.w + this.w) && distanceX >= 0 && distanceY < (other.h + this.w) && distanceY >= 0){
+
+      //   console.log(angle,"far",distanceX,distanceY); not as robust as the other condition
+
+      // }
+
+    }
+
+  }
+
+  elastic(other) {
+
+    const oldvx = this.vx;
+    const oldvy = this.vy;
+
+    if (this.m == other.m) {
+
+      this.vx = other.vx;
+      other.vx = oldvx;
+
+      this.vy = other.vy;
+      other.vy = oldvy;
+    }
+
+    else {
+
+      this.vx = ((this.m - other.m) / (this.m + other.m)) * this.vx + ((2 * other.m) / (this.m + other.m)) * other.vx;
+      other.vx = ((other.m - this.m) / (other.m + this.m)) * other.vx + ((2 * this.m) / (other.m + this.m)) * this.vx;
+
+      this.vy = ((this.m - other.m) / (this.m + other.m)) * this.vy + ((2 * other.m) / (this.m + other.m)) * other.vy;
+      other.vy = ((other.m - this.m) / (other.m + this.m)) * other.vy + ((2 * this.m) / (other.m + this.m)) * this.vy;
+
+    }
+
   }
 
   move() {
-    this.x += this.vx * 1;
-    this.y += this.vy * 1;
-  }
+    this.x += this.vx * this.speed;
+    this.y += this.vy * this.speed;
 
-
-  ballcoll(other) {
-
-    if (this.x < (other.x + other.imgWidth) && (this.x + this.imgWidth) > other.x && this.y < (other.y + other.imgHeight) && (this.y + this.imgHeight) > other.y) {
-      // athis.xis aligned collision dection
-      let phi = (atan2(this.y - other.y, this.x - other.x) * 180 / PI) * 2;
-
-      let oldvx = this.vx;
-      let oldvy = this.vy;
-
-
-
-
-      if (this.m == other.m) 
-      {
-
-        this.vx = other.vx;
-        other.vx = oldvx;
-
-        this.vy = other.vy;
-        other.vy = oldvy;
-      }
-
-      else {
-
-        let tvx = ((this.m - other.m) / (this.m + other.m)) * this.vx + ((2 * other.m) / (this.m + other.m)) * other.vx;
-        let tvx2 = ((other.m - this.m) / (other.m + this.m)) * other.vx + ((2 * this.m) / (other.m + this.m)) * this.vx;
-
-        let tvy = ((this.m - other.m) / (this.m + other.m)) * this.vy + ((2 * other.m) / (this.m + other.m)) * other.vy;
-        let tvy2 = ((other.m - this.m) / (other.m + this.m)) * other.vy + ((2 * this.m) / (other.m + this.m)) * this.vy;
-
-
-        this.vx = tvx;
-        other.vx = tvx2;
-
-        this.vy = tvy;
-        other.vy = tvy2;
-
-
-      }
-
-      this.move();
-      other.move();
-
-    }
   }
 
   update() {
 
-    this.display();
     this.move();
     this.wallColl();
+    this.display();
+
   }
+}
+
+class Rectangle extends Shape {
+
+  type = 'rectangle';
+
+  display() {
+
+    if (this.vx < 0 && this.vy < 0 || this.vx < 0 && this.vy > 0) {
+      //moving diagonally left
+      fill('red');
+      rect(this.x, this.y, this.w, this.h);
+    }
+
+    if (this.vx > 0 && this.vy < 0 || this.vx > 0 && this.vy > 0) {
+      //moving diagonally right
+      fill('blue');
+      rect(this.x, this.y, this.w, this.h);
+    }
+
+    if (this.vx > 0 && this.vy == 0 || this.vx < 0 && this.vy == 0 || this.vy > 0 && this.vx == 0 || this.vy < 0 && this.vx == 0) {
+      // moving the cardinal directions
+      fill('green')
+      rect(this.x, this.y, this.w, this.h);
+    }
+
+    if (this.vx == 0 && this.vy == 0) {
+      fill(255);
+      rect(this.x, this.y, this.w, this.h);
+    }
+
+  }
+
+}
+
+class Circle extends Shape {
+
+  type = 'circle';
+
+  w = this.w / 2;
+
+  display() {
+
+    if (this.vx < 0 && this.vy < 0 || this.vx < 0 && this.vy > 0) {
+      //moving diagonally left
+      fill('red');
+      circle(this.x, this.y, this.h);
+    }
+
+    if (this.vx > 0 && this.vy < 0 || this.vx > 0 && this.vy > 0) {
+      //moving diagonally right
+      fill('blue');
+      circle(this.x, this.y, this.h);
+    }
+
+    if (this.vx > 0 && this.vy == 0 || this.vx < 0 && this.vy == 0 || this.vy > 0 && this.vx == 0 || this.vy < 0 && this.vx == 0) {
+      // moving the cardinal directions
+      fill('green')
+      circle(this.x, this.y, this.h);
+    }
+
+    if (this.vx == 0 && this.vy == 0) {
+      fill(255);
+      circle(this.x, this.y, this.h);
+    }
+
+  }
+
+  // move(x,y){
+  //   if(x != undefined && x > 0 || y != undefined && y > 0){
+  //     this.x = x;
+  //     this.y = y;
+  //   }
+  // }
+
+
 }
