@@ -50,7 +50,7 @@ class Shape {
     if (this.type == "rectangle") {
 
       if (this.y < 0) {
-        this.vy = this.vy * -1; // switch to this.moving downwards
+        this.vy = this.vy * -1;
       }
 
       if (this.y >= height - this.h) {
@@ -58,8 +58,7 @@ class Shape {
       }
 
       if (this.x < 0) {
-        this.vx = this.vx * -1; // switch to this.moving right
-      }
+        this.vx = this.vx * -1;
 
       if (this.x >= width - this.w) {
         this.vx = this.vx * -1;
@@ -71,7 +70,7 @@ class Shape {
     if (this.type == "circle") {
 
       if (this.y < this.w) {
-        this.vy = this.vy * -1; // switch to this.moving downwards
+        this.vy = this.vy * -1;
       }
 
       if (this.y > height - this.w) {
@@ -79,7 +78,7 @@ class Shape {
       }
 
       if (this.x < this.w) {
-        this.vx = this.vx * -1; // switch to this.moving right
+        this.vx = this.vx * -1;
       }
 
       if (this.x >= width - this.w) {
@@ -227,19 +226,16 @@ class Rectangle extends Shape {
   display() {
 
     if (this.vx < 0 && this.vy < 0 || this.vx < 0 && this.vy > 0) {
-      //moving diagonally left
       fill('red');
       rect(this.x, this.y, this.w, this.h);
     }
 
     if (this.vx > 0 && this.vy < 0 || this.vx > 0 && this.vy > 0) {
-      //moving diagonally right
       fill('blue');
       rect(this.x, this.y, this.w, this.h);
     }
 
     if (this.vx > 0 && this.vy == 0 || this.vx < 0 && this.vy == 0 || this.vy > 0 && this.vx == 0 || this.vy < 0 && this.vx == 0) {
-      // moving the cardinal directions
       fill('green')
       rect(this.x, this.y, this.w, this.h);
     }
@@ -262,19 +258,16 @@ class Circle extends Shape {
   display() {
 
     if (this.vx < 0 && this.vy < 0 || this.vx < 0 && this.vy > 0) {
-      //moving diagonally left
       fill('red');
       circle(this.x, this.y, this.h);
     }
 
     if (this.vx > 0 && this.vy < 0 || this.vx > 0 && this.vy > 0) {
-      //moving diagonally right
       fill('blue');
       circle(this.x, this.y, this.h);
     }
 
     if (this.vx > 0 && this.vy == 0 || this.vx < 0 && this.vy == 0 || this.vy > 0 && this.vx == 0 || this.vy < 0 && this.vx == 0) {
-      // moving the cardinal directions
       fill('green')
       circle(this.x, this.y, this.h);
     }
