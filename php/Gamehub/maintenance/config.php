@@ -9,11 +9,11 @@ session_start();
 // Login for the database
 $dbhost  = 'localhost';
 $dbuser  = 'root';
-$dbpass  = '';
+$dbpass  = 'admin';
 $dbname  = 'gamehub';
 
 /* Redirect to a different page in the current directory that was requested */
-$home = "http://localhost/Uni-work/Gamehub";
+$home = "http://localhost/bigpapa-machine/php/Gamehub";
 
 
 //Creation of connection
@@ -28,18 +28,32 @@ $dbconnect = mysqli_connect($dbhost,$dbuser,$dbpass,$dbname) or die(mysqli_conne
 
     }   
 
-        $query = "SELECT * FROM conf";
+        $query = "SELECT * FROM conf where id=( select max(id) from conf)";
         $result = mysqli_query($dbconnect, $query);
+
+        $row = "failed";
+
+        if( mysqli_num_rows($result))
+        {
+
         $row = mysqli_fetch_assoc($result);
 
         // General settings 
-        $title = $row['conf_title'];
-        $tDash = $row['conf_dash'];
-        $tDesc = $row['conf_desc'];
-        $slug =  $row['conf_slug'];
-        $logo =  $row['conf_image'];
+        $title = $row['title'];
+        $tDesc = $row['description'];
+        $slug =  $row['slug'];
+        $logo =  $row['image'];
 
         // Techincial Settings
-        $Maintenance = $row['conf_maintenance'];
-?>
-      
+        $Maintenance = $row['maintenance'];
+
+        }
+
+        if($row == "failed"){
+            // create error page
+            $maintenance = true;
+            $title = "GameHub";
+            $tDesc = "Currently Down";
+            $slug =  "Site-offline";
+            $logo = "assets\gamehub_logo_f.png";
+        }

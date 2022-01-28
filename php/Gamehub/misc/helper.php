@@ -2,22 +2,22 @@
 
     function getPages()
     {
-        $page = '';
 
         if (isset($_GET['page'])) {
-            $page = $_GET['page'];
 
-            if ($page == 'index') {
-                require_once 'index.php';
-            } elseif ($page == 'signin') {
-                require_once 'registration\signin.php';
-            } elseif ($page == 'signup') {
-                require_once 'registration\signup.php';
-            } elseif ($page == 'Account') {
+            if ($_GET['page'] == 'signin') {
+                require_once 'view\signin.php';
+            }
+            if ($_GET['page'] == 'signup') {
+                require_once 'view\signup.php';
+            }
+            if ($_GET['page'] == 'Account') {
                 require_once 'view\account.php';
-            } elseif ($page == 'signout') {
-                require_once 'registration\signout.php';
-            } elseif ($page == 'leaderboard') {
+            }
+            if ($_GET['page'] == 'signout') {
+                require_once 'view\signout.php';
+            }
+            if ($_GET['page'] == 'leaderboard') {
                 require_once 'view\leaderboard.php';
             }
         } else {
@@ -50,7 +50,7 @@
 
         for ($i = 0; $i < func_num_args(); $i++) {
 
-            if($textargs[$i] == ""){
+            if ($textargs[$i] == "") {
                 return true;
             }
 
@@ -59,7 +59,6 @@
                 if ($scompare[0] === $textargs[$i][$j]) {
                     return true;
                 }
-
             }
         }
 

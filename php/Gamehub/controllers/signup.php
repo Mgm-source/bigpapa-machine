@@ -1,8 +1,4 @@
 <?php
-
-require_once '..\misc\helper.php';
-require_once '..\maintenance\config.php';
-
 if (isset($_POST['username'])) {
 
     if (!$dbconnect) {
@@ -25,28 +21,20 @@ if (isset($_POST['username'])) {
                     $result = mysqli_query($dbconnect, $query);
 
                     if (mysqli_num_rows($result) > 0) {
-
-                        header("Location: $home/index.php?msg=usernametaken&page=signup");
-                    } else {
+                        
+                    } 
+                    
+                    else {
 
                         $query = "INSERT INTO users (username, password) VALUES ('$username', '$password');";
                         $result = mysqli_query($dbconnect, $query);
 
                         if ($result) {
-
-                            header("Location: $home/index.php?msg=SigninSuccess");
-                        } else {
-                            header("Location: $home/index.php?msg=signupfailed&page=signup");
-                        }
+                            
+                        } 
                     }
-                } else {
-                    header("Location: $home/index.php?msg=emptypassword&page=signup");
                 }
-            } else {
-                header("Location: $home/index.php?msg=passmismatch&page=signup");
             }
-        } else {
-            header("Location: $home/index.php?msg=badname&page=signup");
         }
     }
     mysqli_close($dbconnect);
