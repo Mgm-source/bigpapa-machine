@@ -1,29 +1,42 @@
+'use strict';
+
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
 let shape = [];
 
-function setup() {
-  createCanvas(600, 600);
-  shape.push(new Rectangle(500, 150, 1, 0, 3));
-  shape.push(new Rectangle(500, 250, 1, 0, 3));
-  shape.push(new Circle(220, 140, 1, 0, 3));
-  shape.push(new Circle(140, 200, 0, 1, 3));
-}
+document.addEventListener("DOMContentLoaded", () => {
+
+  shape.push(new Circle(500, 320, 1, 0, 3));
+  shape.push(new Circle(0, 300, 1, 0, 3));
+
+  window.requestAnimationFrame(draw);
+
+})
 
 function draw() {
 
-  //shape[1].move(mouseX,mouseY);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  background(255);
+  for (let k = 0; k < shape.length; k++) {
+    shape[k].update();
+  }
 
   for (let i = 0; i < shape.length; i++) {
 
     for (let j = 0; j < shape.length; j++) {
-      if (shape[j] != shape[i]) {
+
+      if (i != j) {
+
         shape[i].coll(shape[j]);
+
       }
     }
-    shape[i].update();
+
+    shape[i].wallColl();
+
   }
 
+  window.requestAnimationFrame(draw);
 }
 
 class Shape {
@@ -35,144 +48,143 @@ class Shape {
 
   constructor(x, y, vx, vy, m) {
     this.x = x;
-    this.y = this.y;
+    this.y = y;
     this.vx = vx;
     this.vy = vy;
-    this.y = y;
     this.m = m;
 
   }
 
-  display() {}
+  display() { }
 
   wallColl() {
 
     if (this.type == "rectangle") {
 
       if (this.y < 0) {
-        this.vy = this.vy * -1;
+        this.vy = Math.abs(this.vy);
       }
 
-      if (this.y >= height - this.h) {
-        this.vy = this.vy * -1;
+      if (this.y > canvas.height - this.h) {
+        this.vy = -this.vy;
       }
 
       if (this.x < 0) {
-        this.vx = this.vx * -1;
+        this.vx = Math.abs(this.vx);
       }
 
-      if (this.x >= width - this.w) {
-        this.vx = this.vx * - 1;
+      if (this.x > canvas.width - this.w) {
+        this.vx = -this.vx;
       }
 
-  }
+    }
 
     if (this.type == "circle") {
 
       if (this.y < this.w) {
-        this.vy = this.vy * -1;
+        this.vy = Math.abs(this.vy);
       }
 
-      if (this.y > height - this.w) {
-        this.vy = this.vy * -1;
+      if (this.y > canvas.height - this.w) {
+        this.vy = -this.vy;
       }
 
       if (this.x < this.w) {
-        this.vx = this.vx * -1;
+        this.vx = Math.abs(this.vx);
       }
 
-      if (this.x >= width - this.w) {
-        this.vx = this.vx * - 1;
+      if (this.x > canvas.width - this.w) {
+        this.vx = -this.vx;
       }
 
     }
-  
-}
+
+  }
 
   coll(other) {
 
-    if (this.type == 'rectangle' && other.type == 'rectangle') {
+    if (this.type == 'rectangle') {
 
-      if (this.x < (other.x + other.w) && (this.x + this.w) > other.x && this.y < (other.y + other.h) && (this.y + this.h) > other.y) {
+      if (other.type == 'rectangle') {
 
-        this.elastic(other);
+        const distanceX = other.x - this.x;
+        const distanceY = other.y - this.y;
+
+        if (distanceX > -other.w && distanceX < other.w && distanceY > -other.h && distanceY < other.h) {
+
+          this.elastic(other);
+
+        }
 
       }
+
     }
 
-    if (this.type == 'circle' && other.type == 'circle') {
+    if (this.type == 'circle') {
 
-      if (Math.abs(((other.x - this.x) ** 2) + ((other.y - this.y) ** 2)) < ((this.w + other.w) ** 2)) {
+      if (other.type == 'circle') {
 
-        this.elastic(other);
+        const angle = Math.atan2(other.y - this.y, other.x - this.x) * 180 / Math.PI;
 
-      }
-    }
+        if (Math.abs(((other.x - this.x) ** 2) + ((other.y - this.y) ** 2)) < ((this.r + other.r) ** 2)) {
 
-    if (this.type == 'circle' && other.type == 'rectangle') {
+          this.elastic(other);
 
-      const distanceX = other.x - this.x;
-      const distanceY = other.y - this.y;
-
-      const angle = atan2(other.y + (other.h / 2) - this.y, other.x + (other.w / 2) - this.x) * 180 / PI;
-
-      if ((distanceX < (this.w + other.w) / 4 && distanceX > -(this.w + other.w - this.w / 4) && distanceY <= (this.w + other.h) / 4 && distanceY > -(this.w + other.w - this.w / 4)) || distanceX > - (this.w + other.w) && distanceX < (this.w) && distanceY > -(this.w + other.h) && distanceY <= (this.w)) {
-
-        let nAngle;
-
-        if (angle < 60 && angle > 30) {
-          nAngle = 45 * PI / 180
-          console.log("top left");
         }
-
-        if (angle > -30 && angle < 30) {
-          nAngle = 0 * PI / 180;
-          console.log("left side");
-        }
-
-        if (angle > -60 && angle < -30) {
-          nAngle = -45 * PI / 180
-          console.log("bottom left");
-        }
-
-        if (angle < 150 && angle > 120) {
-          nAngle = 135 * PI / 180
-          console.log("top right");
-        }
-
-        if (angle <= 180 && angle > 150 || angle >= -180 && angle < -150) {
-          nAngle = 180 * PI / 180;
-          console.log("right side");
-        }
-
-        if (angle > -150 && angle < -120) {
-          nAngle = -135 * PI / 180
-          console.log("bottom rigt");
-        }
-        if (angle < -60 && angle > -120) {
-          nAngle = -90 * PI / 180
-          console.log("bottom");
-        }
-
-        if (angle > 60 && angle < 120) {
-          nAngle = 90 * PI / 180
-          console.log("top");
-        }
-
-        this.vx = Math.cos(nAngle);
-        this.vy = Math.sin(nAngle);
-
-        other.vx = -Math.cos(nAngle)
-        other.vy = -Math.sin(nAngle)
-
-        this.elastic(other)
       }
 
-      // if(distanceX < (other.w + this.w) && distanceX >= 0 && distanceY < (other.h + this.w) && distanceY >= 0){
+      if (other.type == 'rectangle') {
 
-      //   console.log(angle,"far",distanceX,distanceY); not as robust as the other condition
+        const distanceX = other.x - this.x;
+        const distanceY = other.y - this.y;
 
-      // }
+        const angle = Math.atan2(other.y + (other.h / 2) - this.y, other.x + (other.w / 2) - this.x) * 180 / Math.PI;
+
+        let nAngle = null;
+
+        if ((distanceX < (this.r + other.w) / 4 && distanceX > -(this.r + other.w - this.r / 4) && distanceY <= (this.r + other.h) / 4 && distanceY > -(this.r + other.w - this.r / 4)) || distanceX > - (this.r + other.w) && distanceX < (this.r) && distanceY > -(this.r + other.h) && distanceY <= (this.r)) {
+
+          if (angle < 60 && angle > 30) {
+            nAngle = 45 * Math.PI / 180
+          }
+
+          if (angle > -30 && angle < 30) {
+            nAngle = 0;
+          }
+
+          if (angle > -60 && angle < -30) {
+            nAngle = -45 * Math.PI / 180
+          }
+
+          if (angle < 150 && angle > 120) {
+            nAngle = 135 * Math.PI / 180
+          }
+
+          if (angle <= 180 && angle > 150 || angle >= -180 && angle < -150) {
+            nAngle = 180 * Math.PI / 180;
+          }
+
+          if (angle > -150 && angle < -120) {
+            nAngle = -135 * Math.PI / 180
+          }
+          if (angle < -60 && angle > -120) {
+            nAngle = -90 * Math.PI / 180
+          }
+
+          if (angle > 60 && angle < 120) {
+            nAngle = 90 * Math.PI / 180
+          }
+
+          this.vx = Math.cos(nAngle);
+          this.vy = Math.sin(nAngle);
+
+          other.vx = -Math.cos(nAngle)
+          other.vy = -Math.sin(nAngle)
+
+          this.elastic(other)
+          console.log(nAngle);
+        }
+      }
 
     }
 
@@ -185,22 +197,26 @@ class Shape {
 
     if (this.m == other.m) {
 
-      this.vx = other.vx;
-      other.vx = oldvx;
+      this.vx = other.vx
+      this.vy = other.vy
 
-      this.vy = other.vy;
+      other.vx = oldvx;
       other.vy = oldvy;
+
     }
 
     else {
 
       this.vx = ((this.m - other.m) / (this.m + other.m)) * this.vx + ((2 * other.m) / (this.m + other.m)) * other.vx;
-      other.vx = ((other.m - this.m) / (other.m + this.m)) * other.vx + ((2 * this.m) / (other.m + this.m)) * this.vx;
-
       this.vy = ((this.m - other.m) / (this.m + other.m)) * this.vy + ((2 * other.m) / (this.m + other.m)) * other.vy;
-      other.vy = ((other.m - this.m) / (other.m + this.m)) * other.vy + ((2 * this.m) / (other.m + this.m)) * this.vy;
+
+      other.vx = ((other.m - this.m) / (other.m + this.m)) * other.vx + ((2 * this.m) / (other.m + this.m)) * oldvx;
+      other.vy = ((other.m - this.m) / (other.m + this.m)) * other.vy + ((2 * this.m) / (other.m + this.m)) * oldvy;
 
     }
+
+    this.move();
+    other.move();
 
   }
 
@@ -211,12 +227,10 @@ class Shape {
   }
 
   update() {
-
     this.move();
-    this.wallColl();
     this.display();
-
   }
+
 }
 
 class Rectangle extends Shape {
@@ -225,25 +239,8 @@ class Rectangle extends Shape {
 
   display() {
 
-    if (this.vx < 0 && this.vy < 0 || this.vx < 0 && this.vy > 0) {
-      fill('red');
-      rect(this.x, this.y, this.w, this.h);
-    }
-
-    if (this.vx > 0 && this.vy < 0 || this.vx > 0 && this.vy > 0) {
-      fill('blue');
-      rect(this.x, this.y, this.w, this.h);
-    }
-
-    if (this.vx > 0 && this.vy == 0 || this.vx < 0 && this.vy == 0 || this.vy > 0 && this.vx == 0 || this.vy < 0 && this.vx == 0) {
-      fill('green')
-      rect(this.x, this.y, this.w, this.h);
-    }
-
-    if (this.vx == 0 && this.vy == 0) {
-      fill(255);
-      rect(this.x, this.y, this.w, this.h);
-    }
+    ctx.fillStyle = 'green';
+    ctx.fillRect(this.x, this.y, this.w, this.h);
 
   }
 
@@ -252,30 +249,14 @@ class Rectangle extends Shape {
 class Circle extends Shape {
 
   type = 'circle';
-
-  w = this.w / 2;
+  r = this.w / 2;
 
   display() {
 
-    if (this.vx < 0 && this.vy < 0 || this.vx < 0 && this.vy > 0) {
-      fill('red');
-      circle(this.x, this.y, this.h);
-    }
-
-    if (this.vx > 0 && this.vy < 0 || this.vx > 0 && this.vy > 0) {
-      fill('blue');
-      circle(this.x, this.y, this.h);
-    }
-
-    if (this.vx > 0 && this.vy == 0 || this.vx < 0 && this.vy == 0 || this.vy > 0 && this.vx == 0 || this.vy < 0 && this.vx == 0) {
-      fill('green')
-      circle(this.x, this.y, this.h);
-    }
-
-    if (this.vx == 0 && this.vy == 0) {
-      fill(255);
-      circle(this.x, this.y, this.h);
-    }
+    ctx.beginPath();
+    ctx.fillStyle = 'red';
+    ctx.arc(this.x, this.y, this.r, 0, 2 * Math.PI);
+    ctx.fill();
 
   }
 
