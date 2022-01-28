@@ -1,29 +1,5 @@
  <?php
 
-    function getPages()
-    {
-
-        if (isset($_GET['page'])) {
-
-            if ($_GET['page'] == 'signin') {
-                require_once 'view\signin.php';
-            }
-            if ($_GET['page'] == 'signup') {
-                require_once 'view\signup.php';
-            }
-            if ($_GET['page'] == 'Account') {
-                require_once 'view\account.php';
-            }
-            if ($_GET['page'] == 'signout') {
-                require_once 'view\signout.php';
-            }
-            if ($_GET['page'] == 'leaderboard') {
-                require_once 'view\leaderboard.php';
-            }
-        } else {
-            require_once 'index.php';
-        }
-    }
     // Checks if the password is the same 
     function verifyPass($password, $password2)
     {
