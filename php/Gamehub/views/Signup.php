@@ -1,4 +1,4 @@
-<form action="form-handling\signup.php" method="POST">
+<form action="../models/signup.php" method="POST">
 	<table class="formsignup">
 		<tr>
 			<td><label for="Username">Username:</label></td>
@@ -11,11 +11,7 @@
 		<tr>
 			<td><label for="Password2">Confirm Password:</label></td>
 			<td><input type="password" id="Password2" name="password2" autocomplete="new-password" maxlength="9"></td>
-		</tr>
-
-		<tr>
-			<td><label for="Register">Sign-up</label></td>
-			<td><input type="submit" value="Register" id="Register"></td>
-		</tr>
+		</tr>		
 	</table>
+	<input type="submit" value="Register" id="Register">
 </form>

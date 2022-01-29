@@ -1,41 +1,42 @@
 <?php
-if (isset($_POST['username'])) {
+require_once '../maintenance/config.php';
+require_once '../misc/helper.php'; 
+
+if (!isset($_SESSION['loggedin'])) {
 
     if (!$dbconnect) {
 
-        die("Connection Failed: " . $dbconnect_connect_error);
+        die("500 Internal Server Error" . $dbconnect_connect_error);
     }
+
+
     if (strtoupper($_SERVER['REQUEST_METHOD']) === 'POST') {
 
         $username = validinput($_POST['username'], $dbconnect);
         $password = validinput($_POST['password'], $dbconnect);
         $cpassword = validinput($_POST['password2'], $dbconnect);
+        
+        if(!verifyPass($password, $cpassword)){
 
-        if (!Charspace($username)) {
-            if (verifyPass($password, $cpassword)) {
-                if (!emptyPass($password, $dbconnect)) {
+            redirect("../views/signup.php");
 
-                    $password = encrptpass($password);
-
-                    $query = "SELECT 'username' FROM users WHERE username = '$username';";
-                    $result = mysqli_query($dbconnect, $query);
-
-                    if (mysqli_num_rows($result) > 0) {
-                        
-                    } 
-                    
-                    else {
-
-                        $query = "INSERT INTO users (username, password) VALUES ('$username', '$password');";
-                        $result = mysqli_query($dbconnect, $query);
-
-                        if ($result) {
-                            
-                        } 
-                    }
-                }
-            }
         }
+        
+        if(isUsernameTaken($username)){
+
+            redirect("../views/signup.php");
+        }
+
+        $password = encrptpass($password);
+        signup($username,$password);
+
     }
-    mysqli_close($dbconnect);
-}
+    redirect("../views/signup.php");
+
+}else {
+
+    redirect("../index.php");
+
+} 
+
+mysqli_close($dbconnect);

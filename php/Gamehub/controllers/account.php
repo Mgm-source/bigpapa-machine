@@ -1,26 +1,23 @@
 <?php
+require_once '../maintenance/config.php';
+require_once '../misc/helper.php';
 
-// shows user data
+
 if (isset($_SESSION['loggedin'])) {
-
-	$username = $_SESSION["username"];
 
 	if (!$dbconnect) {
 
-		die("Connection Failed: " . mysqli_connect_error());
-		
-	} else {
+		die("500 Internal Server Error " . mysqli_connect_error());
+	}
 
-		$query = "SELECT * FROM record left join user ON record.username = users.username WHERE user.username = '$username'";
-		$result = mysqli_query($dbconnect, $query);
-
-		if (mysqli_num_rows($result) > 0) {
-
-			$_SESSION['result'] = mysqli_fetch_assoc($result);
-
-		} 
+	if($_GET['page']=='record'){
 
 	}
 
-	mysqli_close($dbconnect);
+	if($_GET['page']=='leaderboard'){
+
+	}
 }
+
+
+mysqli_close($dbconnect);

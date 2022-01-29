@@ -1,5 +1,5 @@
-<form action="form-handling\signin.php" method="POST">
-    <table class="formSignin">
+<form action="../models/signin.php" method="POST">
+    <table class="formsignin">
         <tr>
             <td><label for="Username">Username:</label></td>
             <td><input type="text" id="Username" name="username" autocomplete="username" required></td>

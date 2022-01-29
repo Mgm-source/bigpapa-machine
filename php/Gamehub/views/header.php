@@ -18,11 +18,10 @@
    </header>
    <nav>
       <ul>
-         <li><a href=''>GameHub</a></li>
-         <li><a href='?page=signin'>Sign-in</a></li>
-         <li><a href='?page=signup'>Sign-up</a></li>
-         <li><a href='?page=Account'>Account details</a></li>
-         <li><a href='?page=signout'>Sign-out</a></li>
-         <li><a href='?page=leaderboard'>Scores</a></li>
+         <li><a href='index.php'>GameHub</a></li>
+         <li><a href='views\signin.php'>Sign-in</a></li>
+         <li><a href='views\signup.php'>Sign-up</a></li>
+         <li><a href='views\Account.php'>Account details</a></li>
+         <?php if(isset($_SESSION['loggedin'])) echo "<li><a href='models\signin.php'>Sign-out</a></li>";?>
       </ul>
    </nav>

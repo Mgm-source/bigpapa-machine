@@ -8,38 +8,6 @@
         }
         return false;
     }
-    // checks if the password field is empty 
-    function emptyPass($password)
-    {
-        if (empty($password)) {
-            return true;
-        }
-        return false;
-    }
-
-    // validates if there is empty spaces on the 'string' parameter
-
-    function Charspace()
-    {
-        $textargs = func_get_args();
-        $scompare = chr(32);
-
-        for ($i = 0; $i < func_num_args(); $i++) {
-
-            if ($textargs[$i] == "") {
-                return true;
-            }
-
-            for ($j = 0; $j < strlen($textargs[$i]); $j++) {
-
-                if ($scompare[0] === $textargs[$i][$j]) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
 
     // removes any unwanted string to be sent to the database
     function validinput($vinput, $conn, $charM = " \t\n\r\0\x0B")
@@ -51,14 +19,18 @@
         $vinput = mysqli_real_escape_string($conn, $vinput);
         return $vinput;
     }
-    function refreshpage()
-    {
-        header('location:index.php');
-    }
 
     function encrptpass($password)
     {
         $password = md5($password);
 
         return $password;
+    }
+
+    function redirect($page)
+    {
+        $host  = $_SERVER['HTTP_HOST'];
+        $uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+        header("Location: http://$host$uri/$page");
+        die();
     }

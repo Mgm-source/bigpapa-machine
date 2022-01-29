@@ -4,8 +4,6 @@
 This needed so that all the session data will be available
  */
 
-session_start();
-
 // Login for the database
 $dbhost  = 'localhost';
 $dbuser  = 'root';
@@ -19,14 +17,6 @@ $home = "http://localhost/bigpapa-machine/php/Gamehub";
 //Creation of connection
 $dbconnect = mysqli_connect($dbhost,$dbuser,$dbpass,$dbname) or die(mysqli_connect_error());
 
-
-//Checking connection
-    if(!$dbconnect)
-    {
-
-        die("Connection Failed: " . mysqli_connect_error());
-
-    }   
 
         $query = "SELECT * FROM conf where id=( select max(id) from conf)";
         $result = mysqli_query($dbconnect, $query);
@@ -45,7 +35,7 @@ $dbconnect = mysqli_connect($dbhost,$dbuser,$dbpass,$dbname) or die(mysqli_conne
         $logo =  $row['image'];
 
         // Techincial Settings
-        $Maintenance = $row['maintenance'];
+        $maintenance = $row['maintenance'];
 
         }
 
