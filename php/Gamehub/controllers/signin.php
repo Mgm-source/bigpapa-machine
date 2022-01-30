@@ -1,6 +1,6 @@
 <?php
-require_once '../maintenance/config.php';
-require_once '../misc/helper.php';
+
+require_once("../maintenance/config.php");
 
 if (!isset($_SESSION['loggedin'])) {
 
@@ -15,8 +15,8 @@ if (!isset($_SESSION['loggedin'])) {
         $password = validinput($_POST['password'], $dbconnect);
         $password = encrptpass($password);
 
-        if (signin($username, $password)) {
-            redirect("index.php");
+        if (signin($username, $password,$dbconnect)) {
+            redirect("../index.php");
         }
     }
 

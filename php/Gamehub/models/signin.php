@@ -1,8 +1,7 @@
 <?php
-
     require_once("../controllers/signin.php");
 
-    function signin($username,$password){
+    function signin($username,$password,$dbconnect){
 
         $query = "SELECT username, password FROM user WHERE username = '$username' AND password = '$password'";
         $result = mysqli_query($dbconnect, $query);
