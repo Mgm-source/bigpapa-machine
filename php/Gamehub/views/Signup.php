@@ -11,7 +11,7 @@
 		<tr>
 			<td><label for="Password2">Confirm Password:</label></td>
 			<td><input type="password" id="Password2" name="password2" autocomplete="new-password" maxlength="9"></td>
-		</tr>		
+		</tr>
 	</table>
 	<input type="submit" value="Register" id="Register">
 </form>

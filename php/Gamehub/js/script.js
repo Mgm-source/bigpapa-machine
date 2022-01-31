@@ -1,7 +1,8 @@
+const content = document.getElementsByClassName("container");
 document.addEventListener("DOMContentLoaded",event=>{
 
-    const content = fetch("http://localhost/bigpapa-machine/php/Gamehub/models/home.php?page=leaderboard",{ method : "get"});
-    content.then(function(response){
+    const getcontent = fetch("http://localhost/bigpapa-machine/php/Gamehub/models/home.php?page=leaderboard",{ method : "get"});
+    getcontent.then(function(response){
         if(response.ok){
             return response.json();
         }
@@ -11,4 +12,3 @@ document.addEventListener("DOMContentLoaded",event=>{
     })
 
 })
-

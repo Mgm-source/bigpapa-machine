@@ -1,26 +1,30 @@
 <?php
-    require_once("../controllers/signup.php");
+require_once("../controllers/signup.php");
 
-    function signup($username,$password,$dbconnect){
+function signup($username, $password, $dbconnect)
+{
 
-            $query = "INSERT INTO user VALUES ('$username', '$password')";
-            $result = mysqli_query($dbconnect, $query);
+    $query = "INSERT INTO user VALUES ('$username', '$password')";
+    $result = mysqli_query($dbconnect, $query);
 
-            if ($result) {
+    if ($result) {
 
-            }
+        return true;
     }
 
-    function isUsernameTaken ($username,$dbconnect){
+    return false;
+}
 
-        $query = "SELECT username FROM user WHERE username = '$username'";
-        $result = mysqli_query($dbconnect,$query);
+function isUsernameTaken($username, $dbconnect)
+{
 
-        if ($result->num_rows > 0) {
+    $query = "SELECT username FROM user WHERE username = '$username'";
+    $result = mysqli_query($dbconnect, $query);
 
-            return true;
+    if ($result->num_rows > 0) {
 
-        }
-
-        return false;
+        return true;
     }
+
+    return false;
+}

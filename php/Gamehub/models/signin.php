@@ -27,5 +27,3 @@
         session_destroy();
 
     }
-
-?>
