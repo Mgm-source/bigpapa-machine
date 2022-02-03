@@ -6,8 +6,8 @@ let shape = [];
 
 document.addEventListener("DOMContentLoaded", () => {
 
-  shape.push(new Circle(500, 320, 1, 0, 3));
-  shape.push(new Circle(0, 300, 1, 0, 3));
+  shape.push(new Rectangle(500, 41, 1, 0, 3, 0));
+  shape.push(new Rectangle(100 ,80, 1, 0, 3, 1));
 
   window.requestAnimationFrame(draw);
 
@@ -17,15 +17,11 @@ function draw() {
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  for (let k = 0; k < shape.length; k++) {
-    shape[k].update();
-  }
 
   for (let i = 0; i < shape.length; i++) {
 
     for (let j = 0; j < shape.length; j++) {
-
-      if (i != j) {
+      if (shape[i].id != shape[j].id) {
 
         shape[i].coll(shape[j]);
 
@@ -33,6 +29,7 @@ function draw() {
     }
 
     shape[i].wallColl();
+    shape[i].update();
 
   }
 
@@ -40,18 +37,20 @@ function draw() {
 }
 
 class Shape {
+  id = null;
   w = 40;
   h = 40;
   speed = 1;
 
   type = null;
 
-  constructor(x, y, vx, vy, m) {
+  constructor(x, y, vx, vy, m, id) {
     this.x = x;
     this.y = y;
     this.vx = vx;
     this.vy = vy;
     this.m = m;
+    this.id = id;
 
   }
 
@@ -124,10 +123,34 @@ class Shape {
 
       if (other.type == 'circle') {
 
-        const angle = Math.atan2(other.y - this.y, other.x - this.x) * 180 / Math.PI;
-
         if (Math.abs(((other.x - this.x) ** 2) + ((other.y - this.y) ** 2)) < ((this.r + other.r) ** 2)) {
 
+          const thisAngle = Math.atan2((this.y + other.y)/2 - this.y , (this.x + other.x)/2 - this.x);
+          const otherAngle = Math.atan2((other.y + this.y)/2 - other.y, (other.x + this.x)/2 - other.x);
+
+          // ctx.beginPath();
+          // ctx.strokeStyle = "green";
+          // ctx.moveTo((other.x + this.x)/2 , (other.y + this.y)/2);
+          // ctx.lineTo( this.x, this.y);
+          // ctx.stroke();
+
+          // ctx.beginPath();
+          // ctx.strokeStyle = "green";
+          // ctx.moveTo((this.x + other.x)/2 , (this.y + other.y)/2);
+          // ctx.lineTo( other.x, other.y);
+          // ctx.stroke();
+
+          // ctx.beginPath();
+          // ctx.strokeStyle = "blue";
+          // ctx.arc(Math.cos(otherAngle) *  this.r + this.x, Math.sin(otherAngle) *  this.r + this.y, this.r, 0, 2 * Math.PI);
+          // ctx.stroke();
+
+          // ctx.beginPath();
+          // ctx.strokeStyle = "orange";
+          // ctx.arc(Math.cos(thisAngle) * other.r + other.x, Math.sin(thisAngle) *  other.r + other.y, other.r, 0, 2 * Math.PI);
+          // ctx.stroke();
+
+          console.log( "{" + thisAngle/Math.PI * 180 +","+ thisContanct/Math.PI * 180 + "}", "{"+ otherAngle/Math.PI * 180 +","+ otherContanct/Math.PI * 180 + "}");
           this.elastic(other);
 
         }
@@ -138,51 +161,10 @@ class Shape {
         const distanceX = other.x - this.x;
         const distanceY = other.y - this.y;
 
-        const angle = Math.atan2(other.y + (other.h / 2) - this.y, other.x + (other.w / 2) - this.x) * 180 / Math.PI;
-
-        let nAngle = null;
-
         if ((distanceX < (this.r + other.w) / 4 && distanceX > -(this.r + other.w - this.r / 4) && distanceY <= (this.r + other.h) / 4 && distanceY > -(this.r + other.w - this.r / 4)) || distanceX > - (this.r + other.w) && distanceX < (this.r) && distanceY > -(this.r + other.h) && distanceY <= (this.r)) {
 
-          if (angle < 60 && angle > 30) {
-            nAngle = 45 * Math.PI / 180
-          }
-
-          if (angle > -30 && angle < 30) {
-            nAngle = 0;
-          }
-
-          if (angle > -60 && angle < -30) {
-            nAngle = -45 * Math.PI / 180
-          }
-
-          if (angle < 150 && angle > 120) {
-            nAngle = 135 * Math.PI / 180
-          }
-
-          if (angle <= 180 && angle > 150 || angle >= -180 && angle < -150) {
-            nAngle = 180 * Math.PI / 180;
-          }
-
-          if (angle > -150 && angle < -120) {
-            nAngle = -135 * Math.PI / 180
-          }
-          if (angle < -60 && angle > -120) {
-            nAngle = -90 * Math.PI / 180
-          }
-
-          if (angle > 60 && angle < 120) {
-            nAngle = 90 * Math.PI / 180
-          }
-
-          this.vx = Math.cos(nAngle);
-          this.vy = Math.sin(nAngle);
-
-          other.vx = -Math.cos(nAngle)
-          other.vy = -Math.sin(nAngle)
-
           this.elastic(other)
-          console.log(nAngle);
+
         }
       }
 
@@ -251,12 +233,16 @@ class Circle extends Shape {
   type = 'circle';
   r = this.w / 2;
 
+
   display() {
+    const angle = Math.atan2(this.vy,this.vx);
 
     ctx.beginPath();
-    ctx.fillStyle = 'red';
+    ctx.strokeStyle = "red";
     ctx.arc(this.x, this.y, this.r, 0, 2 * Math.PI);
-    ctx.fill();
+    ctx.moveTo(this.x , this.y );
+    ctx.lineTo(Math.cos(angle) *  this.r + this.x, Math.sin(angle) *  this.r + this.y);
+    ctx.stroke();
 
   }
 
