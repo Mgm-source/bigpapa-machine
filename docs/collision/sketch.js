@@ -6,8 +6,8 @@ let shape = [];
 
 document.addEventListener("DOMContentLoaded", () => {
 
-  shape.push(new Rectangle(500, 41, 1, 0, 3, 0));
-  shape.push(new Rectangle(100 ,80, 1, 0, 3, 1));
+  shape.push(new Circle(500, 280, 1, 1, 1, 0));
+  shape.push(new Circle(100, 80, 1, 0, 1, 1));
 
   window.requestAnimationFrame(draw);
 
@@ -16,7 +16,6 @@ document.addEventListener("DOMContentLoaded", () => {
 function draw() {
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-
 
   for (let i = 0; i < shape.length; i++) {
 
@@ -29,8 +28,11 @@ function draw() {
     }
 
     shape[i].wallColl();
-    shape[i].update();
+  }
 
+  for( let k = 0; k < shape.length; k++){
+    
+    shape[k].update();
   }
 
   window.requestAnimationFrame(draw);
@@ -80,19 +82,19 @@ class Shape {
 
     if (this.type == "circle") {
 
-      if (this.y < this.w) {
+      if (this.y <= this.w) {
         this.vy = Math.abs(this.vy);
       }
 
-      if (this.y > canvas.height - this.w) {
+      if (this.y >= canvas.height - this.w) {
         this.vy = -this.vy;
       }
 
-      if (this.x < this.w) {
+      if (this.x <= this.w) {
         this.vx = Math.abs(this.vx);
       }
 
-      if (this.x > canvas.width - this.w) {
+      if (this.x >= canvas.width - this.w) {
         this.vx = -this.vx;
       }
 
@@ -123,35 +125,59 @@ class Shape {
 
       if (other.type == 'circle') {
 
-        if (Math.abs(((other.x - this.x) ** 2) + ((other.y - this.y) ** 2)) < ((this.r + other.r) ** 2)) {
+        if ( (this.x - other.x)*(this.x - other.x) + (this.y - other.y)*(this.y - other.y) <= (this.r + other.r)*(this.r + other.r) ) {
 
-          const thisAngle = Math.atan2((this.y + other.y)/2 - this.y , (this.x + other.x)/2 - this.x);
-          const otherAngle = Math.atan2((other.y + this.y)/2 - other.y, (other.x + this.x)/2 - other.x);
+          const thisAngle = Math.atan2((this.y + other.y) / 2 - this.y, (this.x + other.x) / 2 - this.x);
+          const otherAngle = Math.atan2((this.y + other.y) / 2 - other.y, (this.x + other.x) / 2 - other.x);
 
-          // ctx.beginPath();
-          // ctx.strokeStyle = "green";
-          // ctx.moveTo((other.x + this.x)/2 , (other.y + this.y)/2);
-          // ctx.lineTo( this.x, this.y);
-          // ctx.stroke();
+          const distance = Math.sqrt( (this.x - other.x)*(this.x - other.x)+(this.y - other.y)*(this.y - other.y) );
 
-          // ctx.beginPath();
-          // ctx.strokeStyle = "green";
-          // ctx.moveTo((this.x + other.x)/2 , (this.y + other.y)/2);
-          // ctx.lineTo( other.x, other.y);
-          // ctx.stroke();
+          const overlap = 0.5 * (distance - this.r - other.r);
 
-          // ctx.beginPath();
-          // ctx.strokeStyle = "blue";
-          // ctx.arc(Math.cos(otherAngle) *  this.r + this.x, Math.sin(otherAngle) *  this.r + this.y, this.r, 0, 2 * Math.PI);
-          // ctx.stroke();
+          ctx.beginPath();
+          ctx.strokeStyle = "green";
+          ctx.moveTo((other.x + this.x) / 2, (other.y + this.y) / 2);
+          ctx.lineTo(this.x, this.y);
+          ctx.stroke();
 
-          // ctx.beginPath();
-          // ctx.strokeStyle = "orange";
-          // ctx.arc(Math.cos(thisAngle) * other.r + other.x, Math.sin(thisAngle) *  other.r + other.y, other.r, 0, 2 * Math.PI);
-          // ctx.stroke();
+          ctx.beginPath();
+          ctx.strokeStyle = "green";
+          ctx.moveTo((this.x + other.x) / 2, (this.y + other.y) / 2);
+          ctx.lineTo(other.x, other.y);
+          ctx.stroke();
 
-          console.log( "{" + thisAngle/Math.PI * 180 +","+ thisContanct/Math.PI * 180 + "}", "{"+ otherAngle/Math.PI * 180 +","+ otherContanct/Math.PI * 180 + "}");
-          this.elastic(other);
+          this.x -= overlap * (this.x - other.x) / distance;
+          this.y -= overlap * (this.y - other.y) / distance;
+
+          other.x += overlap * (this.x - other.x) / distance;
+          other.y += overlap * (this.y - other.y) / distance;
+
+          const normalX = (other.x - this.x) / distance;
+          const normalY = (other.y - this.y) / distance;
+
+          const tangentalX = -normalY;
+          const tangentalY = normalX;
+
+          const thisDotTan = this.vx * tangentalX + this.vy * tangentalY;
+          const otherDotTan = other.vx * tangentalX + other.vy * tangentalY;
+
+          const thisDotNor = this.vx * normalX + this.vy * normalY;
+          const otherDotNor = other.vx * normalX + other.vy * normalY;
+
+          const m1 = (thisDotNor * (this.m - other.m) + 2 * other.m * otherDotNor) / (this.m + other.m);
+          const m2 = (otherDotNor * (other.m - this.m) + 2 * this.m * thisDotNor) / (this.m + other.m);
+
+          this.vx = tangentalX * thisDotTan + normalX * m1;
+          this.vy = tangentalY * thisDotTan + normalY * m1;
+
+          other.vx = tangentalX * otherDotTan + normalX * m2;
+          other.vy = tangentalY * otherDotTan + normalY * m2;
+
+          console.log(this.vx, other.vx);
+          console.log(this, other);
+
+          this.move();
+          other.move();
 
         }
       }
@@ -187,6 +213,10 @@ class Shape {
 
     }
 
+    else if(this.r && other.r){
+
+    }
+
     else {
 
       this.vx = ((this.m - other.m) / (this.m + other.m)) * this.vx + ((2 * other.m) / (this.m + other.m)) * other.vx;
@@ -203,6 +233,11 @@ class Shape {
   }
 
   move() {
+    if(Math.abs(this.vx * this.vx + this.vy * this.vy) < 0.1){
+      this.vx = 0;
+      this.vy = 0;
+    }
+    
     this.x += this.vx * this.speed;
     this.y += this.vy * this.speed;
 
@@ -235,13 +270,13 @@ class Circle extends Shape {
 
 
   display() {
-    const angle = Math.atan2(this.vy,this.vx);
+    const angle = Math.atan2(this.vy, this.vx);
 
     ctx.beginPath();
     ctx.strokeStyle = "red";
     ctx.arc(this.x, this.y, this.r, 0, 2 * Math.PI);
-    ctx.moveTo(this.x , this.y );
-    ctx.lineTo(Math.cos(angle) *  this.r + this.x, Math.sin(angle) *  this.r + this.y);
+    ctx.moveTo(this.x, this.y);
+    ctx.lineTo(Math.cos(angle) * this.r + this.x, Math.sin(angle) * this.r + this.y);
     ctx.stroke();
 
   }
