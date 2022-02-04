@@ -6,7 +6,7 @@ let shape = [];
 
 document.addEventListener("DOMContentLoaded", () => {
 
-  shape.push(new Circle(500, 280, 1, 1, 1, 0));
+  shape.push(new Circle(500, 80, 1, 0, 1, 0));
   shape.push(new Circle(100, 80, 1, 0, 1, 1));
 
   window.requestAnimationFrame(draw);
@@ -172,9 +172,6 @@ class Shape {
 
           other.vx = tangentalX * otherDotTan + normalX * m2;
           other.vy = tangentalY * otherDotTan + normalY * m2;
-
-          console.log(this.vx, other.vx);
-          console.log(this, other);
 
           this.move();
           other.move();
