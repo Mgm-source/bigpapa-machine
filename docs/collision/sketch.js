@@ -6,15 +6,15 @@ let shape = [];
 
 document.addEventListener("DOMContentLoaded", () => {
 
-  shape.push(new Circle(500, 80, 1, 0, 1, 0));
+  shape.push(new Circle(500, 80, -1, 0, 1, 0));
   shape.push(new Circle(100, 80, 1, 0, 1, 1));
 
   window.requestAnimationFrame(draw);
 
 })
 
-function draw() {
-
+function draw(timestamp) {
+  console.log(timestamp);
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   for (let i = 0; i < shape.length; i++) {
@@ -63,39 +63,39 @@ class Shape {
     if (this.type == "rectangle") {
 
       if (this.y < 0) {
-        this.vy = Math.abs(this.vy);
+        this.y = Math.abs(this.vy);
       }
 
       if (this.y > canvas.height - this.h) {
-        this.vy = -this.vy;
+        this.y = canvas.height - this.h;
       }
 
       if (this.x < 0) {
-        this.vx = Math.abs(this.vx);
+        this.x = 0;
       }
 
       if (this.x > canvas.width - this.w) {
-        this.vx = -this.vx;
+        this.x = canvas.width - this.w
       }
 
     }
 
     if (this.type == "circle") {
 
-      if (this.y <= this.w) {
-        this.vy = Math.abs(this.vy);
+      if (this.y < this.r) {
+        this.y = this.r;
       }
 
-      if (this.y >= canvas.height - this.w) {
-        this.vy = -this.vy;
+      if (this.y > canvas.height - this.r) {
+        this.y = canvas.height - this.r;
       }
 
-      if (this.x <= this.w) {
-        this.vx = Math.abs(this.vx);
+      if (this.x < this.r) {
+        this.x = this.r;
       }
 
-      if (this.x >= canvas.width - this.w) {
-        this.vx = -this.vx;
+      if (this.x > canvas.width - this.r) {
+        this.x = canvas.width - this.r;
       }
 
     }
@@ -167,14 +167,14 @@ class Shape {
           const m1 = (thisDotNor * (this.m - other.m) + 2 * other.m * otherDotNor) / (this.m + other.m);
           const m2 = (otherDotNor * (other.m - this.m) + 2 * this.m * thisDotNor) / (this.m + other.m);
 
-          this.vx = tangentalX * thisDotTan + normalX * m1;
-          this.vy = tangentalY * thisDotTan + normalY * m1;
+        //  this.vx = tangentalX * thisDotTan + normalX * m1;
+        //  this.vy = tangentalY * thisDotTan + normalY * m1;
 
-          other.vx = tangentalX * otherDotTan + normalX * m2;
-          other.vy = tangentalY * otherDotTan + normalY * m2;
+          //other.vx = tangentalX * otherDotTan + normalX * m2;
+         // other.vy = tangentalY * otherDotTan + normalY * m2;
 
-          this.move();
-          other.move();
+         // this.move();
+        //  other.move();
 
         }
       }
