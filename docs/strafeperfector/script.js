@@ -47,7 +47,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
 
             }
-            console.log(event, correctKey, counter, currentStack, aStack[counter]);
 
             counter++;
 
