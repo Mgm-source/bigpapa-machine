@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (currentStack.length == 3) {
 
-                ctx.fillText("Time in Milliseconds : " + ((currentStack[1].timeStamp - currentStack[0].timeStamp) + (currentStack[2].timeStamp - currentStack[1].timeStamp)).toFixed(2), 0, 60);
+                ctx.fillText("Total Time in Milliseconds : " + ((currentStack[1].timeStamp - currentStack[0].timeStamp) + (currentStack[2].timeStamp - currentStack[1].timeStamp)).toFixed(2), 0, 60);
 
                 if (correctKey) {
                     timedHits.push(((currentStack[1].timeStamp - currentStack[0].timeStamp) + (currentStack[2].timeStamp - currentStack[1].timeStamp)).toFixed(2));
