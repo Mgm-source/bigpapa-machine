@@ -5,6 +5,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");
+    ctx.font = '50px Arial';
+    ctx.fillStyle = "orange";
+    ctx.fillText("Input WASD to START", canvas.width / 2, canvas.height / 2);
 
     const dStack = ["d", "a", "mouseClick"];
     const aStack = ["a", "d", "mouseClick"];
