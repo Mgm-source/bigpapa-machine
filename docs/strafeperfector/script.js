@@ -93,7 +93,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (timedHits.length != 0) ctx.fillText("Average Time in Milliseconds : " + averageTime, 0, 70);
         ctx.fillText("Number of errors: " + errorCounter, 0, 80);
-        ctx.fillText("Number of tries: " + hits, 0, 90);
         ctx.fillText("Error rate: " + (errorCounter / hits).toFixed(2), 0, 100);
 
         ctx.font = '25px Arial';
