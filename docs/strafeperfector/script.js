@@ -22,8 +22,9 @@ document.addEventListener("DOMContentLoaded", function () {
     let errorCounter = 0;
 
     function captureEvent(event, name) {
-        let correctKey = false;
         
+        let correctKey = false;
+
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.font = '10px Arial';
         ctx.fillStyle = "blue";
@@ -97,11 +98,10 @@ document.addEventListener("DOMContentLoaded", function () {
         const key = event.key.toLowerCase();
         const validkey = (key === "w" || key === "a" || key === "s" || key === "d") ? key : false;
         captureEvent(event, validkey);
-    })
+    });
 
     document.addEventListener("click", (event) => {
         captureEvent(event, "mouseClick");
-    })
+    });
 
-})
-
+});
