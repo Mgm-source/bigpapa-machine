@@ -101,14 +101,17 @@ document.addEventListener("DOMContentLoaded", function () {
         ctx.fillText(name || "Wrong Input: WASD", canvas.width / 2, canvas.height / 2);
     }
 
+    document.addEventListener("mousedown", (event) => {
+        console.log(event);
+        captureEvent(event, "mouseClick");
+        
+    });
+
     document.addEventListener("keydown", (event) => {
         const key = event.key.toLowerCase();
         const validkey = (key === "w" || key === "a" || key === "s" || key === "d") ? key : false;
+        console.log(event);
         captureEvent(event, validkey);
-    });
-
-    document.addEventListener("click", (event) => {
-        captureEvent(event, "mouseClick");
     });
 
 });
