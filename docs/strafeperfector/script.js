@@ -18,11 +18,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let startKey = null;
 
+    let hits = 0;
     let counter = 0;
     let errorCounter = 0;
 
     function captureEvent(event, name) {
-        
+
         let correctKey = false;
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -49,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     case "d": correctKey = currentStack[counter].key === dStack[counter];
                         break;
                 }
-                
+
             }
 
             if (correctKey) {
@@ -64,12 +65,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     timedHits.push(((currentStack[1].timeStamp - currentStack[0].timeStamp) + (currentStack[2].timeStamp - currentStack[1].timeStamp)).toFixed(2));
 
-                    averageTime = timedHits.reduce((prev, curr) => Number(prev) + Number(curr)) / timedHits.length.toFixed(2);
+                    averageTime = (timedHits.reduce((prev, curr) => Number(prev) + Number(curr)) / timedHits.length).toFixed(2);
                 }
 
             }
 
             counter++;
+            hits++;
 
         }
 
@@ -88,10 +90,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (timedHits.length != 0) ctx.fillText("Average Time in Milliseconds : " + averageTime, 0, 70);
         ctx.fillText("Number of errors: " + errorCounter, 0, 80);
+        ctx.fillText("Number of tries: " + hits, 0, 90);
+        ctx.fillText("Error rate: " + (errorCounter / hits).toFixed(2), 0, 100);
 
         ctx.font = '25px Arial';
         correctKey ? ctx.fillStyle = "green" : ctx.fillStyle = "red";
-        ctx.fillText(name, canvas.width / 2, canvas.height / 2);
+        ctx.fillText(name || "Wrong Input: WASD", canvas.width / 2, canvas.height / 2);
     }
 
     document.addEventListener("keydown", (event) => {
