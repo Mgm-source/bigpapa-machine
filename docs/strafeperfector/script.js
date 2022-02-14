@@ -40,11 +40,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (correctKey) {
             currentStack.push(captureObj.timeStamp);
-        } else { currentKey = null; }
+            if (currentStack.length > 1) ctx.fillText("Time in Milliseconds : " + (currentStack[counter] - currentStack[counter - 1]).toFixed(2), 0, 50);
+            counter++;
+        } else {
+            counter = 0;
+            currentKey = null;
+        }
 
         if (currentStack.length === 3) timedHits.push(((currentStack[1] - currentStack[0]) + (currentStack[2] - currentStack[1])));
 
-        if (currentStack.length > 1 && currentKey) ctx.fillText("Time in Milliseconds : " + (currentStack[counter] - currentStack[counter - 1]).toFixed(2), 0, 50);
+
         if (timedHits.length !== 0) {
             ctx.fillText("Total Time in Milliseconds : " + timedHits[timedHits.length - 1], 0, 60);
             ctx.fillText("Average Time in Milliseconds : " + (timedHits.reduce((prev, curr) => prev + curr) / timedHits.length).toFixed(2), 0, 70);
@@ -60,8 +65,6 @@ document.addEventListener("DOMContentLoaded", function () {
         correctKey ? ctx.fillStyle = "green" : ctx.fillStyle = "red";
         ctx.fillText(captureObj.key || "Wrong Input: WASD", canvas.width / 2, canvas.height / 2);
 
-        counter++;
-
         if (counter > 2) counter = 0;
 
         console.log(JSON.parse(JSON.stringify(currentStack)), timedHits, counter);
@@ -73,7 +76,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     document.addEventListener("keydown", (event) => {
-        captureEvent({ "key": event.key, "timeStamp": event.timeStamp });
+        captureEvent({ "key": event.key.toLowerCase(), "timeStamp": event.timeStamp });
     });
 
 });
