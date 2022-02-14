@@ -43,6 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (currentStack.length > 1) ctx.fillText("Time in Milliseconds : " + (currentStack[counter] - currentStack[counter - 1]).toFixed(2), 0, 50);
             counter++;
         } else {
+            errorCounter++;
             counter = 0;
             currentKey = null;
         }
@@ -66,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function () {
         ctx.fillText(captureObj.key || "Wrong Input: WASD", canvas.width / 2, canvas.height / 2);
 
         if (counter > 2) counter = 0;
-        
+
     }
 
     document.addEventListener("mousedown", (event) => {
