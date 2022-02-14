@@ -66,8 +66,7 @@ document.addEventListener("DOMContentLoaded", function () {
         ctx.fillText(captureObj.key || "Wrong Input: WASD", canvas.width / 2, canvas.height / 2);
 
         if (counter > 2) counter = 0;
-
-        console.log(JSON.parse(JSON.stringify(currentStack)), timedHits, counter);
+        
     }
 
     document.addEventListener("mousedown", (event) => {
