@@ -1,4 +1,3 @@
-
 "use scrict";
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -9,108 +8,72 @@ document.addEventListener("DOMContentLoaded", function () {
     ctx.fillStyle = "orange";
     ctx.fillText("Strafe to START", canvas.width / 2 - 72, canvas.height / 2);
 
-    const dStack = ["d", "a", "mouseClick"];
-    const aStack = ["a", "d", "mouseClick"];
-    const wStack = ["w", "s", "mouseClick"];
-    const sStack = ["s", "w", "mouseClick"];
-
-    let averageTime = null;
+    const strafeKeys = {
+        "d": ["d", "a", "mousedown"],
+        "a": ["a", "d", "mousedown"],
+        "w": ["w", "s", "mousedown"],
+        "s": ["s", "w", "mousedown"]
+    }
 
     let currentStack = [];
     let timedHits = [];
 
-    let startKey = null;
+    let currentKey = null;
 
     let hits = 0;
     let counter = 0;
     let errorCounter = 0;
 
-    function captureEvent(event, name) {
-
+    function captureEvent(captureObj) {
         let correctKey = false;
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.font = '10px Arial';
         ctx.fillStyle = "blue";
 
-        if (name) {
-
-            if (counter === 0) {
-                if (name !== "mouseClick") startKey = name;
-            }
-
-            if (startKey) {
-
-                currentStack.push({ "key": name, "timeStamp": event.timeStamp });
-
-                switch (startKey) {
-                    case "w": correctKey = currentStack[counter].key === wStack[counter];
-                        break;
-                    case "a": correctKey = currentStack[counter].key === aStack[counter];
-                        break;
-                    case "s": correctKey = currentStack[counter].key === sStack[counter];
-                        break;
-                    case "d": correctKey = currentStack[counter].key === dStack[counter];
-                        break;
-                }
-
-            }
-
-            if (correctKey) {
-
-                if (currentStack.length > 1) {
-                    ctx.fillText("Time in Milliseconds : " + (currentStack[counter].timeStamp - currentStack[counter - 1].timeStamp).toFixed(2), 0, 50);
-                }
-
-                if (currentStack.length === 3) {
-
-                    ctx.fillText("Total Time in Milliseconds : " + ((currentStack[1].timeStamp - currentStack[0].timeStamp) + (currentStack[2].timeStamp - currentStack[1].timeStamp)).toFixed(2), 0, 60);
-
-                    timedHits.push(((currentStack[1].timeStamp - currentStack[0].timeStamp) + (currentStack[2].timeStamp - currentStack[1].timeStamp)).toFixed(2));
-
-                    averageTime = (timedHits.reduce((prev, curr) => Number(prev) + Number(curr)) / timedHits.length).toFixed(2);
-                }
-
-            }
-
-            counter++;
-            hits++;
-
-        }
-
-        if (!correctKey) {
-            errorCounter++;
-            counter = 3;
-        }
-
-
-        if (counter > 2) {
-            counter = 0;
-            startKey = null;
+        if (counter === 0 || !currentKey) {
             currentStack = [];
+            if (strafeKeys[captureObj["key"]]) currentKey = strafeKeys[captureObj["key"]];
+        }
+
+        if (currentKey) correctKey = currentKey[counter] === captureObj.key;
+
+        if (correctKey) {
+            currentStack.push(captureObj.timeStamp);
+        } else { currentKey = null; }
+
+        if (currentStack.length === 3) timedHits.push(((currentStack[1] - currentStack[0]) + (currentStack[2] - currentStack[1])));
+
+        if (currentStack.length > 1 && currentKey) ctx.fillText("Time in Milliseconds : " + (currentStack[counter] - currentStack[counter - 1]).toFixed(2), 0, 50);
+        if (timedHits.length !== 0) {
+            ctx.fillText("Total Time in Milliseconds : " + timedHits[timedHits.length - 1], 0, 60);
+            ctx.fillText("Average Time in Milliseconds : " + (timedHits.reduce((prev, curr) => prev + curr) / timedHits.length).toFixed(2), 0, 70);
 
         }
 
-        if (timedHits.length != 0) ctx.fillText("Average Time in Milliseconds : " + averageTime, 0, 70);
+        hits++;
+
         ctx.fillText("Number of errors: " + errorCounter, 0, 80);
         ctx.fillText("Error rate: " + (errorCounter / hits).toFixed(2), 0, 100);
 
         ctx.font = '25px Arial';
         correctKey ? ctx.fillStyle = "green" : ctx.fillStyle = "red";
-        ctx.fillText(name || "Wrong Input: WASD", canvas.width / 2, canvas.height / 2);
+        ctx.fillText(captureObj.key || "Wrong Input: WASD", canvas.width / 2, canvas.height / 2);
+
+        counter++;
+
+        if (counter > 2) counter = 0;
+
+        console.log(JSON.parse(JSON.stringify(currentStack)), timedHits, counter);
     }
 
     document.addEventListener("mousedown", (event) => {
-        console.log(event);
-        captureEvent(event, "mouseClick");
-        
+        captureEvent({ "key": event.type, "timeStamp": event.timeStamp });
+
     });
 
     document.addEventListener("keydown", (event) => {
-        const key = event.key.toLowerCase();
-        const validkey = (key === "w" || key === "a" || key === "s" || key === "d") ? key : false;
-        console.log(event);
-        captureEvent(event, validkey);
+        captureEvent({ "key": event.key, "timeStamp": event.timeStamp });
     });
 
 });
