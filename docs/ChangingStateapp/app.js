@@ -1,5 +1,5 @@
 angular.module('routingApp',['ui.router'])
-.controller("routingAppController",function($state,$location){
+.controller("routingAppController",function($state){
     // needed otherwise js doesnt know where to look
     var self = this;
 // html go button; reference basically 
@@ -7,9 +7,6 @@ angular.module('routingApp',['ui.router'])
         //$go Transition to a different state
         $state.go(page);
         console.log($state.go(page));
-       /* Code below not needed, '$state' does the url change*/
-                    // $location.path(page);
-
     };
 
 })
