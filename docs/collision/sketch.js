@@ -6,15 +6,14 @@ let shape = [];
 
 document.addEventListener("DOMContentLoaded", () => {
 
-  shape.push(new Circle(500, 80, -1, 0, 1, 0));
-  shape.push(new Circle(100, 80, 1, 0, 1, 1));
+  shape.push(new Circle(500, 80 ,1, 0, 50, 0));
+ shape.push(new Circle(100, 81, 1, 0, 1, 1));
 
   window.requestAnimationFrame(draw);
 
 })
 
 function draw(timestamp) {
-  console.log(timestamp);
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   for (let i = 0; i < shape.length; i++) {
@@ -28,11 +27,8 @@ function draw(timestamp) {
     }
 
     shape[i].wallColl();
-  }
-
-  for( let k = 0; k < shape.length; k++){
+    shape[i].update();
     
-    shape[k].update();
   }
 
   window.requestAnimationFrame(draw);
@@ -83,19 +79,19 @@ class Shape {
     if (this.type == "circle") {
 
       if (this.y < this.r) {
-        this.y = this.r;
+        this.vy = Math.abs(this.vy);
       }
 
-      if (this.y > canvas.height - this.r) {
-        this.y = canvas.height - this.r;
+      if (this.y > canvas.height-this.r) {
+        this.vy = -Math.abs(this.vy);
       }
 
       if (this.x < this.r) {
-        this.x = this.r;
+        this.vx = Math.abs(this.vx);
       }
 
-      if (this.x > canvas.width - this.r) {
-        this.x = canvas.width - this.r;
+      if (this.x > canvas.width-this.r) {
+        this.vx = -Math.abs(this.vx);
       }
 
     }
@@ -167,14 +163,13 @@ class Shape {
           const m1 = (thisDotNor * (this.m - other.m) + 2 * other.m * otherDotNor) / (this.m + other.m);
           const m2 = (otherDotNor * (other.m - this.m) + 2 * this.m * thisDotNor) / (this.m + other.m);
 
-        //  this.vx = tangentalX * thisDotTan + normalX * m1;
-        //  this.vy = tangentalY * thisDotTan + normalY * m1;
+          this.vx = tangentalX * thisDotTan + normalX * m1;
+          this.vy = tangentalY * thisDotTan + normalY * m1;
 
-          //other.vx = tangentalX * otherDotTan + normalX * m2;
-         // other.vy = tangentalY * otherDotTan + normalY * m2;
+          other.vx = tangentalX * otherDotTan + normalX * m2;
+          other.vy = tangentalY * otherDotTan + normalY * m2;
 
-         // this.move();
-        //  other.move();
+          console.log(this);
 
         }
       }
