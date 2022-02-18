@@ -6,14 +6,14 @@ let shape = [];
 
 document.addEventListener("DOMContentLoaded", () => {
 
-  shape.push(new Circle(500, 80 ,1, 0, 50, 0));
- shape.push(new Circle(100, 81, 1, 0, 1, 1));
+  shape.push(new Circle(500, 80 ,0, 1, 1, 0));
+ shape.push(new Circle(100, 89, 1, 1, 1, 1));
 
   window.requestAnimationFrame(draw);
 
 })
 
-function draw(timestamp) {
+function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   for (let i = 0; i < shape.length; i++) {
@@ -28,7 +28,6 @@ function draw(timestamp) {
 
     shape[i].wallColl();
     shape[i].update();
-    
   }
 
   window.requestAnimationFrame(draw);
@@ -123,8 +122,8 @@ class Shape {
 
         if ( (this.x - other.x)*(this.x - other.x) + (this.y - other.y)*(this.y - other.y) <= (this.r + other.r)*(this.r + other.r) ) {
 
-          const thisAngle = Math.atan2((this.y + other.y) / 2 - this.y, (this.x + other.x) / 2 - this.x);
-          const otherAngle = Math.atan2((this.y + other.y) / 2 - other.y, (this.x + other.x) / 2 - other.x);
+         // const thisAngle = Math.atan2((this.y + other.y) / 2 - this.y, (this.x + other.x) / 2 - this.x);
+        //  const otherAngle = Math.atan2((this.y + other.y) / 2 - other.y, (this.x + other.x) / 2 - other.x);
 
           const distance = Math.sqrt( (this.x - other.x)*(this.x - other.x)+(this.y - other.y)*(this.y - other.y) );
 
@@ -169,8 +168,6 @@ class Shape {
           other.vx = tangentalX * otherDotTan + normalX * m2;
           other.vy = tangentalY * otherDotTan + normalY * m2;
 
-          console.log(this);
-
         }
       }
 
@@ -205,10 +202,6 @@ class Shape {
 
     }
 
-    else if(this.r && other.r){
-
-    }
-
     else {
 
       this.vx = ((this.m - other.m) / (this.m + other.m)) * this.vx + ((2 * other.m) / (this.m + other.m)) * other.vx;
@@ -219,17 +212,10 @@ class Shape {
 
     }
 
-    this.move();
-    other.move();
-
   }
 
   move() {
-    if(Math.abs(this.vx * this.vx + this.vy * this.vy) < 0.1){
-      this.vx = 0;
-      this.vy = 0;
-    }
-    
+
     this.x += this.vx * this.speed;
     this.y += this.vy * this.speed;
 
@@ -259,7 +245,6 @@ class Circle extends Shape {
 
   type = 'circle';
   r = this.w / 2;
-
 
   display() {
     const angle = Math.atan2(this.vy, this.vx);
