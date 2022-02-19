@@ -1,13 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "HQmAI/3bnGT/Yz+csAlKgqhFwdBo667EaBIW0JH8Mx0e54IswQker2063es3R9m4zySrwNKoUSDQyt2EWO5MXA==",
+  "dgSpecHash": "vlOf0NScsZbie+Lec2Y7njMvpE53HKzakWAZtn7zw4B7867is2vdYQ0PgEJ3l0b7NM7iZzBjwNFrUX7Kydj+Ag==",
   "success": true,
-  "projectFilePath": "C:\\xampp\\htdocs\\bigpapa-machine\\Games\\Findthethimble\\ConsoleApp1\\Findthethimble.csproj",
+  "projectFilePath": "C:\\Users\\Munas\\source\\repos\\Mgm-source\\bigpapa-machine\\csharp\\Find the thimble\\ConsoleApp1\\Findthethimble.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Munas\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\3.0.1\\microsoft.aspnetcore.app.ref.3.0.1.nupkg.sha512",
-    "C:\\Users\\Munas\\.nuget\\packages\\microsoft.netcore.app.ref\\3.0.0\\microsoft.netcore.app.ref.3.0.0.nupkg.sha512",
     "C:\\Users\\Munas\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\3.0.3\\microsoft.netcore.app.host.win-x64.3.0.3.nupkg.sha512",
-    "C:\\Users\\Munas\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\3.0.0\\microsoft.windowsdesktop.app.ref.3.0.0.nupkg.sha512"
+    "C:\\Users\\Munas\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\3.0.1\\microsoft.aspnetcore.app.ref.3.0.1.nupkg.sha512",
+    "C:\\Users\\Munas\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\3.0.0\\microsoft.windowsdesktop.app.ref.3.0.0.nupkg.sha512",
+    "C:\\Users\\Munas\\.nuget\\packages\\microsoft.netcore.app.ref\\3.0.0\\microsoft.netcore.app.ref.3.0.0.nupkg.sha512"
   ],
   "logs": []
 }
