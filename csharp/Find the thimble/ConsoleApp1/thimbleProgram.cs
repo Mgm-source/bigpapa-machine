@@ -1,48 +1,34 @@
 ﻿// using System;
 
-namespace FindTheThimble
+    class Game {
 
-{
+         int x, y;
 
-    class Game
+         int Guess = 1;
 
-    {
+        string thimble = " "; //"thimble"
 
-        static int x, y;
+         string thimble2 = "#t";
 
-        static int Guess = 1;
+         string[,] gameroom = new string[10, 10];
 
-       static string thimble = " "; //"thimble"
+         string Yesno;
 
-        static string thimble2 = "#t";
+         int randomthimbleX;
 
-        static string[,] gameroom = new string[10, 10];
+         int randomthimbleY;
 
-        static string Yesno;
+         void Thegame() {
 
-        static int randomthimbleX;
-
-        static int randomthimbleY;
-
-        static void Thegame()
-
-        {
-
-            do
-
-            {
+            do {
 
                 Yn();
 
-                if (Yesno == "Y" || Yesno == "y")
-
-                {
+                if (Yesno == "Y" || Yesno == "y") {
 
                     rando();
 
-                    do
-
-                    {
+                    do {
 
                         Declare();
 
@@ -66,7 +52,7 @@ namespace FindTheThimble
 
         }
 
-        static void HideTimble()
+         void HideTimble()
 
         {
 
@@ -76,19 +62,13 @@ namespace FindTheThimble
 
         }
 
-        static void Declare()
-
-        {
+         void Declare() {
 
             // Declaring the array
 
-            for (int i = 0; i < gameroom.GetLength(0); i++)
+            for (int i = 0; i < gameroom.GetLength(0); i++) {
 
-            {
-
-                for (int j = 0; j < gameroom.GetLength(1); j++)
-
-                {
+                for (int j = 0; j < gameroom.GetLength(1); j++) {
 
                     gameroom[j, i] = "#";
 
@@ -98,9 +78,7 @@ namespace FindTheThimble
 
         }
 
-        static void UserCoordinates()
-
-        {
+         void UserCoordinates() {
 
             // Enter guess
 
@@ -114,21 +92,18 @@ namespace FindTheThimble
 
             y = System.Convert.ToInt32(System.Console.ReadLine());
 
-            if (gameroom[x, y] != thimble)
-
-            {
+            if (gameroom[x, y] != thimble) {
 
                 gameroom[x, y] = "*";
                 Guess++;
             }
             
-
             gameroom[randomthimbleX, randomthimbleY] = thimble;
+
         }
 
-        static void rando()
-
-        {
+    void rando()
+    {
 
             // random number generator
 
@@ -137,18 +112,13 @@ namespace FindTheThimble
             randomthimbleX = rnd.Next(9);
 
             randomthimbleY = rnd.Next(9);
+    }
 
-        }
-
-        static void distance()
-
-        {
+         void distance() {
 
             // win condition
 
-            if (gameroom[x, y] == gameroom[randomthimbleX, randomthimbleY])
-
-            {
+            if (gameroom[x, y] == gameroom[randomthimbleX, randomthimbleY]) {
 
                 System.Console.WriteLine("\nCongratulations you found the Thimble!");
 
@@ -158,61 +128,48 @@ namespace FindTheThimble
 
                 Guess++;
 
-              
-
             }
 
             // distance feedback
 
-            else if ((System.Math.Abs(randomthimbleY - y) >= 7) || (System.Math.Abs(randomthimbleX - x) >= 7))
-
-            {
+            else if ((System.Math.Abs(randomthimbleY - y) >= 7) || (System.Math.Abs(randomthimbleX - x) >= 7)) {
 
                 System.Console.WriteLine("\nFreezing");
 
             }
 
-            else if ((System.Math.Abs(randomthimbleY - y) >= 5) || (System.Math.Abs(randomthimbleX - x) >= 5))
-
-            {
+            else if ((System.Math.Abs(randomthimbleY - y) >= 5) || (System.Math.Abs(randomthimbleX - x) >= 5)) {
 
                 System.Console.WriteLine("\ncold");
 
             }
 
-            else if ((System.Math.Abs(randomthimbleY - y) >= 3) || (System.Math.Abs(randomthimbleX - x) >= 3))
-
-            {
+            else if ((System.Math.Abs(randomthimbleY - y) >= 3) || (System.Math.Abs(randomthimbleX - x) >= 3)) {
 
                 System.Console.WriteLine("\nwarm");
 
             }
 
-            else if ((System.Math.Abs(randomthimbleY - y) >= 1) || (System.Math.Abs(randomthimbleX - x) >= 1))
-
-            {
+            else if ((System.Math.Abs(randomthimbleY - y) >= 1) || (System.Math.Abs(randomthimbleX - x) >= 1)) {
 
                 System.Console.WriteLine("\nhot");
 
             }
-            gameroom[randomthimbleX, randomthimbleY] = thimble2;
-           
+        
+        gameroom[randomthimbleX, randomthimbleY] = thimble2;
 
-        }
+    }
 
-        static void Yn()
-
-        {
+         void Yn() {
 
             System.Console.WriteLine("Do you want to play Find The Thimble? Y/N");
 
             Yesno = System.Console.ReadLine();
 
             System.Console.Clear();
+    }
 
-        }
-
-        static void display()
+         void display()
 
         {
             
@@ -244,14 +201,4 @@ namespace FindTheThimble
 
         }
 
-        static void Main(string[] args)
-
-        {
-
-            Thegame();
-
-        }
-
     }
-
-}
