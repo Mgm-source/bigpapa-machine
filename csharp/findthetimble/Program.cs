@@ -1,6 +1,5 @@
 ﻿class Game
 {
-
     private int x, y;
 
     private int Guess = 1;
@@ -47,7 +46,7 @@
     public string HiddenTimble()
     {
         // hides "thimble" in the array
-
+        // probs should implement this without the assigmnet to the array happening every time
         // normal game
         //gameroom[randomthimbleX, randomthimbleY] = thimble;
         // cheat 
@@ -196,17 +195,12 @@
 
     }
 
-}
-class Program
-{
-
     static void Main()
     {
         Game game = new();
 
         game.Thegame();
 
+
     }
-
-
 }
