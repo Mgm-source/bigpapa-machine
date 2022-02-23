@@ -21,7 +21,7 @@ $dbconnect = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname) or die(mysqli_co
 $query = "SELECT * FROM conf where id=( select max(id) from conf)";
 $result = mysqli_query($dbconnect, $query);
 
-$row = "failed";
+$row = null;
 
 if (mysqli_num_rows($result)) {
 
@@ -37,7 +37,7 @@ if (mysqli_num_rows($result)) {
     $maintenance = $row['maintenance'];
 }
 
-if ($row == "failed") {
+if ($row === null) {
     // create error page
     $maintenance = true;
     $title = "GameHub";
