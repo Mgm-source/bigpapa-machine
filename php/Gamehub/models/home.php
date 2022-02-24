@@ -4,7 +4,7 @@ require_once("../controllers/home.php");
 function getLeaderBoard($dbconnect)
 {
 
-    $query = "SELECT name,username,duration,score FROM game join record ON game.id = record.game_id";
+    $query = "SELECT name,username,duration,score FROM game INNER JOIN record ON game.id = record.game_id ORDER BY score DESC";
     $result = mysqli_query($dbconnect, $query);
 
     if ($result->num_rows > 0) {
@@ -24,10 +24,12 @@ function getLeaderBoard($dbconnect)
 function getRecord($username, $dbconnect)
 {
 
-    $query = "SELECT * FROM record join user ON record.username = users.username WHERE user.username = '$username'";
+    $query = "SELECT record.username, score FROM record INNER JOIN user ON record.username = record.username = '$username'";
     $result = mysqli_query($dbconnect, $query);
 
     if ($result->num_rows > 0) {
+
+        
 
         $data = array();
 

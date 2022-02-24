@@ -7,7 +7,7 @@ This needed so that all the session data will be available
 // Login for the database
 $dbhost  = 'localhost';
 $dbuser  = 'root';
-$dbpass  = 'admin';
+$dbpass  = 'shemuna2008';
 $dbname  = 'gamehub';
 
 /* Redirect to a different page in the current directory that was requested */
@@ -76,7 +76,28 @@ function encrptpass($password)
 function redirect($page)
 {
     $host  = $_SERVER['HTTP_HOST'];
-    $uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
-    header("Location: http://$host$uri/$page");
+    $uri   = "/bigpapa-machine/php/Gamehub/index.php";
+    if($page == "home"){
+        header("Location: http://$host$uri");
+    }else{
+        header("Location: http://$host$uri?page=$page");
+    }  
     die();
+}
+
+
+function getBody()
+{
+    if (isset($_GET['page'])) {
+
+        $page = "views/" . $_GET['page'] . ".php";
+
+        if (file_exists($page) ) {
+
+            echo file_get_contents($page);
+
+        }else{
+            echo "<span>Page doesn't exist!</span>";
+        }
+    }
 }

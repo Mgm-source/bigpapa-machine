@@ -1,4 +1,4 @@
-<form action="../models/signin.php" method="POST">
+<form action="models/signin.php" method="POST">
     <table class="formsignin">
         <tr>
             <td><label for="Username">Username:</label></td>

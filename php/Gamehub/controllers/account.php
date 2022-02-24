@@ -1,9 +1,6 @@
 <?php
-    require_once("../maintenance/config.php");
-	
 if (isset($_SESSION['loggedin'])) {
+
+   $_SESSION['edit']  = editAcount($_SESSION['username'], $dbconnect);
 	
 }
-
-
-mysqli_close($dbconnect);

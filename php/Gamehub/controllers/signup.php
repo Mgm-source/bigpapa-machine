@@ -11,21 +11,23 @@ if (!isset($_SESSION['loggedin'])) {
 
         if (!verifyPass($password, $cpassword)) {
 
-            redirect("../views/signup.php");
+            redirect("signup");
         }
 
         if (isUsernameTaken($username, $dbconnect)) {
 
-            redirect("../views/signup.php");
+            redirect("signup");
         }
 
         $password = encrptpass($password);
-        signup($username, $password, $dbconnect);
+        
+        if(signup($username, $password, $dbconnect)){
+            redirect("signin");
+        }
+        
     }
-    redirect("../views/signup.php");
+    redirect("signup");
 } else {
 
-    redirect("../index.php");
+    redirect("home");
 }
-
-mysqli_close($dbconnect);
