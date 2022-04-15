@@ -12,4 +12,3 @@ require_once("../maintenance/config.php");
         header('Content-Type: application/json; charset=utf-8');
         echo json_encode(getLeaderBoard($dbconnect));
 	}
-    mysqli_close($dbconnect);

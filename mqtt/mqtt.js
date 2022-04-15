@@ -20,18 +20,19 @@ function onFailed(){
     console.log("offline");
 }
 
-function MQTTconnect(){
+function mqttConn(){
     // show connection details to the console
     console.log("connecting to "+HOST+":"+PORT);
     //Creating a client object 
     
     let options = {
-        onSuccess: onConnect,
-        onFailure: onFailed,
-        userName: "admin",
-        password: "pass"
+        "onSuccess": onConnect,
+        "onFailure": onFailed,
+        "userName": "admin",
+        "password": "pass"
     };
     // connects to the server
     mqtt.connect(options);
 }
 
+mqttConn();

@@ -11,15 +11,13 @@ if (!isset($_SESSION['loggedin'])) {
         $password = encrptpass($password);
 
         if (signin($username, $password,$dbconnect)) {
-            redirect("../index.php");
+            redirect("home");
         }
     }
 
-    redirect("../views/signin.php");
+    redirect("signin");
 } else {
 
     signout();
-    redirect("../index.php");
+    redirect("home");
 }
-
-mysqli_close($dbconnect);

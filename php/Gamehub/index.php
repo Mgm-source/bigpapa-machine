@@ -1,9 +1,10 @@
 <?php
-require_once 'maintenance\config.php';
+include 'maintenance\config.php';
 require_once 'views\header.php';
 
 if(!$maintenance){
 
+    getBody();
     
 }else{
 
