@@ -1,5 +1,6 @@
 #include <stdexcept>
 #include <iostream>
+#include <thread>
 using namespace std;
 
 template<typename T>
@@ -34,16 +35,47 @@ T* end(Vector<T>& element) {
 	return begin(element) + element.size();
 };
 
-Vector<int> v(10);
+
+void f() {
+	cout << "hello";
+};
+struct F {
+	void operator()() { cout << "Munashe!\n"; };
+};
+
+void test() {
+	thread t1{ f };
+	thread t2{ F() };
+
+	t1.join();
+	t2.join();
+}
+
 
 int main() {
-	for (int i = 0; i < v.size(); i++) {
-		v[i] = i;
-	}
 
-	for (auto element : v) {
-		cout << element << "\n";
-	}
+	int five = 5; 
 
-	return 0;
+	int* test = &five;
+
+	//cout << "pointer to memory address:" << test << "\nmemory address value:" << *test;
+
+	int someArray[10] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 0 };
+
+	int* pointer = someArray;
+	int* pointer2 = &someArray[0];
+
+	char c = 255;
+	int a = c;
+	
+	cout << c << a;
+	cout <<"\n" << pointer << " " << *pointer2;
+
+	//for (; *pointer != 0; pointer++) {
+	//	cout << "\n" << *pointer << pointer;
+	//}
+
+	//test();
+
 }
+
