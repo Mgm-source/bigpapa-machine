@@ -8,7 +8,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   shape.push(new Circle(500, 80 ,0, 1, 1, 0));
  shape.push(new Circle(100, 89, 1, 1, 1, 1));
-
+  shape.push(new Circle(500, 200 ,0, 1, 1, 2));
+ shape.push(new Circle(300, 100, 1, 1, 1, 3));
   window.requestAnimationFrame(draw);
 
 })
