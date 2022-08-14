@@ -3,6 +3,7 @@
 
 #include "framework.h"
 #include "mvc.h"
+#include <string_view>
 
 #define MAX_LOADSTRING 100
 
@@ -43,9 +44,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     MSG msg;
 
     // Main message loop:
-    while (GetMessage(&msg, nullptr, 0, 0))
+    while (GetMessageW(&msg, nullptr, 0, 0))
     {
-        if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
+        if (!TranslateAcceleratorW(msg.hwnd, hAccelTable, &msg))
         {
             TranslateMessage(&msg);
             DispatchMessage(&msg);
@@ -64,7 +65,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 //
 ATOM MyRegisterClass(HINSTANCE hInstance)
 {
-    WNDCLASSEXW wcex;
+    WNDCLASSEXW wcex{};
 
     wcex.cbSize = sizeof(WNDCLASSEX);
 
@@ -132,7 +133,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             switch (wmId)
             {
             case IDM_ABOUT:
-                DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
+                DialogBoxW(NULL, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
                 break;
             case IDM_EXIT:
                 DestroyWindow(hWnd);
@@ -166,6 +167,7 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
     switch (message)
     {
     case WM_INITDIALOG:
+        SetDlgItemText(hDlg, IDC_STATIC1, L"YEAH");
         return (INT_PTR)TRUE;
 
     case WM_COMMAND:

@@ -1,6 +1,7 @@
 #include <stdexcept>
 #include <iostream>
 #include <thread>
+
 using namespace std;
 
 template<typename T>
@@ -21,13 +22,14 @@ public:
 	int size() const{ 
 		return length;
 	}
+
 private:
 	T* element;
 	int length;
 };
 
 template<typename T>
-T* begin(Vector<T>& element) {
+T*  begin(Vector<T>& element) {
 	return element.size() ? &element[0] : nullptr;
 };
 template<typename T>
@@ -35,7 +37,7 @@ T* end(Vector<T>& element) {
 	return begin(element) + element.size();
 };
 
-
+typedef Vector<int>intArray;
 void f() {
 	cout << "hello";
 };
@@ -51,31 +53,42 @@ void test() {
 	t2.join();
 }
 
+struct S
+{
+	enum a {CHAR,INT,DOUBLE} tag;
+	union
+	{
+		char c;
+		int i = 0;
+		double d;
+	};
 
-int main() {
+	S check() {
+		return *this;
+	}
+};
 
-	int five = 5; 
 
-	int* test = &five;
-
-	//cout << "pointer to memory address:" << test << "\nmemory address value:" << *test;
-
-	int someArray[10] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 0 };
-
-	int* pointer = someArray;
-	int* pointer2 = &someArray[0];
-
-	char c = 255;
-	int a = c;
-	
-	cout << c << a;
-	cout <<"\n" << pointer << " " << *pointer2;
-
-	//for (; *pointer != 0; pointer++) {
-	//	cout << "\n" << *pointer << pointer;
-	//}
-
-	//test();
-
+void print_s(const S& s) 
+{
+	switch (s.tag) 
+	{
+	case S::CHAR: cout << s.c; break;
+	case S::INT: cout << s.i; break;
+	case S::DOUBLE: cout << s.d; break;
+	}
 }
 
+int main() {
+	S s = { S::CHAR, {'c'} };
+	print_s(s);
+	s.tag = S::INT;
+	s.i = 100;
+	print_s(s);
+	s.tag = S::DOUBLE;
+	s.d = 0.5;
+	print_s(s);
+
+	intArray10 a(10);
+
+}

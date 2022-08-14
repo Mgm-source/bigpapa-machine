@@ -6,7 +6,7 @@
 struct maze {
 	int width{ 0 };
 	int height{ 0 };
-	int* mazeArr{nullptr};
+	std::vector<int> mazeArr;
 	int numvisted {0};
 
 	std::stack<std::pair<int, int>> stack;
@@ -22,14 +22,14 @@ struct maze {
 	void createMaze() {
 		height = 5;
 		width = 5;
-		mazeArr = new int[height * width];
+		mazeArr = std::vector<int>(height*width);
 	}
 
 	void createMaze(int x, int y) {
 
 		height = x;
 		width = y;
-		mazeArr = new int[height * width];
+		mazeArr = std::vector<int>(height * width);
 	}
 
 	void init() {
@@ -117,12 +117,25 @@ struct maze {
 
 };
 
-
 int main() {
 	maze game;
 	game.createMaze(5,5);
 	game.init();
 	game.start();
+	int count = 0;
+	for (int i = 0; i < game.height; i++) {
+		std::cout << '\n';
+		for (int j = 0; j < game.width; j++) {
+			if (game.mazeArr[count] > 17) {
+				std::cout << game.mazeArr[2] << ' ';
+			}
+			else {
+				std::cout << "#" << ' ';
+			}
+			count++;
+		}
+
+	}
 	std::cout << game.numvisted;
 	return 0;
 }
