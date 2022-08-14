@@ -1,12 +1,13 @@
 #pragma once
 #include "MapSite.h"
-class Room : public MapSite
-{
+class Room : public MapSite {
 	MapSite* _sides[4];
-	int _num;
+	int _id;
 public:
-	Room(int num);
+	Room(int id);
 	virtual void Enter();
-	MapSite* getSide(Direction) const;
-	void setSide(Direction, MapSite*);
+	int getID() { return _id; };
+	MapSite* getSide(Direction direction) const;
+	void setSide(Direction direction, MapSite* component);
+	~Room() = default;
 };

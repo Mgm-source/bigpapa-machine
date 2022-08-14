@@ -127,7 +127,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\CreationalPatterns\Door.h" />
+    <ClInclude Include="MazeFactory.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="MazeFactory.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

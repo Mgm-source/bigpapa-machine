@@ -1,15 +1,13 @@
 #pragma once
 #include "MapSite.h"
 #include "Room.h"
-class Door : public MapSite
-{
+class Door : public MapSite { 
+	bool isOpen;
 	struct 
 	{
-		Room* current;
-		Room* next;
+		Room* font;
+		Room* back;
 	} _room ;
-
-	bool isOpen;
 
 public:
 	Door(Room* = nullptr, Room* = nullptr);
