@@ -3,9 +3,9 @@
 #include "Room.h"
 class Door : public MapSite { 
 	bool isOpen;
-	struct 
+	struct rooms
 	{
-		Room* font;
+		Room* front;
 		Room* back;
 	} _room ;
 
