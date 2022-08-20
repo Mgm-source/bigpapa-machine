@@ -4,7 +4,7 @@ class MazeBuilder {
 public: 
 	virtual void BuildRoom(int room) {};
 	virtual void BuildDoor(int currentRoom, int nextRoom) {};
-	virtual Maze GetMaze() { return Maze(); };
+	virtual Maze* GetMaze() { return new Maze; };
 protected:
 	MazeBuilder() = default;
 };

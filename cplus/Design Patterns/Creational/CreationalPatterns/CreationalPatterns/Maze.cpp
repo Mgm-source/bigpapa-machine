@@ -18,3 +18,8 @@ Room* Maze::RoomID(int id) const
 
 	return nullptr;
 }
+
+Maze* Maze::Clone() const
+{
+	return new Maze(*this);
+}

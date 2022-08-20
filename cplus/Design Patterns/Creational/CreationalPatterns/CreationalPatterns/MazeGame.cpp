@@ -32,25 +32,25 @@ Maze MazeGame::CreateMaze()
 
     Door* door = MakeDoor(room1, room2);
 
-    //room1->setSide(Direction::North, MakeWall());
-    //room1->setSide(Direction::South, door);
-    //room1->setSide(Direction::West, MakeWall());
-    //room1->setSide(Direction::East, MakeWall());
+    room1->setSide(Direction::North, MakeWall());
+    room1->setSide(Direction::South, door);
+    room1->setSide(Direction::West, MakeWall());
+    room1->setSide(Direction::East, MakeWall());
 
-    //room2->setSide(Direction::North, MakeWall());
-    //room2->setSide(Direction::West, door);
-    //room2->setSide(Direction::South, MakeWall());
-    //room2->setSide(Direction::East, MakeWall());
+    room2->setSide(Direction::North, MakeWall());
+    room2->setSide(Direction::West, door);
+    room2->setSide(Direction::South, MakeWall());
+    room2->setSide(Direction::East, MakeWall());
 
-    //maze.addRoom(room1);
-    //maze.addRoom(room2);
+    maze.addRoom(room1);
+    maze.addRoom(room2);
 
     return maze;
 }
 
-Maze MazeGame::CreateMaze(MazeFactory& factory)
+Maze* MazeGame::CreateMaze(MazeFactory& factory)
 {
-    Maze maze = factory.MakeMaze();
+    Maze* maze = factory.MakeMaze();
     
     Room* front = factory.MakeRoom(1);
     Room* back = factory.MakeRoom(2);
@@ -67,13 +67,13 @@ Maze MazeGame::CreateMaze(MazeFactory& factory)
     back->setSide(Direction::South, factory.MakeWall()); 
     back->setSide(Direction::East, factory.MakeWall());
 
-    maze.addRoom(front);
-    maze.addRoom(back);
+    maze->addRoom(front);
+    maze->addRoom(back);
 
     return maze;
 }
 
-Maze MazeGame::CreateMaze(MazeBuilder& builder)
+Maze* MazeGame::CreateMaze(MazeBuilder& builder)
 {
     builder.BuildRoom(1);
     builder.BuildRoom(2);

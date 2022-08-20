@@ -12,5 +12,7 @@ class Door : public MapSite {
 public:
 	Door(Room* = nullptr, Room* = nullptr);
 	virtual void Enter();
+	virtual void Initalise(Room* current, Room* next);
+	virtual Door* Clone() const override;
 	Room* connectedRoom(Room* room);
 };

@@ -3,11 +3,11 @@
 
 class StandardMazeBuilder : public MazeBuilder {
 	Direction CommonWall(Room*, Room*);
-	Maze _currentMaze;
+	Maze* _currentMaze;
 public:
-	StandardMazeBuilder() = default;
+	StandardMazeBuilder();
 	void BuildRoom(int room) override;
 	void BuildDoor( int currentRoom, int nextRoom) override;
-	Maze GetMaze() override;
+	Maze* GetMaze() override;
 };
 

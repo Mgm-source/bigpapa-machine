@@ -5,10 +5,10 @@ int main()
 {
 	MazeGame mazeGame;
 	//Maze maze = mazeGame.CreateMaze();
-	MazeFactory factory;
+	auto factory = MazeFactory::Instance();
 	StandardMazeBuilder builder;
 	mazeGame.CreateMaze();
-	//mazeGame.CreateMaze(factory);
-	//mazeGame.CreateMaze(builder);
+	mazeGame.CreateMaze(*factory);
+	mazeGame.CreateMaze(builder);
 	return 0;
-}
+} 

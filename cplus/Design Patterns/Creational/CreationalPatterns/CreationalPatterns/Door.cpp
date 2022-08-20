@@ -9,6 +9,16 @@ void Door::Enter()
     std::swap(_room.front, _room.back);
 }
 
+void Door::Initalise(Room* current, Room* next)
+{
+    _room = { current, next };
+}
+
+Door* Door::Clone() const
+{
+    return new Door(*this);
+}
+
 Room* Door::connectedRoom(Room* room)
 {
     return nullptr;

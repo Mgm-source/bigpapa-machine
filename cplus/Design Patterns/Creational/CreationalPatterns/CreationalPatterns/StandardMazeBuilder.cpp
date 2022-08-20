@@ -7,24 +7,29 @@ Direction StandardMazeBuilder::CommonWall(Room* front, Room* back)
 	return Direction();
 }
 
+StandardMazeBuilder::StandardMazeBuilder() : _currentMaze { new Maze }
+{
+
+}
+
 void StandardMazeBuilder::BuildRoom(int room)
 {
-	if (!_currentMaze.RoomID(room)) 
+	if (!_currentMaze->RoomID(room)) 
 	{
 		Room* newRoom = new Room(room);
 		newRoom->setSide(Direction::North,new Wall);
 		newRoom->setSide(Direction::South, new Wall);
 		newRoom->setSide(Direction::West, new Wall);
 		newRoom->setSide(Direction::East, new Wall);
-		_currentMaze.addRoom(newRoom);
+		_currentMaze->addRoom(newRoom);
 	}
 	
 }
 
 void StandardMazeBuilder::BuildDoor(int currentRoom, int nextRoom)
 {
-	Room* r1 = _currentMaze.RoomID(currentRoom);
-	Room* r2 = _currentMaze.RoomID(nextRoom);
+	Room* r1 = _currentMaze->RoomID(currentRoom);
+	Room* r2 = _currentMaze->RoomID(nextRoom);
 
 	Door* door = new Door(r1, r2);
 
@@ -32,7 +37,7 @@ void StandardMazeBuilder::BuildDoor(int currentRoom, int nextRoom)
 	r2->setSide(CommonWall(r2, r1), door);
 }
 
-Maze StandardMazeBuilder::GetMaze()
+Maze* StandardMazeBuilder::GetMaze()
 {
 	return _currentMaze;
 }

@@ -6,8 +6,8 @@ class MazeGame {
 public:
 	MazeGame() = default;
 	Maze CreateMaze();
-	Maze CreateMaze(MazeFactory& factory);
-	Maze CreateMaze(MazeBuilder& builder);
+	Maze* CreateMaze(MazeFactory& factory);
+	Maze* CreateMaze(MazeBuilder& builder);
 
 	//	factory methods:
 

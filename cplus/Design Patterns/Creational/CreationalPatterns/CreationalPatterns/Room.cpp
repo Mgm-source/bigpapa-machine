@@ -1,11 +1,16 @@
 #include "Room.h"
 
-Room::Room(int id) : _id{ id }, _sides{ nullptr }
+Room::Room(int id) : _id{ id }, _sides{ std::vector<MapSite*>(4,nullptr)}
 {
 }
 
 void Room::Enter()
 {
+}
+
+Room* Room::Clone() const
+{
+    return new Room(*this);
 }
 
 MapSite* Room::getSide(Direction direction) const
