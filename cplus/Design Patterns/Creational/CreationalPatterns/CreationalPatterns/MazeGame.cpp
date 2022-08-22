@@ -3,9 +3,9 @@
 #include "Wall.h"
 #include "Room.h"
 
-Maze MazeGame::CreateMaze()
+Maze* MazeGame::CreateMaze()
 {
-    Maze maze;
+    Maze* maze = MakeMaze();
 
     //Room* room1 = new Room(1);
     //Room* room2 = new Room(2);
@@ -42,8 +42,9 @@ Maze MazeGame::CreateMaze()
     room2->setSide(Direction::South, MakeWall());
     room2->setSide(Direction::East, MakeWall());
 
-    maze.addRoom(room1);
-    maze.addRoom(room2);
+    maze->addComponent(room1);
+    maze->addComponent(room2);
+    maze->addComponent(door);
 
     return maze;
 }
@@ -67,8 +68,8 @@ Maze* MazeGame::CreateMaze(MazeFactory& factory)
     back->setSide(Direction::South, factory.MakeWall()); 
     back->setSide(Direction::East, factory.MakeWall());
 
-    maze->addRoom(front);
-    maze->addRoom(back);
+    maze->addComponent(front);
+    maze->addComponent(back);
 
     return maze;
 }

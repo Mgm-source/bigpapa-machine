@@ -21,7 +21,7 @@ void StandardMazeBuilder::BuildRoom(int room)
 		newRoom->setSide(Direction::South, new Wall);
 		newRoom->setSide(Direction::West, new Wall);
 		newRoom->setSide(Direction::East, new Wall);
-		_currentMaze->addRoom(newRoom);
+		_currentMaze->addComponent(newRoom);
 	}
 	
 }

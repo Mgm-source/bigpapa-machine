@@ -1,7 +1,13 @@
 #include "Room.h"
+#include "Door.h"
 
-Room::Room(int id) : _id{ id }, _sides{ std::vector<MapSite*>(4,nullptr)}
+Room::Room(int id) : _id{ id }, _sides{ std::vector<MapSite*>(4,nullptr) }, _deleted{ false }
 {
+}
+
+Room::Room(const Room& room) : _sides{ room._sides }, _id{ room._id}, _deleted{ true }
+{
+
 }
 
 void Room::Enter()
@@ -46,4 +52,21 @@ void Room::setSide(Direction direction, MapSite* component)
         _sides[3] = component;
         return;
     }
+}
+
+Room::~Room()
+{
+    for (auto side : _sides) 
+    {
+        if (!_deleted) {
+
+            if (!dynamic_cast<Door*>(side))
+            {
+                delete side;
+            }
+        }
+
+    }
+
+    std::cout << "Room deleted " << _id << std::endl;
 }

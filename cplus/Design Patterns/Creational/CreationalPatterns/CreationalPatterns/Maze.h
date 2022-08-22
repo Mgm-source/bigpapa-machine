@@ -1,9 +1,14 @@
 #pragma once
 #include "Room.h"
 class Maze {
-	std::vector<Room*> _rooms;
+	std::vector<MapSite*> _component;
+	bool _deleted;
 public: 
-	void addRoom(Room* room);
+	Maze();
+	Maze(const Maze& );
+	Maze(const Maze&&) noexcept;
+	void addComponent(MapSite* component);
 	Room* RoomID(int id) const;
 	virtual Maze* Clone() const;
+	~Maze();
 };

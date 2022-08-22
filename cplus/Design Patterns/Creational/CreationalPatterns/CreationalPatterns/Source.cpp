@@ -3,12 +3,16 @@
 
 int main() 
 {
-	MazeGame mazeGame;
+	
 	//Maze maze = mazeGame.CreateMaze();
 	auto factory = MazeFactory::Instance();
-	StandardMazeBuilder builder;
-	mazeGame.CreateMaze();
-	mazeGame.CreateMaze(*factory);
-	mazeGame.CreateMaze(builder);
+	//StandardMazeBuilder builder;
+	
+	{
+		MazeGame mazeGame;
+		auto a = mazeGame.CreateMaze();
+		a->~Maze();
+	}
+	
 	return 0;
 } 

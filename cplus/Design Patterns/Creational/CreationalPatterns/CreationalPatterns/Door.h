@@ -15,4 +15,5 @@ public:
 	virtual void Initalise(Room* current, Room* next);
 	virtual Door* Clone() const override;
 	Room* connectedRoom(Room* room);
+	~Door() { std::cout << "Door deleted \n"; }
 };
