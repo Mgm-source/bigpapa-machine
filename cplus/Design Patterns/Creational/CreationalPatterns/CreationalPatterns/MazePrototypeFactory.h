@@ -10,7 +10,7 @@ public:
 
 	Maze* MakeMaze() const override;
 	Room* MakeRoom(int id) const override;
-	Door* MakeDoor(Room* current,Room* next) const override;
+	Door* MakeDoor(int id ,Room* current,Room* next) const override;
 	Wall* MakeWall() const override;
 };
 

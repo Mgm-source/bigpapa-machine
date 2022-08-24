@@ -5,9 +5,41 @@ Room::Room(int id) : _id{ id }, _sides{ std::vector<MapSite*>(4,nullptr) }, _del
 {
 }
 
+Room::Room(const Room& room) : _id{ room._id }, _deleted{ room._deleted }
+{
+    for (auto i = 0u; i < room._sides.size(); i++)
+    {
+        if (!dynamic_cast<Door*>(room._sides[i]))
+        {
+            _sides.push_back( room._sides[i]->Clone());
+        }
+        else 
+        {
+            _sides.push_back(room._sides[i]);
+        }
+        
+    }
+}
+
+Room::Room(const Room&& room) noexcept : _id { room._id }, _deleted { room._deleted }
+{
+    for (auto i = 0u; i < room._sides.size(); i++)
+    {
+        if (!dynamic_cast<Door*>(room._sides[i]))
+        {
+            _sides.push_back(room._sides[i]->Clone());
+        }
+        else
+        {
+            _sides.push_back(room._sides[i]);
+        }
+    }
+}
+
 void Room::Enter()
 {
 }
+
 
 Room* Room::Clone() const
 {
@@ -46,6 +78,20 @@ void Room::setSide(Direction direction, MapSite* component)
     case (Direction::East):
         _sides[3] = component;
         return;
+    }
+}
+
+void Room::changeDoor(Door* newdoor)
+{
+    for (auto i = 0u; i < _sides.size(); i++) 
+    {
+        if (auto door = dynamic_cast<Door*>(_sides[i]))
+        {
+            if (newdoor->doorID() == door->doorID())
+            {
+                _sides[i] = newdoor;
+            }
+        }
     }
 }
 

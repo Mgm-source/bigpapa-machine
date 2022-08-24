@@ -1,17 +1,19 @@
 #include "Door.h"
 #include <utility>
-Door::Door(Room* front, Room* back) : _room{ front, back }, isOpen{ false }
+
+Door::Door(int id, Room* front, Room* back) : _id{ id }, _front{ front }, _back{ back }, _isOpen{ false }
 {
 }
 
 void Door::Enter()
 {
-    std::swap(_room.front, _room.back);
+    std::swap(_front, _back);
 }
 
-void Door::Initalise(Room* current, Room* next)
+void Door::Initalise(Room* front, Room* back)
 {
-    _room = { current, next };
+    _front = front;
+    _back = back;
 }
 
 Door* Door::Clone() const

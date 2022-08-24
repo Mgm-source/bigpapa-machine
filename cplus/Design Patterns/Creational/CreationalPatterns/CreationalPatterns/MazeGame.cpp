@@ -30,7 +30,7 @@ Maze* MazeGame::CreateMaze()
     Room* room1 = MakeRoom(1);
     Room* room2 = MakeRoom(2);
 
-    Door* door = MakeDoor(room1, room2);
+    Door* door = MakeDoor(1 ,room1, room2);
 
     room1->setSide(Direction::North, MakeWall());
     room1->setSide(Direction::South, door);
@@ -42,8 +42,8 @@ Maze* MazeGame::CreateMaze()
     room2->setSide(Direction::South, MakeWall());
     room2->setSide(Direction::East, MakeWall());
 
-    maze->addDoor(room1);
-    maze->addDoor(room2);
+    maze->addComponent(room1);
+    maze->addComponent(room2);
 
     return maze;
 }
@@ -55,7 +55,7 @@ Maze* MazeGame::CreateMaze(MazeFactory& factory)
     Room* front = factory.MakeRoom(1);
     Room* back = factory.MakeRoom(2);
 
-    Door* door = factory.MakeDoor(front, back);
+    Door* door = factory.MakeDoor(1, front, back);
 
     front->setSide(Direction::North, factory.MakeWall());
     front->setSide(Direction::South, door);
@@ -67,8 +67,8 @@ Maze* MazeGame::CreateMaze(MazeFactory& factory)
     back->setSide(Direction::South, factory.MakeWall()); 
     back->setSide(Direction::East, factory.MakeWall());
 
-    maze->addDoor(front);
-    maze->addDoor(back);
+    maze->addComponent(front);
+    maze->addComponent(back);
 
     return maze;
 }

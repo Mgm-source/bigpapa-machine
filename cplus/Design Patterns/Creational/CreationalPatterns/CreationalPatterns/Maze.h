@@ -5,7 +5,9 @@ class Maze {
 	bool _deleted;
 public: 
 	Maze();
-	void addDoor(Room* component);
+	Maze(const Maze& maze);
+	Maze(const Maze&& maze) noexcept;
+	void addComponent(MapSite * component);
 	Room* RoomID(int id) const;
 	virtual Maze* Clone() const;
 	~Maze();

@@ -15,7 +15,7 @@ Room* MazePrototypeFactory::MakeRoom(int id) const
     return _prototypeRoom->Clone();
 }
 
-Door* MazePrototypeFactory::MakeDoor(Room* current, Room* next) const
+Door* MazePrototypeFactory::MakeDoor(int id, Room* current, Room* next) const
 {
    Door* door = _prototypeDoor->Clone();
    door->Initalise(current, next);
