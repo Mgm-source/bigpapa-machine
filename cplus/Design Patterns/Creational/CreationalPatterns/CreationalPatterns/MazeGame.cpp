@@ -42,9 +42,8 @@ Maze* MazeGame::CreateMaze()
     room2->setSide(Direction::South, MakeWall());
     room2->setSide(Direction::East, MakeWall());
 
-    maze->addComponent(room1);
-    maze->addComponent(room2);
-    maze->addComponent(door);
+    maze->addDoor(room1);
+    maze->addDoor(room2);
 
     return maze;
 }
@@ -68,8 +67,8 @@ Maze* MazeGame::CreateMaze(MazeFactory& factory)
     back->setSide(Direction::South, factory.MakeWall()); 
     back->setSide(Direction::East, factory.MakeWall());
 
-    maze->addComponent(front);
-    maze->addComponent(back);
+    maze->addDoor(front);
+    maze->addDoor(back);
 
     return maze;
 }

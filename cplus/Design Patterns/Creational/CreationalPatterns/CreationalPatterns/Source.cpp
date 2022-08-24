@@ -13,6 +13,28 @@ int main()
 		auto a = mazeGame.CreateMaze();
 		a->~Maze();
 	}
-	
+
+	auto a = []() {
+		Maze a;
+		Room* room1 = new Room(10);
+		Room* room2 = new Room(20);
+
+		Door* door = new Door(room1, room2);
+
+		room1->setSide(Direction::North, new Wall);
+		room1->setSide(Direction::South, door);
+		room1->setSide(Direction::West, new Wall);
+		room1->setSide(Direction::East, new Wall);
+
+		room2->setSide(Direction::North, new Wall);
+		room2->setSide(Direction::West, door);
+		room2->setSide(Direction::South, new Wall);
+		room2->setSide(Direction::East, new Wall);
+
+		a.addDoor(room1);
+		a.addDoor(room2);
+		return a;
+	}();
+
 	return 0;
 } 

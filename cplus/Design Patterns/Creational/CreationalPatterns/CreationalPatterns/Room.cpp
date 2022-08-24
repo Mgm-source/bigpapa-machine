@@ -5,11 +5,6 @@ Room::Room(int id) : _id{ id }, _sides{ std::vector<MapSite*>(4,nullptr) }, _del
 {
 }
 
-Room::Room(const Room& room) : _sides{ room._sides }, _id{ room._id}, _deleted{ true }
-{
-
-}
-
 void Room::Enter()
 {
 }
@@ -58,15 +53,14 @@ Room::~Room()
 {
     for (auto side : _sides) 
     {
-        if (!_deleted) {
-
-            if (!dynamic_cast<Door*>(side))
+        if (side) 
+        {
+            if (!side->isDestroyed())
             {
                 delete side;
             }
         }
 
     }
-
     std::cout << "Room deleted " << _id << std::endl;
 }

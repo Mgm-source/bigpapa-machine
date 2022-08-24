@@ -6,7 +6,6 @@ class Room : public MapSite {
 	bool _deleted;
 public:
 	Room(int id);
-	Room(const Room& room);
 	virtual void Enter();
 	virtual Room* Clone() const override;
 	int getID() { return _id; };

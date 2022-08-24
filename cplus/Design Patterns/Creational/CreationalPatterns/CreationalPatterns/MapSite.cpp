@@ -2,5 +2,5 @@
 
 MapSite::~MapSite()
 {
-
+	_deleted = true;
 }

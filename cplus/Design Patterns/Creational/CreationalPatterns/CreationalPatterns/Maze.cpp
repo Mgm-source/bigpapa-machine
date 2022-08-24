@@ -1,25 +1,12 @@
 #include "Maze.h"
+#include "Door.h"
 
 Maze::Maze() : _component{ std::vector<MapSite*>() }, _deleted{ false }
 {
 
 }
 
-Maze::Maze(const Maze& maze) : _component{ maze._component }, _deleted { true }
-{
-
-}
-
-Maze::Maze(const Maze&& maze) noexcept :  _component{ maze._component }, _deleted{ maze._deleted }
-{
-
-	for (size_t i = 0; i < maze._component.size(); i++)
-	{
-		_component[i] = maze._component[i]->Clone();
-	}
-}
-
-void Maze::addComponent(MapSite* component)
+void Maze::addDoor(Room* component)
 {
 	_component.push_back(component);
 }
@@ -49,13 +36,16 @@ Maze* Maze::Clone() const
 
 Maze::~Maze()
 {
-	if (!_deleted) 
+	for (auto component : _component)
 	{
-		for (auto component : _component)
+		if (component)
 		{
-			delete component;
+			if (!component->isDestroyed()) 
+			{
+				delete component;
+			}
+			
 		}
-		_deleted = true;
+		
 	}
-
 }
