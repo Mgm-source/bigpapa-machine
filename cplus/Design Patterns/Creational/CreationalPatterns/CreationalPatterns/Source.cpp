@@ -8,11 +8,10 @@ int main()
 	auto factory = MazeFactory::Instance();
 	//StandardMazeBuilder builder;
 	
-	//{
-	//	MazeGame mazeGame;
-	//	auto a = mazeGame.CreateMaze();
-	//	a->~Maze();
-	//}
+	{
+		MazeGame mazeGame;
+		auto a = std::unique_ptr<Maze>(mazeGame.CreateMaze());
+	}
 	// destructor does not get called implictily when leaving the scope
 	// default constructors are fine  
 

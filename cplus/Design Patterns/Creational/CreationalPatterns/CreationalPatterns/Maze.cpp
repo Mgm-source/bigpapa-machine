@@ -6,9 +6,27 @@ Maze::Maze() : _component{ std::vector<MapSite*>() }, _deleted{ false }
 
 }
 
-Maze::Maze(const Maze& maze)
+Maze::Maze(const Maze& maze) : _deleted{ false }
 {
+	for (auto i = 0u; i < maze._component.size(); i++)
+	{
+		_component.push_back(maze._component[i]->Clone());
 
+	}
+
+	for (auto i = 0u; i < _component.size(); i++)
+	{
+		if (auto door = dynamic_cast<Door*>(_component[i]))
+		{
+			auto front = RoomID(door->frontID());
+			auto back = RoomID(door->BackID());
+
+			door->Initalise(front, back);
+
+			front->changeDoor(door);
+			back->changeDoor(door);
+		}
+	}
 }
 
 Maze::Maze(const Maze&& maze) noexcept : _deleted {maze._deleted }
