@@ -127,20 +127,31 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ApplicationWindow.h" />
+    <ClInclude Include="IconWindow.h" />
     <ClInclude Include="Manipulator.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="Shape.h" />
     <ClInclude Include="TextManipulator.h" />
     <ClInclude Include="TextShape.h" />
     <ClInclude Include="TextView.h" />
+    <ClInclude Include="View.h" />
+    <ClInclude Include="Window.h" />
+    <ClInclude Include="WindowImp.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ApplicationWindow.cpp" />
+    <ClCompile Include="IconWindow.cpp" />
     <ClCompile Include="Manipulator.cpp" />
     <ClCompile Include="Point.cpp" />
     <ClCompile Include="Shape.cpp" />
+    <ClCompile Include="Source.cpp" />
     <ClCompile Include="TextManipulator.cpp" />
     <ClCompile Include="TextShape.cpp" />
     <ClCompile Include="TextView.cpp" />
+    <ClCompile Include="View.cpp" />
+    <ClCompile Include="Window.cpp" />
+    <ClCompile Include="WindowImp.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
