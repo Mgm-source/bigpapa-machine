@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Adapter">
+      <UniqueIdentifier>{6160db9d-7be0-42f1-a29c-a1ab08583f30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Bridge">
+      <UniqueIdentifier>{603257b9-e235-4505-8c6e-f5d7e72b25dd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shape.h">
@@ -50,41 +56,41 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Shape.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TextView.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TextShape.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Point.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Manipulator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TextManipulator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Window.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="TextView.cpp">
+      <Filter>Adapter</Filter>
+    </ClCompile>
+    <ClCompile Include="TextShape.cpp">
+      <Filter>Adapter</Filter>
+    </ClCompile>
+    <ClCompile Include="TextManipulator.cpp">
+      <Filter>Adapter</Filter>
+    </ClCompile>
+    <ClCompile Include="Shape.cpp">
+      <Filter>Adapter</Filter>
+    </ClCompile>
+    <ClCompile Include="Point.cpp">
+      <Filter>Adapter</Filter>
     </ClCompile>
     <ClCompile Include="WindowImp.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Bridge</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>Bridge</Filter>
     </ClCompile>
     <ClCompile Include="View.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Bridge</Filter>
     </ClCompile>
-    <ClCompile Include="ApplicationWindow.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Manipulator.cpp">
+      <Filter>Bridge</Filter>
     </ClCompile>
     <ClCompile Include="IconWindow.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Bridge</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationWindow.cpp">
+      <Filter>Bridge</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

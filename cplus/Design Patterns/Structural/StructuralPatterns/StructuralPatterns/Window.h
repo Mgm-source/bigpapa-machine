@@ -2,6 +2,8 @@
 #include "View.h"
 #include "WindowImp.h"
 
+class View;
+
 class Window {
 	WindowImp* _imp;
 	View* _contents;
