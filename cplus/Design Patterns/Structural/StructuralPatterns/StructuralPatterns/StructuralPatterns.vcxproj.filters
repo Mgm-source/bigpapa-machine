@@ -19,6 +19,9 @@
     <Filter Include="Bridge">
       <UniqueIdentifier>{603257b9-e235-4505-8c6e-f5d7e72b25dd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Compoiste">
+      <UniqueIdentifier>{757f24b5-5852-4a47-b434-1064e0978ec3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shape.h">
@@ -52,6 +55,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="IconWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Equipment.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FloppyDisk.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CompostiteEquipment.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -91,6 +103,15 @@
     </ClCompile>
     <ClCompile Include="ApplicationWindow.cpp">
       <Filter>Bridge</Filter>
+    </ClCompile>
+    <ClCompile Include="Equipment.cpp">
+      <Filter>Compoiste</Filter>
+    </ClCompile>
+    <ClCompile Include="FloppyDisk.cpp">
+      <Filter>Compoiste</Filter>
+    </ClCompile>
+    <ClCompile Include="CompostiteEquipment.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
