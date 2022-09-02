@@ -3,6 +3,9 @@
 
 CMyApp myApp;
 
+constexpr auto SEGMENTS = 600 ;
+constexpr auto PI = 3.1415926 ;
+
 BOOL CMyApp::InitInstance()
 {
 	m_pMainWnd = new CMainWindow;
@@ -22,10 +25,20 @@ CMainWindow::CMainWindow()
 
 void CMainWindow::OnPaint()
 {
-	CPaintDC dc(this);
 	CRect rect;
+	CFont font;
 	GetClientRect(&rect);
-
-	dc.DrawText(L"Hello, MFC", -1, &rect, DT_SINGLELINE | DT_CENTER | DT_VCENTER);
+	font.CreatePointFont(720, _T("Arial"));
+	CPaintDC dc(this);
+	dc.SelectObject(&font);
+	dc.SetBkMode(TRANSPARENT);
+	CString string = _T("Hello, MFC");
+	//rect.OffsetRect(160, 16);
+	dc.SetTextColor(RGB(192, 192, 192));
+	dc.DrawText(string, &rect, DT_SINGLELINE | DT_CENTER | DT_VCENTER);
+	rect.OffsetRect(-160, -16);
+	dc.SetTextColor(RGB(0, 0, 0));
+	dc.DrawText(string, &rect, DT_SINGLELINE |
+		DT_CENTER | DT_VCENTER);
 }
 
