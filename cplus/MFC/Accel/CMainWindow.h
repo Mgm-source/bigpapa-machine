@@ -25,5 +25,6 @@ protected:
 	afx_msg void OnSize(UINT type, int cx, int cy);
 	afx_msg void OnHScroll(UINT type, UINT pos, CScrollBar* pScrollBar);
 	afx_msg void OnVScroll(UINT type, UINT pos, CScrollBar* pScrollBar);
+	afx_msg BOOL OnMouseWheel(UINT nFlags, short zDelta, CPoint point);
 	DECLARE_MESSAGE_MAP();
 };

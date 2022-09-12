@@ -6,6 +6,7 @@ BEGIN_MESSAGE_MAP(CMainWindow,CFrameWnd)
 	ON_WM_SIZE()
 	ON_WM_HSCROLL()
 	ON_WM_VSCROLL()
+	ON_WM_MOUSEWHEEL()
 END_MESSAGE_MAP()
 
 CMainWindow::CMainWindow()
@@ -208,4 +209,31 @@ void CMainWindow::OnVScroll(UINT type, UINT pos, CScrollBar* pScrollBar)
 		SetScrollPos(SB_VERT, m_nVScrollPos, TRUE);
 		ScrollWindow(0, -nDelta);
 	}
+}
+
+BOOL CMainWindow::OnMouseWheel(UINT nFlags, short zDelta, CPoint point)
+{
+	BOOL bUp = TRUE;
+	int nDelta = zDelta;
+	if (zDelta < 0) {
+		bUp = FALSE;
+		nDelta = -nDelta;
+	}
+	UINT nWheelScrollLines = 0;
+
+		::SystemParametersInfo(SPI_GETWHEELSCROLLLINES, 0,
+			&nWheelScrollLines, 0);
+	if (nWheelScrollLines == WHEEL_PAGESCROLL) {
+		SendMessage(WM_VSCROLL,
+			MAKEWPARAM(bUp ? SB_PAGEUP : SB_PAGEDOWN, 0),
+			0);
+	}
+	else {
+		int nLines = (nDelta * nWheelScrollLines) / WHEEL_DELTA;
+		while (nLines--)
+			SendMessage(WM_VSCROLL,
+				MAKEWPARAM(bUp ? SB_LINEUP : SB_LINEDOWN,
+					0), 0);
+	}
+	return TRUE;
 }
