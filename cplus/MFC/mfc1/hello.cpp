@@ -23,7 +23,8 @@ BEGIN_MESSAGE_MAP(CMainWindow,CFrameWnd)
 
 CMainWindow::CMainWindow() : m_bMouseOver{ false }
 {
-	Create(NULL, L"THE HELLO APPLICATION");
+	Create(NULL, L"THE HELLO APPLICATION",WS_OVERLAPPEDWINDOW,
+		rectDefault, NULL, MAKEINTRESOURCE(IDR_MAINFRAME));
 }
 
 void CMainWindow::OnPaint()

@@ -5,6 +5,24 @@
 using namespace std;
 
 template<typename T>
+struct simple_allocate
+{
+	using value_type = T;
+	
+	simple_allocate() {};
+
+	T* allocate(size_t size = 1)
+	{
+		return reinterpret_cast<T*>(new char[size * sizeof(T)]);
+	}
+
+	void deallocate(T* ptr, size_t size = 1)
+	{
+		delete[] reinterpret_cast<char*>(ptr);
+	}
+};
+
+template<typename T>
 class Vector {
 public:
 	Vector(int size) {
@@ -73,10 +91,14 @@ void print_s(const S& s)
 {
 	switch (s.tag) 
 	{
-	case S::CHAR: cout << s.c; break;
-	case S::INT: cout << s.i; break;
-	case S::DOUBLE: cout << s.d; break;
+	case S::CHAR: cout << s.c; 
+		break;
+	case S::INT: cout << s.i; 
+		break;
+	case S::DOUBLE: cout << s.d;
+		break;
 	}
+	cout << endl;
 }
 
 int main() {
@@ -89,6 +111,12 @@ int main() {
 	s.d = 0.5;
 	print_s(s);
 
-	intArray10 a(10);
+	simple_allocate<S> sa;
+	S* newS = sa.allocate();
+	newS->c = 'C';
+	newS->d = 22.1;
+	newS->i = 12;
+	sa.deallocate(newS);
+
 
 }
