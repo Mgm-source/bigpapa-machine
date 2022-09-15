@@ -14,7 +14,7 @@
 
 // CChildView
 
-CChildView::CChildView() : m_shape{ 0 }
+CChildView::CChildView() : m_shapes{ shape::Circle }
 {
 }
 
@@ -68,18 +68,18 @@ void CChildView::OnPaint()
 	CBrush brush(RGB(255, 0, 0));
 	CBrush* oldbrush = dc.SelectObject(&brush);
 
-	switch (m_shape)
+	switch (m_shapes)
 	{
-	case 0:
+	case shape::Circle:
 		dc.Ellipse(rShape);
 		break;
-	case 1:
+	case shape::Triangle:
 		point[0] = {cx-sSize,cy+sSize};
 		point[1] = {cx,cy-sSize};
 		point[2] = {cx+sSize,cy+sSize};
 		dc.Polygon(point, 3);
 		break;
-	case 2:
+	case shape::Square:
 		dc.Rectangle(rShape);
 		break;
 	}
@@ -88,34 +88,34 @@ void CChildView::OnPaint()
 
 void CChildView::OnCircle()
 {
-	m_shape = 0;
+	m_shapes = shape::Circle;
 	Invalidate();
 }
 
 void CChildView::OnTriangle()
 {
-	m_shape = 1;
+	m_shapes = shape::Triangle;
 	Invalidate();
 }
 
 void CChildView::OnSquare()
 {
-	m_shape = 2;
+	m_shapes = shape::Square;
 	Invalidate();
 }
 
 void CChildView::OnUpdateCircle(CCmdUI* pCmdUI)
 {
-	pCmdUI->SetCheck(m_shape == 0);
+	pCmdUI->SetCheck(m_shapes == shape::Circle);
 }
 
 void CChildView::OnUpdateTriangle(CCmdUI* pCmdUI)
 {
-	pCmdUI->SetCheck(m_shape == 1);
+	pCmdUI->SetCheck(m_shapes == shape::Triangle);
 }
 
 void CChildView::OnUpdateSquare(CCmdUI* pCmdUI)
 {
-	pCmdUI->SetCheck(m_shape == 2);
+	pCmdUI->SetCheck(m_shapes == shape::Square);
 }
 

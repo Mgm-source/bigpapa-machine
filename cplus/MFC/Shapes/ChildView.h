@@ -17,7 +17,12 @@ public:
 // Attributes
 public:
 protected:
-	int m_shape;
+	enum class shape 
+	{
+		Circle,
+		Square,
+		Triangle
+	} m_shapes;
 
 // Operations
 public:

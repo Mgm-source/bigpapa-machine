@@ -1,7 +1,6 @@
 
 // Shapes.cpp : Defines the class behaviors for the application.
 //
-
 #include "pch.h"
 #include "framework.h"
 #include "afxwinappex.h"
