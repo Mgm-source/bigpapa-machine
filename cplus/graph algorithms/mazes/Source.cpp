@@ -1,7 +1,7 @@
 #include <iostream>
 #include <stack>
-#include <utility>
 #include <vector>
+#include <algorithm>
 
 struct maze {
 	int width{ 0 };
@@ -22,14 +22,14 @@ struct maze {
 	void createMaze() {
 		height = 5;
 		width = 5;
-		mazeArr = std::vector<int>(height*width);
+		mazeArr = std::vector<int>(height*width,0);
 	}
 
 	void createMaze(int x, int y) {
 
 		height = x;
 		width = y;
-		mazeArr = std::vector<int>(height * width);
+		mazeArr = std::vector<int>(height * width,0);
 	}
 
 	void init() {
@@ -38,18 +38,15 @@ struct maze {
 		numvisted = 1;
 	}
 
+	int offset(int x, int y)
+	{
+		return (stack.top().second + y) * width + (stack.top().first + x);
+		// ((0+0) * 4) + 1 = 1;
+	};
+
 	void start() {
 
 		// Little lambda function to calculate index in a readable way
-		auto offset = [&](int x, int y)
-		{
-			return (stack.top().second + y) * width + (stack.top().first + x);
-			// ((0+0) * 4) + 1 = 1;
-		};
-
-		// Do Maze Algorithm
-		if (numvisted < width * height)
-		{
 			// Create a set of unvisted neighbours
 			std::vector<int> neighbours;
 
@@ -108,10 +105,7 @@ struct maze {
 				// No available neighbours so backtrack!
 				stack.pop();
 			}
-
-			start();
-
-		}
+		
 	}
 
 
@@ -119,23 +113,62 @@ struct maze {
 
 int main() {
 	maze game;
-	game.createMaze(5,5);
+	game.createMaze(25,25);
 	game.init();
-	game.start();
-	int count = 0;
-	for (int i = 0; i < game.height; i++) {
-		std::cout << '\n';
-		for (int j = 0; j < game.width; j++) {
-			if (game.mazeArr[count] > 17) {
-				std::cout << game.mazeArr[2] << ' ';
-			}
-			else {
-				std::cout << "#" << ' ';
-			}
-			count++;
-		}
 
+	while (game.numvisted < game.width * game.height)
+	{
+		game.start();
 	}
+
+	std::vector<std::pair<int, int>> gamestack;
+	std::vector<std::pair<int, int>> unsortedstack;
+
+
+	size_t size = game.stack.size(); 
+
+	for (int i = 0; i < size; i++)
+	{
+		gamestack.push_back(game.stack.top());
+		game.stack.pop();
+	}
+
+	for (auto unsort : gamestack)
+	{
+		unsortedstack.push_back(unsort);
+	}
+
+	std::sort(gamestack.begin(), gamestack.end());
+
+	std::stack<std::pair<int, int>> sortedstack;
+
+	for (std::pair<int, int> pair : gamestack)
+	{
+		sortedstack.push(pair);
+	}
+
+	for (int i = game.height-1; i >= 0; i--)
+	{
+		for (int j = game.width-1; j >= 0; j--)
+		{
+			if (sortedstack.size())
+			{
+				if(sortedstack.top().first == i && sortedstack.top().second == j)
+				{
+					std::cout << "*" << ' ';
+					sortedstack.pop();
+				}
+				else
+				{
+					std::cout << "#" << ' ';
+				}
+				
+			}
+			
+		}
+		std::cout << '\n';
+	}
+
 	std::cout << game.numvisted;
 	return 0;
 }

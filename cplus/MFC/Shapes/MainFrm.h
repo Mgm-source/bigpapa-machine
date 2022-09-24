@@ -40,6 +40,8 @@ protected:  // control bar embedded members
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnSetFocus(CWnd *pOldWnd);
+	afx_msg void OnMeasureItem(int ctrlID, LPMEASUREITEMSTRUCT lpms);
+	afx_msg void OnDrawItem(int ctrlID, LPDRAWITEMSTRUCT lpds);
 	DECLARE_MESSAGE_MAP()
 
 };

@@ -19,6 +19,8 @@ IMPLEMENT_DYNAMIC(CMainFrame, CFrameWnd)
 BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_WM_CREATE()
 	ON_WM_SETFOCUS()
+	ON_WM_MEASUREITEM()
+	ON_WM_DRAWITEM()
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -97,6 +99,49 @@ void CMainFrame::OnSetFocus(CWnd* /*pOldWnd*/)
 	m_wndView.SetFocus();
 }
 
+void CMainFrame::OnMeasureItem(int ctrlID, LPMEASUREITEMSTRUCT lpms)
+{
+	lpms->itemWidth = ::GetSystemMetrics(SM_CYMENU) * 4;
+	lpms->itemHeight = ::GetSystemMetrics(SM_CYMENU);
+}
+
+void CMainFrame::OnDrawItem(int ctrlID, LPDRAWITEMSTRUCT lpds)
+{
+	BITMAP bm;
+	CBitmap bitmap;
+	bitmap.LoadOEMBitmap(OBM_CHECK);
+	bitmap.GetObject(sizeof(bm), &bm);
+
+	CDC dc;
+	dc.Attach(lpds->hDC);
+
+	CBrush* pBrush = new CBrush(::GetSysColor((lpds->itemState & ODS_SELECTED) ? COLOR_HIGHLIGHT : COLOR_MENU));
+	dc.FrameRect(&lpds->rcItem, pBrush);
+	delete pBrush;
+
+	if (lpds->itemState & ODS_CHECKED) {
+		CDC dcMem;
+		dcMem.CreateCompatibleDC(&dc);
+		CBitmap* pOldBitmap = dcMem.SelectObject(&bitmap);
+
+		dc.BitBlt(lpds->rcItem.left + 4, lpds->rcItem.top +
+			(((lpds->rcItem.bottom - lpds->rcItem.top) -
+				bm.bmHeight) / 2), bm.bmWidth, bm.bmHeight, &dcMem,
+			0, 0, SRCCOPY);
+
+		dcMem.SelectObject(pOldBitmap);
+	}
+
+	pBrush = new CBrush(m_wndView.m_colourTable[(lpds->itemID - (UINT)ID_COLOURS_RED)]);
+	CRect rect = lpds->rcItem;
+	rect.DeflateRect(6, 4);
+	rect.left += bm.bmWidth;
+	dc.FillRect(rect, pBrush);
+
+	delete pBrush;
+	dc.Detach();
+}
+
 BOOL CMainFrame::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo)
 {
 	// let the view have first crack at the command
@@ -106,4 +151,3 @@ BOOL CMainFrame::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO*
 	// otherwise, do default handling
 	return CFrameWnd::OnCmdMsg(nID, nCode, pExtra, pHandlerInfo);
 }
-

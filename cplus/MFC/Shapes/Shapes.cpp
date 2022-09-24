@@ -72,6 +72,11 @@ BOOL CShapesApp::InitInstance()
 		WS_OVERLAPPEDWINDOW | FWS_ADDTOTITLE, nullptr,
 		nullptr);
 
+	CMenu* pMenu = pFrame->GetMenu();
+	ASSERT(pMenu != NULL);
+	for (int i = 0; i < 3; i++)
+		pMenu->ModifyMenuW(ID_COLOURS_RED + i, MF_OWNERDRAW,
+			ID_COLOURS_RED + i);
 
 	//// Enable DDE Execute open
 	//EnableShellOpen();
