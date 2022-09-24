@@ -99,7 +99,7 @@ struct maze {
 					break;
 
 				}
-
+				mazeArr[offset(0, 0)] |= visted;
 				numvisted++;
 			}
 			else
@@ -115,7 +115,7 @@ struct maze {
 
 int main() {
 	maze game;
-	game.createMaze();
+	game.createMaze(10,10);
 	game.init();
 
 	while (game.numvisted < game.width * game.height)
@@ -148,9 +148,9 @@ int main() {
 		sortedstack.push(pair);
 	}
 
-	for (int i = game.height-1; i >= 0; i--)
+	for (int i = game.width-1; i >= 0; i--)
 	{
-		for (int j = game.width-1; j >= 0; j--)
+		for (int j = game.height -1; j >= 0; j--)
 		{
 			if (sortedstack.size())
 			{
@@ -166,7 +166,7 @@ int main() {
 			}
 			else
 			{
-				std::cout << " " << i << j << " ";
+				std::cout << " " << j << i << " ";
 			}
 			
 		}
