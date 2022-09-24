@@ -27,14 +27,16 @@ struct maze {
 
 	void createMaze(int x, int y) {
 
-		height = x;
-		width = y;
+		height = y;
+		width = x;
 		mazeArr = std::vector<int>(height * width,0);
 	}
 
 	void init() {
-		stack.push(std::make_pair(0, 0));
-		mazeArr[0] = visted;
+		int midx= (int)width / 2;
+		int midy = (int)height / 2;
+		stack.push(std::make_pair(midx,midy));
+		mazeArr[midy*width+midx] = visted;
 		numvisted = 1;
 	}
 
@@ -113,7 +115,7 @@ struct maze {
 
 int main() {
 	maze game;
-	game.createMaze(25,25);
+	game.createMaze();
 	game.init();
 
 	while (game.numvisted < game.width * game.height)
@@ -123,7 +125,6 @@ int main() {
 
 	std::vector<std::pair<int, int>> gamestack;
 	std::vector<std::pair<int, int>> unsortedstack;
-
 
 	size_t size = game.stack.size(); 
 
@@ -155,14 +156,17 @@ int main() {
 			{
 				if(sortedstack.top().first == i && sortedstack.top().second == j)
 				{
-					std::cout << "*" << ' ';
+					std::cout << ' ' << "**" << ' ';
 					sortedstack.pop();
 				}
 				else
 				{
-					std::cout << "#" << ' ';
+					std::cout << " " << j << i << " ";
 				}
-				
+			}
+			else
+			{
+				std::cout << " " << i << j << " ";
 			}
 			
 		}
