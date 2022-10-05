@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "COwnerDrawList.h"
 
 BOOL COwnerDrawList::PreCreateWindow(CREATESTRUCT&cs)
@@ -42,7 +41,7 @@ int COwnerDrawList::AddIcon(HICON hIcon)
 {
 	int nIndex = AddString(_T(""));
 	if ((nIndex != LB_ERR) && (nIndex != LB_ERRSPACE))
-		SetItemData(nIndex, (DWORD)hIcon);
+		SetItemData(nIndex, reinterpret_cast<DWORD_PTR>(hIcon));
 	return nIndex;
 }
 
