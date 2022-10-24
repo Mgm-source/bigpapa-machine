@@ -63,6 +63,14 @@ BOOL CDlgDemo1App::InitInstance()
 	InitCtrls.dwICC = ICC_WIN95_CLASSES;
 	InitCommonControlsEx(&InitCtrls);
 
+	CClientDC dc(NULL);
+	if ((dc.GetDeviceCaps(RASTERCAPS) & RC_PALETTE) == 0) {
+		AfxMessageBox(_T("Palette animation is not supported on this " \
+			"device. Set the color depth to 256 colors and try again."),
+			MB_ICONSTOP | MB_OK);
+		return FALSE;
+	}
+
 	CWinApp::InitInstance();
 
 

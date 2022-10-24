@@ -9,6 +9,7 @@ constexpr auto IDC_LISTBOX = 100;
 
 BOOL CMyApp::InitInstance()
 {
+
 	m_pMainWnd = new CMainWindow;
 	m_pMainWnd->ShowWindow(m_nCmdShow);
 	m_pMainWnd->UpdateWindow();
@@ -24,11 +25,42 @@ BEGIN_MESSAGE_MAP(CMainWindow,CFrameWnd)
 	ON_WM_SETFOCUS()
 	ON_WM_DROPFILES()
 	ON_LBN_SELCHANGE(IDC_LISTBOX, OnSelChange)
+	ON_WM_QUERYNEWPALETTE()
+	ON_WM_PALETTECHANGED()
+	ON_WM_ERASEBKGND()
 	END_MESSAGE_MAP()
 
 CMainWindow::CMainWindow() : m_bMouseOver{ false } , m_cxChar{0}, m_cyChar{0}
 {
 	Create(NULL, L"THE HELLO APPLICATION");
+}
+
+void CMainWindow::DoGradientFill(CDC* pdc, LPRECT _rect)
+{
+	CBrush* pBrush[64];
+	for (int i = 0; i < 64; i++)
+		pBrush[i] = new CBrush(RGB(255 - (i * 4),0 ,0 ));
+	int nWidth = _rect->right - _rect->left;
+	int nHeight = _rect->bottom - _rect->top;
+	CRect rect;
+	for (int i = 0; i < nHeight; i++) {
+		rect.SetRect(0, i, nWidth, i + 1);
+		pdc->FillRect(&rect, pBrush[(i * 63) / nHeight]);
+	}
+	for (int i = 0; i < 64; i++)
+		delete pBrush[i];
+}
+
+void CMainWindow::DoDrawText(CDC* pdc, LPRECT rect)
+{
+	CFont font;
+	font.CreatePointFont(720, _T("Comic Sans MS"));
+	pdc->SetBkMode(TRANSPARENT);
+	pdc->SetTextColor(RGB(255, 255, 255));
+	CFont* pOldFont = pdc->SelectObject(&font);
+	pdc->DrawText(_T("Hello, MFC"), -1, rect, DT_SINGLELINE |
+		DT_CENTER | DT_VCENTER);
+	pdc->SelectObject(pOldFont);
 }
 
 void CMainWindow::OnPaint()
@@ -43,17 +75,7 @@ void CMainWindow::OnPaint()
 	m_wndDrawListBox.projectImage(&dc, m_rcImage,
 		::GetSysColor(COLOR_3DFACE));
 
-
-	//dc.SelectObject(&font);
-	//dc.SetBkMode(TRANSPARENT);
-	//CString string = _T("Hello, MFC");
-	////rect.OffsetRect(160, 16);
-	//dc.SetTextColor(RGB(192, 192, 192));
-	//dc.DrawText(string, &rect, DT_SINGLELINE | DT_CENTER | DT_VCENTER);
-	//rect.OffsetRect(-160, -16);
-	//dc.SetTextColor(RGB(0, 0, 0));
-	//dc.DrawText(string, &rect, DT_SINGLELINE |
-	//	DT_CENTER | DT_VCENTER);
+	DoDrawText(&dc, &rect);
 }
 
 void CMainWindow::OnMouseMove(UINT nFlags, CPoint point)
@@ -125,6 +147,28 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	m_wndGroupBox.SetFont(&m_font);
 	m_wndLabel.SetFont(&m_font);
 	DragAcceptFiles();
+
+	if (dc.GetDeviceCaps(RASTERCAPS) & RC_PALETTE) 
+	{
+		struct {
+			LOGPALETTE lp;
+			PALETTEENTRY ape[63];
+		} pal;
+
+		LOGPALETTE* pLP = (LOGPALETTE*)&pal;
+		pLP->palVersion = 0x300;
+		pLP->palNumEntries = 64;
+
+		for (int i = 0; i < 64; i++) {
+			pLP->palPalEntry[i].peRed = 0;
+			pLP->palPalEntry[i].peGreen = 0;
+			pLP->palPalEntry[i].peBlue = 255 - (i * 4);
+			pLP->palPalEntry[i].peFlags = 0;
+		}
+		palette.CreatePalette(pLP);
+	}
+
+	return 0;
 }
 
 void CMainWindow::OnSetFocus(CWnd* pWnd)
@@ -174,4 +218,52 @@ void CMainWindow::OnSelChange()
 	CClientDC dc(this);
 	m_wndDrawListBox.projectImage(&dc, m_rcImage,
 		::GetSysColor(COLOR_3DFACE));
+}
+
+BOOL CMainWindow::OnEraseBkgnd(CDC* pDC)
+{
+	CRect rect;
+	GetClientRect(&rect);
+	CPalette* pOldPalette = nullptr;
+
+	if ((HPALETTE)palette != NULL) {
+
+		pOldPalette = pDC->SelectPalette(&palette, FALSE);
+		pDC->RealizePalette();
+
+	}
+
+	DoGradientFill(pDC, &rect);
+
+	if ((HPALETTE)palette != NULL)
+		pDC->SelectPalette(pOldPalette, FALSE);
+
+
+	return TRUE;
+}
+
+BOOL CMainWindow::OnQueryNewPalette()
+{
+	if ((HPALETTE)palette == NULL) // Shouldn't happen, but 
+		return 0; // let's be sure. 
+	CClientDC dc(this);
+	CPalette* pOldPalette = dc.SelectPalette(&palette, FALSE);
+	UINT nCount;
+	if (nCount = dc.RealizePalette())
+		Invalidate();
+	dc.SelectPalette(pOldPalette, FALSE);
+	return nCount;
+}
+
+void CMainWindow::OnPaletteChanged(CWnd* pFocusWnd)
+{
+	if ((HPALETTE)palette == NULL) // Shouldn't happen, but 
+		return; // let's be sure. 
+	if (pFocusWnd != this) {
+		CClientDC dc(this);
+		CPalette* pOldPalette = dc.SelectPalette(&palette, FALSE);
+		if (dc.RealizePalette())
+			Invalidate();
+		dc.SelectPalette(pOldPalette, FALSE);
+	}
 }

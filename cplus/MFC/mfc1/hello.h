@@ -14,8 +14,11 @@ class CMainWindow : public CFrameWnd {
 	CButton m_wndGroupBox;
 	COwnerDrawList m_wndDrawListBox;
 	CStatic m_wndLabel;
+	CPalette palette;
 public: 
 	CMainWindow();
+	void DoGradientFill(CDC* pdc, LPRECT rect);
+	void DoDrawText(CDC* pdc, LPRECT rect);
 protected:
 	afx_msg void OnPaint();
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
@@ -25,6 +28,9 @@ protected:
 	afx_msg void OnSetFocus(CWnd* pWnd);
 	afx_msg void OnDropFiles(HDROP hDropInfo);
 	afx_msg void OnSelChange();
+	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
+	afx_msg BOOL OnQueryNewPalette();
+	afx_msg void OnPaletteChanged(CWnd* pFocusWnd);
 	DECLARE_MESSAGE_MAP();
 private:
 	bool m_bMouseOver;
