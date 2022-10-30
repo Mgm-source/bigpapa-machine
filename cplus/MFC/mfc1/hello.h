@@ -19,6 +19,7 @@ public:
 	CMainWindow();
 	void DoGradientFill(CDC* pdc, LPRECT rect);
 	void DoDrawText(CDC* pdc, LPRECT rect);
+	void DoBkgndFill(CDC* pDc, LPRECT pRect);
 protected:
 	afx_msg void OnPaint();
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
@@ -31,6 +32,8 @@ protected:
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 	afx_msg BOOL OnQueryNewPalette();
 	afx_msg void OnPaletteChanged(CWnd* pFocusWnd);
+	afx_msg void OnTimer(UINT_PTR timerID);
+	afx_msg void OnDestroy();
 	DECLARE_MESSAGE_MAP();
 private:
 	bool m_bMouseOver;

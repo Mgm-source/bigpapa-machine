@@ -9,7 +9,6 @@ constexpr auto IDC_LISTBOX = 100;
 
 BOOL CMyApp::InitInstance()
 {
-
 	m_pMainWnd = new CMainWindow;
 	m_pMainWnd->ShowWindow(m_nCmdShow);
 	m_pMainWnd->UpdateWindow();
@@ -28,6 +27,7 @@ BEGIN_MESSAGE_MAP(CMainWindow,CFrameWnd)
 	ON_WM_QUERYNEWPALETTE()
 	ON_WM_PALETTECHANGED()
 	ON_WM_ERASEBKGND()
+	ON_WM_TIMER()
 	END_MESSAGE_MAP()
 
 CMainWindow::CMainWindow() : m_bMouseOver{ false } , m_cxChar{0}, m_cyChar{0}
@@ -78,6 +78,26 @@ void CMainWindow::OnPaint()
 	DoDrawText(&dc, &rect);
 }
 
+
+void CMainWindow::DoBkgndFill(CDC* pDc,LPRECT pRect)
+{
+	CBrush* pBrush[8];
+	for (int i = 0; i < 8; i++)
+		pBrush[i] = new CBrush(PALETTEINDEX(i));
+	int nWidth = pRect->right - pRect->left;
+	int nHeight = (pRect->bottom - pRect->top) / 8;
+	CRect rect;
+	int y1, y2;
+	for (int i = 0; i < 8; i++) {
+		y1 = i * nHeight;
+		y2 = (i == 7) ? pRect->bottom - pRect->top : y1 + nHeight;
+		rect.SetRect(0, y1, nWidth, y2);
+		pDc->FillRect(&rect, pBrush[i]);
+	}
+	for (int i = 0; i < 8; i++)
+		delete pBrush[i];
+}
+
 void CMainWindow::OnMouseMove(UINT nFlags, CPoint point)
 {
 	if (!m_bMouseOver) {
@@ -118,6 +138,40 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 {
 	if (CWnd::OnCreate(lpcs) == -1)
 		return -1;
+
+	static BYTE bColorVals[8][3] = {
+		128, 128, 128, // Dark Gray 
+		0, 0, 255, // Blue 
+ 0, 255, 0, // Green 
+ 0, 255, 255, // Cyan 
+ 255, 0, 0, // Red 
+ 255, 0, 255, // Magenta 
+ 255, 255, 0, // Yellow 
+ 192, 192, 192 // Light gray 
+	};
+
+
+	// 
+ // Create a palette to support palette animation. 
+ // 
+	struct {
+		LOGPALETTE lp;
+		PALETTEENTRY ape[7];
+	} pal;
+
+
+	LOGPALETTE* pLP = (LOGPALETTE*)&pal;
+	pLP->palVersion = 0x300;
+	pLP->palNumEntries = 8;
+	for (int i = 0; i < 8; i++) {
+		pLP->palPalEntry[i].peRed = bColorVals[i][0];
+		pLP->palPalEntry[i].peGreen = bColorVals[i][1];
+		pLP->palPalEntry[i].peBlue = bColorVals[i][2];
+		pLP->palPalEntry[i].peFlags = PC_RESERVED;
+	}
+
+	palette.CreatePalette(pLP);
+
 	m_font.CreatePointFont(80, _T("MS Sans Serif"));
 	CClientDC dc(this);
 	CFont* pOldFont = dc.SelectObject(&m_font);
@@ -148,25 +202,7 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	m_wndLabel.SetFont(&m_font);
 	DragAcceptFiles();
 
-	if (dc.GetDeviceCaps(RASTERCAPS) & RC_PALETTE) 
-	{
-		struct {
-			LOGPALETTE lp;
-			PALETTEENTRY ape[63];
-		} pal;
-
-		LOGPALETTE* pLP = (LOGPALETTE*)&pal;
-		pLP->palVersion = 0x300;
-		pLP->palNumEntries = 64;
-
-		for (int i = 0; i < 64; i++) {
-			pLP->palPalEntry[i].peRed = 0;
-			pLP->palPalEntry[i].peGreen = 0;
-			pLP->palPalEntry[i].peBlue = 255 - (i * 4);
-			pLP->palPalEntry[i].peFlags = 0;
-		}
-		palette.CreatePalette(pLP);
-	}
+	SetTimer(1, 500, NULL);
 
 	return 0;
 }
@@ -226,18 +262,12 @@ BOOL CMainWindow::OnEraseBkgnd(CDC* pDC)
 	GetClientRect(&rect);
 	CPalette* pOldPalette = nullptr;
 
-	if ((HPALETTE)palette != NULL) {
-
-		pOldPalette = pDC->SelectPalette(&palette, FALSE);
-		pDC->RealizePalette();
-
-	}
-
-	DoGradientFill(pDC, &rect);
-
-	if ((HPALETTE)palette != NULL)
-		pDC->SelectPalette(pOldPalette, FALSE);
-
+	pOldPalette = pDC->SelectPalette(&palette, FALSE);
+	pDC->RealizePalette();
+	DoBkgndFill(pDC, &rect);
+	//DoGradientFill(pDC, &rect);
+	
+	pDC->SelectPalette(pOldPalette, FALSE);
 
 	return TRUE;
 }
@@ -266,4 +296,18 @@ void CMainWindow::OnPaletteChanged(CWnd* pFocusWnd)
 			Invalidate();
 		dc.SelectPalette(pOldPalette, FALSE);
 	}
+}
+
+void CMainWindow::OnTimer(UINT_PTR timerID)
+{
+	PALETTEENTRY pe[8];
+	palette.GetPaletteEntries(7, 1, pe);
+	palette.GetPaletteEntries(0, 7, &pe[1]);
+	palette.AnimatePalette(0, 8, pe);
+	palette.
+}
+
+void CMainWindow::OnDestroy()
+{
+	KillTimer(1);
 }
