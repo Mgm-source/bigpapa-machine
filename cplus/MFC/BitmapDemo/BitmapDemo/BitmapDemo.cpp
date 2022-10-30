@@ -1,13 +1,11 @@
 
-// DlgDemo1.cpp : Defines the class behaviors for the application.
+// BitmapDemo.cpp : Defines the class behaviors for the application.
 //
 
 #include "pch.h"
-#include "framework.h"
 #include "afxwinappex.h"
 #include "afxdialogex.h"
-#include "DlgDemo1.h"
-#include "MainFrm2.h"
+#include "BitmapDemo.h"
 #include "MainFrm.h"
 
 
@@ -16,62 +14,35 @@
 #endif
 
 
-// CDlgDemo1App
+// CBitmapDemoApp
 
-BEGIN_MESSAGE_MAP(CDlgDemo1App, CWinApp)
-	ON_COMMAND(ID_APP_ABOUT, &CDlgDemo1App::OnAppAbout)
+BEGIN_MESSAGE_MAP(CBitmapDemoApp, CWinApp)
+	ON_COMMAND(ID_APP_ABOUT, &CBitmapDemoApp::OnAppAbout)
 END_MESSAGE_MAP()
 
 
-// CDlgDemo1App construction
+// CBitmapDemoApp construction
 
-CDlgDemo1App::CDlgDemo1App() noexcept
+CBitmapDemoApp::CBitmapDemoApp() noexcept
 {
-
-	// support Restart Manager
-	m_dwRestartManagerSupportFlags = AFX_RESTART_MANAGER_SUPPORT_ALL_ASPECTS;
-#ifdef _MANAGED
-	// If the application is built using Common Language Runtime support (/clr):
-	//     1) This additional setting is needed for Restart Manager support to work properly.
-	//     2) In your project, you must add a reference to System.Windows.Forms in order to build.
-	System::Windows::Forms::Application::SetUnhandledExceptionMode(System::Windows::Forms::UnhandledExceptionMode::ThrowException);
-#endif
 
 	// TODO: replace application ID string below with unique ID string; recommended
 	// format for string is CompanyName.ProductName.SubProduct.VersionInformation
-	SetAppID(_T("DlgDemo1.AppID.NoVersion"));
+	SetAppID(_T("BitmapDemo.AppID.NoVersion"));
 
 	// TODO: add construction code here,
 	// Place all significant initialization in InitInstance
 }
 
-// The one and only CDlgDemo1App object
+// The one and only CBitmapDemoApp object
 
-CDlgDemo1App theApp;
+CBitmapDemoApp theApp;
 
 
-// CDlgDemo1App initialization
+// CBitmapDemoApp initialization
 
-BOOL CDlgDemo1App::InitInstance()
+BOOL CBitmapDemoApp::InitInstance()
 {
-	// InitCommonControlsEx() is required on Windows XP if an application
-	// manifest specifies use of ComCtl32.dll version 6 or later to enable
-	// visual styles.  Otherwise, any window creation will fail.
-	INITCOMMONCONTROLSEX InitCtrls;
-	InitCtrls.dwSize = sizeof(InitCtrls);
-	// Set this to include all the common control classes you want to use
-	// in your application.
-	InitCtrls.dwICC = ICC_WIN95_CLASSES;
-	InitCommonControlsEx(&InitCtrls);
-
-	//CClientDC dc(NULL);
-	//if ((dc.GetDeviceCaps(RASTERCAPS) & RC_PALETTE) == 0) {
-	//	AfxMessageBox(_T("Palette animation is not supported on this " \
-	//		"device. Set the color depth to 256 colors and try again."),
-	//		MB_ICONSTOP | MB_OK);
-	//	return FALSE;
-	//}
-
 	CWinApp::InitInstance();
 
 
@@ -111,13 +82,13 @@ BOOL CDlgDemo1App::InitInstance()
 	return TRUE;
 }
 
-int CDlgDemo1App::ExitInstance()
+int CBitmapDemoApp::ExitInstance()
 {
 	//TODO: handle additional resources you may have added
 	return CWinApp::ExitInstance();
 }
 
-// CDlgDemo1App message handlers
+// CBitmapDemoApp message handlers
 
 
 // CAboutDlg dialog used for App About
@@ -153,13 +124,13 @@ BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
 END_MESSAGE_MAP()
 
 // App command to run the dialog
-void CDlgDemo1App::OnAppAbout()
+void CBitmapDemoApp::OnAppAbout()
 {
 	CAboutDlg aboutDlg;
 	aboutDlg.DoModal();
 }
 
-// CDlgDemo1App message handlers
+// CBitmapDemoApp message handlers
 
 
 
