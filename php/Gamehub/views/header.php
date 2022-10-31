@@ -13,9 +13,10 @@
 </head>
 
 <body>
-   <header >
+   <header>
       <a href='index.php'><img src="<?php echo $logo ?>" alt="<?php echo $slug ?>"></a>
       <?php if (!isset($_SESSION['loggedin'])) echo "<a href='?page=signin'>Sign in</a>"; ?>
       <?php if (!isset($_SESSION['loggedin'])) echo "<a href='?page=signup'>Sign up</a>"; ?>
-      <?php if (isset($_SESSION['loggedin'])) echo  "<a href='models\signin.php'>Sign out</a>"; ?>
+      <?php if (isset($_SESSION['loggedin'])) echo "<a href='models\signin.php'>Sign out</a>"; ?>
+      <?php if (isset($_SESSION['loggedin'])) echo "<a href='?page=edituser'>edit user</a>"; ?>
    </header>
