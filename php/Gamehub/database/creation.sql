@@ -4,7 +4,7 @@ Create schema if not exists gamehub;
 
 create table if not exists gamehub.user (
 username varchar(11) not null primary key,
-password varchar (15) not null
+password varchar (32) not null
 );
 
 create table if not exists gamehub.game (

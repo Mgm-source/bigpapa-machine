@@ -5,7 +5,7 @@
 
         $query = "SELECT username, password FROM user WHERE username = '$username' AND password = '$password'";
         $result = mysqli_query($dbconnect, $query);
-
+        
         if ($result->num_rows > 0) {
 
             $_SESSION['loggedin'] = true;

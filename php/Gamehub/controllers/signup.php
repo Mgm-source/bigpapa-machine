@@ -24,6 +24,9 @@ if (!isset($_SESSION['loggedin'])) {
         if(signup($username, $password, $dbconnect)){
             redirect("signin");
         }
+        else{
+            echo "sign up failed";
+        }
         
     }
     redirect("signup");

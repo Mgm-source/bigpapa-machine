@@ -7,7 +7,7 @@ This needed so that all the session data will be available
 // Login for the database
 $dbhost  = 'localhost';
 $dbuser  = 'root';
-$dbpass  = 'shemuna2008';
+$dbpass  = '';
 $dbname  = 'gamehub';
 
 /* Redirect to a different page in the current directory that was requested */
