@@ -65,7 +65,7 @@ BEGIN_MESSAGE_MAP(CSieveDlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
-	ON_BN_CLICKED(IDC_BUTTON1, &CSieveDlg::OnStart)
+	ON_BN_CLICKED(IDC_START, &CSieveDlg::OnStart)
 	ON_MESSAGE(WM_USER_THREAD_FINISHED, &CSieveDlg::OnUserThreadFinished)
 END_MESSAGE_MAP()
 
@@ -155,15 +155,63 @@ HCURSOR CSieveDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
-
-
 void CSieveDlg::OnStart()
 {
-	// TODO: Add your control notification handler code here
+	int nMax = GetDlgItemInt(IDC_MAX);
+	if (nMax < 10) {
+		MessageBox(_T("The number you enter must be 10 or higher"));
+		GetDlgItem(IDC_MAX)->SetFocus();
+		return;
+	}
+	SetDlgItemText(IDC_RESULT, _T(""));
+	GetDlgItem(IDC_START)->EnableWindow(FALSE);
+	GetDlgItem(IDOK)->EnableWindow(FALSE);
+
+	THREADPARMS* ptp = new THREADPARMS;
+	ptp->nMax = nMax;
+	ptp->hWnd = m_hWnd;
+	auto thread = AfxBeginThread(ThreadFunc, ptp);
 }
 
 
 afx_msg LRESULT CSieveDlg::OnUserThreadFinished(WPARAM wParam, LPARAM lParam)
 {
+ SetDlgItemInt (IDC_RESULT, (int) wParam); 
+ GetDlgItem (IDC_START)->EnableWindow (TRUE);
+ GetDlgItem(IDOK)->EnableWindow(TRUE);
+ return 0; 
+}
+
+UINT ThreadFunc(LPVOID pParam)
+{
+	THREADPARMS* ptp = (THREADPARMS*)pParam;
+	int nMax = ptp->nMax;
+	HWND hWnd = ptp->hWnd;
+	delete ptp;
+	CWaitCursor a;
+	int nCount = Sieve(nMax);
+	::PostMessage(hWnd, WM_USER_THREAD_FINISHED, (WPARAM)
+		nCount, 0);
 	return 0;
+}
+
+int Sieve(int nMax)
+{
+	PBYTE pBuffer = new BYTE[nMax + 1];
+	::FillMemory(pBuffer, nMax + 1, 1);
+	int nLimit = 2;
+	while (nLimit * nLimit < nMax)
+		nLimit++;
+	for (int i = 2; i <= nLimit; i++) {
+		if (pBuffer[i]) {
+			for (int k = i + i; k <= nMax; k += i)
+				pBuffer[k] = 0;
+		}
+	}
+	int nCount = 0;
+	for (int i = 2; i <= nMax; i++)
+		if (pBuffer[i])
+			nCount++;
+	delete[] pBuffer;
+	return nCount;
 }

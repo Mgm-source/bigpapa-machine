@@ -3,6 +3,9 @@
 //
 
 #pragma once
+#define WM_USER_THREAD_FINISHED WM_USER+0x100 
+UINT ThreadFunc(LPVOID pParam);
+int Sieve(int nMax);
 
 // CSieveDlg dialog
 class CSieveDlg : public CDialogEx
