@@ -88,8 +88,7 @@ void Game::Render()
 	HDC hdc = GetDC(m_window);
 	HDC Memdc = Clear(rc, hdc);
 	
-
-	// Render here 
+	// draw here 
 
 	BitBlt(hdc, 0, 0, rc.right, rc.bottom, Memdc, 0, 0, SRCCOPY);
 

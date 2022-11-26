@@ -39,12 +39,10 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
             CW_USEDEFAULT, CW_USEDEFAULT, rc.right - rc.left, rc.bottom - rc.top,
             nullptr, nullptr, nullptr, &game);
 
-        if (!hwnd)
-            return 1;
+        if (!game.Initalise(hwnd))
+            return 0;
 
         ShowWindow(hwnd, nCmdShow);
-
-        game.Initalise(hwnd);
 
 	}
     
