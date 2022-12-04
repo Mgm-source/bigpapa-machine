@@ -14,16 +14,31 @@ class Game
 	} m_bitmap;
 	
 	HBRUSH m_bkgdBrush;
+	HBRUSH m_hatchedBrush;
+	HPEN m_pen;
+	HDC m_hdc;
+	HDC m_memdc;
 
 	size_t m_screenWidth;
 	size_t m_screenHeight;
+
+	struct 
+	{
+		int getX() { return position.x; };
+		int getY() { return position.y; };
+		struct { int x, y; } position;
+		bool leftButtonDown;
+		bool rightButtonDown;
+	} m_mouse;
+	
 
 	M_TMR::Timer m_timer;
 private:
 	// Member Functions
 	void Render();
+	void Draw();
 	void Update(double elapsedSeconds);
-	HDC Clear(RECT& rc, HDC hdc);
+	void Clear(RECT& rc);
 public:		
 	// Member Functions
 	Game();
@@ -36,5 +51,6 @@ public:
 	void OnActive();
 	void OnMinimised();
 	void OnFullScreen();
+	void OnMouseEvent(int x, int y, MouseEvents event = MouseEvents::NONE);
 };
 

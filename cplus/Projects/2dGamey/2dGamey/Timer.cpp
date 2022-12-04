@@ -9,7 +9,7 @@ M_TMR::Timer::Timer() :
 	m_framesPerSecond{0},
 	m_framesThisSecond{0},
 	m_qpSecondCounter{0},
-	m_fixedTimeStep{true},
+	m_fixedTimeStep{false},
 	m_targetElapsedTicks{ TicksPerSecond / 60 }
 {
 

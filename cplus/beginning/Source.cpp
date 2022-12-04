@@ -1,7 +1,8 @@
 #include <stdexcept>
 #include <iostream>
 #include <thread>
-
+#include <limits>
+#include <sstream>
 using namespace std;
 
 template<typename T>
@@ -118,5 +119,9 @@ int main() {
 	newS->i = 12;
 	sa.deallocate(newS);
 
+	std::wstringstream wos;
+
+	wos << L"float, " << std::numeric_limits<float>::max()
+		<< L"Int, " << static_cast<float>(std::numeric_limits<int>::max());
 
 }

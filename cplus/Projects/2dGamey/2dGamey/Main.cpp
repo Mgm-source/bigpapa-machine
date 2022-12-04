@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Game.h"
+#include <limits>
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 LPCWSTR g_pszAppName = L"SandBox";
@@ -108,6 +109,36 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             auto info = reinterpret_cast<MINMAXINFO*>(lParam);
             info->ptMinTrackSize.x = 320;
             info->ptMinTrackSize.y = 200;
+        }
+        break;
+    case WM_MOUSEMOVE:
+        if (game) 
+        {
+            game->OnMouseEvent(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+        }
+        break;
+    case WM_LBUTTONDOWN:
+        if (game)
+        {
+            game->OnMouseEvent(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam),MouseEvents::LEFTDOWN);
+        }
+        break;
+    case WM_LBUTTONUP:
+        if (game)
+        {
+            game->OnMouseEvent(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam), MouseEvents::LEFTUP);
+        }
+        break;
+    case WM_RBUTTONDOWN:
+        if (game)
+        {
+            game->OnMouseEvent(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam), MouseEvents::RIGHTDOWN);
+        }
+        break;
+    case WM_RBUTTONUP:
+        if (game)
+        {
+            game->OnMouseEvent(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam), MouseEvents::RIGHTUP);
         }
         break;
     }
