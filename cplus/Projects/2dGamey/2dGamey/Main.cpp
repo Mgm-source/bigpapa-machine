@@ -83,7 +83,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     case WM_PAINT:
         if (game)
         {
-            game->Tick();
+            game->Tick(); // should just black out the screen and/or inform user what window event is causing the draw
         }
     break;
     case WM_ENTERSIZEMOVE:

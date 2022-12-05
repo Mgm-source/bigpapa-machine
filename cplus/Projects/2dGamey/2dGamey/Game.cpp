@@ -135,6 +135,7 @@ void Game::Draw()
 
 void Game::OnPaused()
 {
+
 }
 
 void Game::ScreenSize(size_t& width, size_t& height)
@@ -147,7 +148,7 @@ void Game::ScreenSize(size_t& width, size_t& height)
 		return;
 	}
 		
-	if (width != m_screenWidth && height != m_screenHeight) // No point changing the screen size to be a 0 or just a line; retain the previous size.
+	if (width != m_screenWidth || height != m_screenHeight) // No point changing the screen size to be a 0 or just a line; retain the previous size.
 	{
 
 		DeleteObject(m_bitmap.Handle);
