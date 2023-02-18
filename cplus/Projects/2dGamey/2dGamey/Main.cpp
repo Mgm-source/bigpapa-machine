@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Game.h"
 #include <limits>
+#include "ImageLoader.h"
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 LPCWSTR g_pszAppName = L"SandBox";
@@ -13,6 +14,9 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 
     Game game;
 
+    ImageLoader::Image spriteSheet(ImageLoader::ImageType::PNG, 320, 32, 4);
+    bool worked = spriteSheet.load(R"(..\..\assets\robot.png)");
+    
 	{
         // Register class
         WNDCLASSEXW wcex = {};
@@ -106,7 +110,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     case WM_GETMINMAXINFO:
         if (lParam)
         {
-            auto info = reinterpret_cast<MINMAXINFO*>(lParam);
+            MINMAXINFO* info = reinterpret_cast<MINMAXINFO*>(lParam);
             info->ptMinTrackSize.x = 320;
             info->ptMinTrackSize.y = 200;
         }
