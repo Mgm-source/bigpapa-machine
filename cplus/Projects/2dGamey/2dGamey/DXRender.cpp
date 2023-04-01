@@ -286,6 +286,6 @@ void DXRender::OnMouseEvent(int x, int y, MOUSE::MouseEvents event)
 
 	if (event != MOUSE::MouseEvents::NONE)
 	{
-		m_mouse.event |= event ;
+		m_mouse.event |= event;
 	}
 }

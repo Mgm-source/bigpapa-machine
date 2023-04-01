@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "DXRender.h"
-#include <limits>
 #include "ImageLoader.h"
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
