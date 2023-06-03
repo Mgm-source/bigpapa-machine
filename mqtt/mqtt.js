@@ -1,13 +1,21 @@
 // making the connect variables
 const HOST = "localhost";
-const PORT = 80;
+const PORT = 9001;
 
 let mqtt = new Paho.MQTT.Client(HOST,PORT,"clientjs");
+
+mqtt.onMessageArrived = recieveMessage;
+
+function recieveMessage(message)
+{
+    console.log(message.payloadString);
+}
 
 function onConnect(){
 
     console.log("connected");
     message = new Paho.MQTT.Message("hello World");
+    mqtt.subscribe("test");
     
     // topic sensor1
      message.destinationName = "test";
@@ -28,8 +36,8 @@ function mqttConn(){
     let options = {
         "onSuccess": onConnect,
         "onFailure": onFailed,
-        "userName": "admin",
-        "password": "pass"
+        "userName": "",
+        "password": ""
     };
     // connects to the server
     mqtt.connect(options);
