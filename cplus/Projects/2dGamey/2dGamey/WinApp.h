@@ -1,25 +1,21 @@
 #pragma once
 #include "Timer.h"
-
-class DXRender
+#include "VertexBuffer.h"
+#include "VertexShader.h"
+#include "PixelShader.h"
+class winApp
 {
 	// Private Member Variables
 	HWND m_window;
 
-	//Direct3D Attributes
-	ID3D11Device* m_pDevice;
-	ID3D11DeviceContext* m_pImmdiate;
-	IDXGISwapChain* m_pSwapChain;
-	ID3D11RenderTargetView* m_pRenderTargetView;
-	D3D_DRIVER_TYPE m_DriverType;
-	D3D_FEATURE_LEVEL m_FeatureLevel;
-	D3D11_VIEWPORT m_viewPort;
+	VertexBuffer* m_pVertexBuffer;
+	VertexShader* m_pVertexShader;
+	PixelShader* m_pPixelShader;
 
-	size_t m_screenWidth;
-	size_t m_screenHeight;
+	UINT m_screenWidth;
+	UINT m_screenHeight;
 	
 	MOUSE::State m_mouse;
-	
 	M_TMR::Timer m_timer;
 private:
 	// Member Functions
@@ -29,8 +25,8 @@ private:
 	void Clear(RECT& rc);
 public:		
 	// Member Functions
-	DXRender();
-	~DXRender();
+	winApp();
+	~winApp();
 	bool Initalise(HWND window);
 	void Tick();
 	void ScreenSize(UINT & width, UINT & height);
@@ -41,4 +37,3 @@ public:
 	void OnFullScreen();
 	void OnMouseEvent(int x, int y, MOUSE::MouseEvents event = MOUSE::MouseEvents::NONE);
 };
-

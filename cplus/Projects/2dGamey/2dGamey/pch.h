@@ -17,11 +17,22 @@
 #include <sstream>
 #include <limits>
 
+//#pragma comment(lib, "d3d11.lib")
+//#pragma comment(lib, "dwrite.lib")
 
 // DX3D
 #include <d3d11.h>
 #include <DirectXColors.h>
-#pragma comment(lib, "d3d11.lib")
+
+
+//DX2D
+#include <d2d1.h>
+
+// DWrite
+#include <dwrite.h>
+
+// DXMath
+#include <DirectXMath.h> 
 
 // My Stuff
 #include "Utillity.h"

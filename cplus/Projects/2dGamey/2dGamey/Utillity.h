@@ -1,9 +1,5 @@
 #pragma once
 
-#include <d3d11.h>
-#include <DirectXColors.h>
-#pragma comment(lib, "d3d11.lib")
-
 struct Point
 {
 	float x, y;
@@ -56,6 +52,38 @@ namespace MOUSE
 		};
 	};
 };
+
+struct Vertex3    //Overloaded Vertex Structure
+{
+	Vertex3() : pos{ {},{},{} } {}
+
+	Vertex3(float x, float y, float z = 0.0f)
+		: pos(x, y, z) {}
+
+	DirectX::XMFLOAT3 pos;
+
+	Vertex3(const DirectX::XMFLOAT3& pos)
+		: pos(pos)
+	{
+	}
+};
+
+
+struct Vertex4
+{
+	Vertex4() : colour{ {},{},{}, {} } {}
+
+	Vertex4(float r, float g, float b, float a = 0.0f)
+		: colour(r, g, b, a) {}
+
+	DirectX::XMFLOAT4 colour;
+
+	Vertex4(const DirectX::XMFLOAT4& colour)
+		: colour(colour)
+	{
+	}
+};
+
 
 namespace SafeMemory
 {
