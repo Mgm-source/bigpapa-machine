@@ -21,7 +21,6 @@ private:
 	// Member Functions
 	void Render();
 	void Update(double elapsedSeconds);
-	void Clear(RECT& rc);
 public:		
 	// Member Functions
 	winApp();

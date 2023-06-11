@@ -13,4 +13,5 @@ bool PixelShader::initialise(const void* ShaderByteCode, SIZE_T ShaderSize)
 
 void PixelShader::release()
 {
+	m_pPixelShader->Release();
 }

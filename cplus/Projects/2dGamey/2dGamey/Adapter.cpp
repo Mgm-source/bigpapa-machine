@@ -22,4 +22,6 @@ void Adapter::initalise()
 
 void Adapter::release()
 {
+	m_pDXGIFactory->Release();
+	m_pAdapterDXGI->Release();
 }

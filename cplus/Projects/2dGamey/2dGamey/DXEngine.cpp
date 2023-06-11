@@ -39,6 +39,7 @@ void DXEngine::drawTriangles(UINT vertexSize, UINT index)
 
 DXEngine::~DXEngine()
 {
+	release();
 }
 
 bool DXEngine::compilePixelShader(const wchar_t* fileName, const char* entryPointName, void** shaderByteCode, size_t* byteCodeSize)
@@ -160,14 +161,18 @@ void DXEngine::intialise(Adapter* adapter, HWND window, bool syncedRenderer)
 
 	if (FAILED(hResult))
 	{
-
+		// logger 
 	}
+
 	backBuffer->Release();
 }
 
 void DXEngine::release()
 {
-
+	m_pDevice->Release();
+	m_pImmdiate->Release();
+	m_pSwapChain->Release();
+	m_pRenderTargetView->Release();
 }
 
 void DXEngine::clearRenderTarget(Vertex4 rgba)

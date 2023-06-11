@@ -52,7 +52,9 @@ void TextFactory::intialise(ID2D1RenderTarget* RenderTarget, ID3D10Device1* devi
 	device->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_POINTLIST);
 }
 
-bool TextFactory::release()
+void TextFactory::release()
 {
-	return false;
+	 m_pTextFormat->Release();
+	 m_pWriteFactory->Release();
+	 m_pTextBrush->Release();
 }

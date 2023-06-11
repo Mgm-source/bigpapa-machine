@@ -3,15 +3,16 @@
 #include "AABB.h" 
 #include "DXEngine.h"
 
-winApp::winApp() : m_window{ nullptr }, m_screenWidth {1920}, m_screenHeight{1080}
-
-, m_mouse{ {0,0}, MOUSE::MouseEvents::NONE }
+winApp::winApp() : m_window{ nullptr }, m_screenWidth {1920}, m_screenHeight{1080}, m_mouse{ {0,0}, MOUSE::MouseEvents::NONE },
+m_pPixelShader {nullptr}, m_pVertexBuffer {nullptr}, m_pVertexShader {nullptr}
 {
 }
 
 winApp::~winApp()
 {
-
+	m_pVertexBuffer->release();
+	m_pVertexShader->release();
+	m_pPixelShader->release();
 }
 
 void winApp::Tick()
@@ -146,7 +147,9 @@ bool winApp::Initalise(HWND window)
 	auto adapter = DXEngine::get()->CreateAdpater();
 	DXEngine::get()->setScreenSize(m_screenWidth, m_screenHeight);
 	adapter->initalise();
-	DXEngine::get()->intialise(nullptr, window,false);
+	DXEngine::get()->intialise(adapter, window,false);
+
+	adapter->release();
 
 	Vertex3 v[] =
 	{

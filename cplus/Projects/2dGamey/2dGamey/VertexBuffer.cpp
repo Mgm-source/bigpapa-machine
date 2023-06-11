@@ -50,9 +50,10 @@ bool VertexBuffer::load(void* list_vertices, UINT size, UINT length, void* shade
     return true;
 }
 
-bool VertexBuffer::release()
+void VertexBuffer::release()
 {
-    return false;
+	m_pVertexBuffer->Release();
+	m_pLayout->Release();
 }
 
 UINT VertexBuffer::size()

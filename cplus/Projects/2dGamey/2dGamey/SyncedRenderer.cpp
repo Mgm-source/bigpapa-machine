@@ -93,11 +93,29 @@ bool SyncedRenderer::initialise(Adapter* adpater, ID3D11Device* Device, UINT Wid
 		// failed creating Dxgi surfaceRender Target 
 	}
 
+	m_initialised = true;
 	return true;
+
 
 	m_pTextFactory.intialise(m_pD2DRenderTarget, m_pDevice1);
 }
 
 void SyncedRenderer::release()
 {
+	m_pDevice1->Release();
+	m_pKeyedMutex10->Release();
+	m_pKeyedMutex11->Release();
+	m_pD2DRenderTarget->Release();
+	m_pSharedTex11->Release();
+	m_pSharedSurface->Release();
+	m_pD2DFactory->Release();
+	m_pSharedResource->Release();
+}
+
+SyncedRenderer::~SyncedRenderer()
+{
+	if (m_initialised)
+	{
+		release();
+	}
 }

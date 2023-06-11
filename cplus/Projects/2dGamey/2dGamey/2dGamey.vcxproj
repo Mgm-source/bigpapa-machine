@@ -183,7 +183,6 @@
     <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\..\..\common\stb_image.h" />
     <ClInclude Include="AABB.h" />
     <ClInclude Include="Adapter.h" />
     <ClInclude Include="DXEngine.h" />

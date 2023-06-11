@@ -4,7 +4,6 @@
  #define STB_IMAGE_IMPLEMENTATION
  #include "stb_image.h"
 
-
 ImageLoader::Image::Image(ImageType Type, int x, int y, int components) : m_type{ Type }, m_width{ x }, m_height{ y }, m_components{ components }, m_pixels{ nullptr }
 {
 }

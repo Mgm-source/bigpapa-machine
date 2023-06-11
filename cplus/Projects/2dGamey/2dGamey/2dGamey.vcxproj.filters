@@ -58,7 +58,7 @@
       <Filter>GraphicEngine</Filter>
     </ClCompile>
     <ClCompile Include="PixelShader.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>GraphicEngine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -75,9 +75,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Utillity.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\common\stb_image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ImageLoader.h">
@@ -102,7 +99,7 @@
       <Filter>GraphicEngine</Filter>
     </ClInclude>
     <ClInclude Include="PixelShader.h">
-      <Filter>Header Files</Filter>
+      <Filter>GraphicEngine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

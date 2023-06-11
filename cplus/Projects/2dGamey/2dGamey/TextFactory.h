@@ -11,5 +11,5 @@ class TextFactory
 public:
 	TextFactory()= default;
 	void intialise(ID2D1RenderTarget* RenderTarget, ID3D10Device1* device);
-	bool release();
+	void release();
 };

@@ -13,4 +13,5 @@ bool VertexShader::initialise(const void* byteCode, SIZE_T byteCodeSize)
 
 void VertexShader::release()
 {
+	m_pVertexShader->Release();
 }
