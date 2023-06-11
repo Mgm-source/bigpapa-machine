@@ -20,7 +20,6 @@ class winApp
 private:
 	// Member Functions
 	void Render();
-	void Draw();
 	void Update(double elapsedSeconds);
 	void Clear(RECT& rc);
 public:		
