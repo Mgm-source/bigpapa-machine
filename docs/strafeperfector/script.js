@@ -12,7 +12,12 @@ document.addEventListener("DOMContentLoaded", function () {
         "d": ["d", "a", "mousedown"],
         "a": ["a", "d", "mousedown"],
         "w": ["w", "s", "mousedown"],
-        "s": ["s", "w", "mousedown"]
+        "s": ["s", "w", "mousedown"],
+
+        "l": ["l", "'", "mousedown"],
+        "'": ["'", "l", "mousedown"],
+        "p": ["p", ";", "mousedown"],
+        ";": [";", "p", "mousedown"]
     }
 
     let currentStack = [];
