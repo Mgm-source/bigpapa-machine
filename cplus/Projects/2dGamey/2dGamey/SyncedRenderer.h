@@ -18,6 +18,10 @@ public:
 	SyncedRenderer() : m_initialised{ false } {}
 	bool initialise(Adapter* adapter, ID3D11Device* m_pDevice, UINT m_screenWidth, UINT m_screenHeight);
 	void release();
+	void startDraw();
+	void drawText(const std::wstring outText, D2D1_COLOR_F fontColour, D2D1_RECT_F layoutRect);
+	void endDraw();
+	void clear();
 	~SyncedRenderer();
 	
 };

@@ -15,7 +15,6 @@ class DXEngine
 	
 	D3D_DRIVER_TYPE m_DriverType;
 	D3D_FEATURE_LEVEL m_FeatureLevel;
-	SyncedRenderer m_pSyncedRenderer;
 	UINT m_screenWidth;
 	UINT m_screenHeight;
 private:
@@ -26,10 +25,11 @@ private:
 	friend class VertexBuffer;
 	friend class VertexShader;
 	friend class PixelShader;
+	friend class SyncedRenderer;
 public:
-	bool compilePixelShader(const wchar_t* fileName, const char* entryPointName, void** shaderByteCode, size_t* byteCodeSize);
-	bool compileVertexShader(const wchar_t* fileName, const char* entryPointName, void** shaderByteCode, size_t* byteCodeSize);
-	
+	SyncedRenderer m_SyncedRenderer;
+public:
+	bool compileShader(const wchar_t* fileName, const char* shaderTarget, const char* entryPointName, void** shaderByteCode, size_t* byteCodeSize);
 	void setScreenSize(UINT width, UINT height);
 	void intialise(Adapter* adapter, HWND window, bool syncedRenderer = false);
 

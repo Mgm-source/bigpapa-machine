@@ -94,10 +94,11 @@ bool SyncedRenderer::initialise(Adapter* adpater, ID3D11Device* Device, UINT Wid
 	}
 
 	m_initialised = true;
+	m_pTextFactory.intialise(m_pD2DRenderTarget, m_pDevice1);
+
 	return true;
 
 
-	m_pTextFactory.intialise(m_pD2DRenderTarget, m_pDevice1);
 }
 
 void SyncedRenderer::release()
@@ -110,6 +111,52 @@ void SyncedRenderer::release()
 	m_pSharedSurface->Release();
 	m_pD2DFactory->Release();
 	m_pSharedResource->Release();
+}
+
+void SyncedRenderer::startDraw()
+{
+	//Release the D3D 11 Device
+	m_pKeyedMutex11->ReleaseSync(0);
+
+	//Use D3D10.1 device
+	m_pKeyedMutex10->AcquireSync(0, 5);
+
+	//Draw D2D content        
+	m_pD2DRenderTarget->BeginDraw();
+}
+
+void SyncedRenderer::drawText(const std::wstring outText, D2D1_COLOR_F fontColour, D2D1_RECT_F layoutRect)
+{
+
+	//Set the brush color D2D will use to draw with
+	m_pTextFactory.m_pTextBrush->SetColor(fontColour);
+
+	//Draw the Text
+	m_pD2DRenderTarget->DrawText(
+		outText.c_str(),
+		outText.size(),
+		m_pTextFactory.m_pTextFormat,
+		layoutRect,
+		m_pTextFactory.m_pTextBrush
+	);
+}
+
+void SyncedRenderer::endDraw()
+{
+	m_pD2DRenderTarget->EndDraw();
+
+	//Release the D3D10.1 Device
+	m_pKeyedMutex10->ReleaseSync(1);
+
+	//Use the D3D11 Device
+	m_pKeyedMutex11->AcquireSync(1, 5);
+}
+
+void SyncedRenderer::clear()
+{
+	//Clear D2D Background
+	m_pD2DRenderTarget->SetTransform(D2D1::IdentityMatrix());
+	m_pD2DRenderTarget->Clear(D2D1::ColorF(0.0f, 0.0f, 0.0f, 0.0f));
 }
 
 SyncedRenderer::~SyncedRenderer()

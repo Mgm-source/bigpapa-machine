@@ -7,6 +7,8 @@ class TextFactory
 
 	//Direct2D Attributes
 	ID2D1SolidColorBrush* m_pTextBrush;
+private:
+	friend class SyncedRenderer;
 
 public:
 	TextFactory()= default;

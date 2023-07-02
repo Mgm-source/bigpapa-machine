@@ -42,26 +42,11 @@ DXEngine::~DXEngine()
 	release();
 }
 
-bool DXEngine::compilePixelShader(const wchar_t* fileName, const char* entryPointName, void** shaderByteCode, size_t* byteCodeSize)
+bool DXEngine::compileShader(const wchar_t* fileName, const char* shaderTarget, const char* entryPointName, void** shaderByteCode, size_t* byteCodeSize)
 {
 	ID3D10Blob* errorBlob = nullptr;
 
-	if (FAILED(D3DCompileFromFile(fileName, nullptr, nullptr, entryPointName, "ps_5_0", 0, 0, &m_pBlob, &errorBlob)))
-	{
-		if (errorBlob) errorBlob->Release();
-		return false;
-	}
-
-	*shaderByteCode = m_pBlob->GetBufferPointer();
-	*byteCodeSize = m_pBlob->GetBufferSize();
-
-	return true;
-}
-
-bool DXEngine::compileVertexShader(const wchar_t* fileName, const char* entryPointName, void** shaderByteCode, size_t* byteCodeSize)
-{
-	ID3D10Blob* errorBlob = nullptr;
-	if(FAILED(D3DCompileFromFile(fileName, nullptr, nullptr, entryPointName, "vs_5_0", 0, 0, &m_pBlob, &errorBlob)))
+	if (FAILED(D3DCompileFromFile(fileName, nullptr, nullptr, entryPointName, shaderTarget, 0, 0, &m_pBlob, &errorBlob)))
 	{
 		if (errorBlob) errorBlob->Release();
 		return false;
@@ -151,13 +136,15 @@ void DXEngine::intialise(Adapter* adapter, HWND window, bool syncedRenderer)
 
 	if (syncedRenderer)
 	{
-		m_pSyncedRenderer.initialise(adapter, m_pDevice, m_screenWidth,m_screenHeight);
+		m_SyncedRenderer.initialise(adapter, m_pDevice, m_screenWidth,m_screenHeight);
 	}
 
-	ID3D11Texture2D* backBuffer = nullptr;
+	ID3D11Texture2D* backBuffer = 0;
 	m_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&backBuffer));
 
 	hResult = m_pDevice->CreateRenderTargetView(backBuffer, nullptr, &m_pRenderTargetView);
+
+	// grab the debug interface 
 
 	if (FAILED(hResult))
 	{
@@ -177,9 +164,11 @@ void DXEngine::release()
 
 void DXEngine::clearRenderTarget(Vertex4 rgba)
 {
-	FLOAT clearColour[] = { rgba.colour.x,rgba.colour.y,rgba.colour.z,rgba.colour.w };
-	m_pImmdiate->ClearRenderTargetView(m_pRenderTargetView, clearColour);
 	m_pImmdiate->OMSetRenderTargets(1, &m_pRenderTargetView, nullptr);
+
+	FLOAT clearColour[] = { rgba.colour.x,rgba.colour.y,rgba.colour.z,rgba.colour.w };
+	m_pImmdiate->ClearRenderTargetView(m_pRenderTargetView, clearColour);;
+
 }
 
 void DXEngine::present(bool sync)
