@@ -162,7 +162,6 @@
     <ClCompile Include="AABB.cpp" />
     <ClCompile Include="Adapter.cpp" />
     <ClCompile Include="DXEngine.cpp" />
-    <ClCompile Include="SyncedRenderer.cpp" />
     <ClCompile Include="TextFactory.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
     <ClCompile Include="VertexShader.cpp" />
@@ -186,7 +185,6 @@
     <ClInclude Include="AABB.h" />
     <ClInclude Include="Adapter.h" />
     <ClInclude Include="DXEngine.h" />
-    <ClInclude Include="SyncedRenderer.h" />
     <ClInclude Include="TextFactory.h" />
     <ClInclude Include="VertexBuffer.h" />
     <ClInclude Include="VertexShader.h" />

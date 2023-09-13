@@ -69,7 +69,7 @@ void DXEngine::setScreenSize(UINT width, UINT height)
 	m_screenWidth = width;
 }
 
-void DXEngine::intialise(Adapter* adapter, HWND window, bool syncedRenderer)
+void DXEngine::intialise(Adapter* adapter, HWND window)
 {
 	// initalising D3D11
 
@@ -132,11 +132,6 @@ void DXEngine::intialise(Adapter* adapter, HWND window, bool syncedRenderer)
 			std::string message = std::system_category().message(hResult);
 			// logger failed to create device and swapchain
 		}
-	}
-
-	if (syncedRenderer)
-	{
-		m_SyncedRenderer.initialise(adapter, m_pDevice, m_screenWidth,m_screenHeight);
 	}
 
 	ID3D11Texture2D* backBuffer = 0;

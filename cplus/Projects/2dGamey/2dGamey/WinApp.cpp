@@ -51,10 +51,6 @@ void winApp::Render()
 
 	DXEngine::get()->drawTriangles(m_pVertexBuffer->length(), 0);
 
-	DXEngine::get()->get()->m_SyncedRenderer.startDraw();
-	DXEngine::get()->get()->m_SyncedRenderer.clear();
-	DXEngine::get()->get()->m_SyncedRenderer.endDraw();
-
 	DXEngine::get()->present(true);
 
 
@@ -72,12 +68,8 @@ void winApp::ScreenSize(UINT & width, UINT & height)
 
 bool winApp::Initalise(HWND window)
 {
-	auto adapter = DXEngine::get()->CreateAdpater();
 	DXEngine::get()->setScreenSize(m_screenWidth, m_screenHeight);
-	adapter->initalise();
-	DXEngine::get()->intialise(adapter, window,true);
-
-	adapter->release();
+	DXEngine::get()->intialise(0, window);
 
 	Vertex3 v[] =
 	{
@@ -86,9 +78,9 @@ bool winApp::Initalise(HWND window)
 		{ -1.0f,   0.98f, 0.8f},
 
 
-		{ -0.001f,   0.005f, 0.0f},
-		{ -0.001f,  -0.005f, 0.0f},
-		{ -0.0051f,  -0.005f, 0.0f},
+		{ -0.1f,   0.5f, 0.0f},
+		{ -0.1f,  -0.5f, 0.0f},
+		{ -0.5f,  -0.5f, 0.0f},
 
 		//{ 0.001f,   0.5f, 0.0f},
 		//{ 0.501f,  -0.5f, 0.0f},

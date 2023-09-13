@@ -26,8 +26,8 @@ namespace MOUSE
 	struct State
 	{
 		Point position;
-		const int& getX() { return position.x; };
-		const int& getY() { return position.y; };
+		float getX() { return position.x; };
+		float getY() { return position.y; };
 		UINT event;
 		bool isRightButtonDown() { return event & MouseEvents::RIGHTDOWN;}
 		bool isLeftButtonDown() { return event & MouseEvents::LEFTDOWN; };

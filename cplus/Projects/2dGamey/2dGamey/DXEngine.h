@@ -1,6 +1,5 @@
 #pragma once
 #include "Adapter.h"
-#include "SyncedRenderer.h"
 #include "VertexBuffer.h"
 #include "VertexShader.h"
 #include "PixelShader.h"
@@ -25,15 +24,12 @@ private:
 	friend class VertexBuffer;
 	friend class VertexShader;
 	friend class PixelShader;
-	friend class SyncedRenderer;
-public:
-	SyncedRenderer m_SyncedRenderer;
 public:
 	bool compileShader(const wchar_t* fileName, const char* shaderTarget, const char* entryPointName, void** shaderByteCode, size_t* byteCodeSize);
 	void setScreenSize(UINT width, UINT height);
-	void intialise(Adapter* adapter, HWND window, bool syncedRenderer = false);
+	void intialise(Adapter* adapter, HWND window);
 
-	void clearRenderTarget(Vertex4 rgba = { 0.2f,0,0} );
+	void clearRenderTarget(Vertex4 rgba = { .5f,0,0,0} );
 	void setViewPort(UINT width = 0, UINT height = 0);
 	void present(bool vsync);
 
