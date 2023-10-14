@@ -173,6 +173,6 @@ int main() {
 		std::cout << '\n';
 	}
 
-	std::cout << game.numvisted;
+	std::cout << game.numv isted;
 	return 0;
 }

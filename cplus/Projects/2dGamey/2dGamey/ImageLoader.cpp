@@ -11,6 +11,7 @@ ImageLoader::Image::Image(ImageType Type, int x, int y, int components) : m_type
 
 bool ImageLoader::Image::load(std::string fileName, int channelsWanted)
 {
+
 	m_pixels = stbi_load(fileName.c_str(), &m_width, &m_height,&m_components, channelsWanted);
 	if (m_pixels) return true;
 	return false;

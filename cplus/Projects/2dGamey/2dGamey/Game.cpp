@@ -8,6 +8,7 @@ Game::Game() : m_window{ nullptr }, m_screenWidth {800}, m_screenHeight{600}, m_
 	m_bkgdBrush = CreateSolidBrush(RGB(255,255,255));
 	m_pen = CreatePen(PS_SOLID, 0, RGB(0,0,255));
 	m_hatchedBrush = CreateHatchBrush(HS_DIAGCROSS, RGB(135, 0, 0));
+	m_timer.setFixedTimerStep(true);
 }
 
 Game::~Game()
