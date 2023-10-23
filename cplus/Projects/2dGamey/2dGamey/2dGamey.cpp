@@ -1,3 +1,6 @@
+#include "pch.h"
+#include "2dGamey.h"
+
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 LPCWSTR g_pszAppName = L"SandBox";
 LPCWSTR g_pszClassName = L"GameWindwow";
@@ -7,7 +10,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 	UNREFERENCED_PARAMETER(hPrevInstance);
 	UNREFERENCED_PARAMETER(lpCmdLine);
 
-    winApp App;
+    Game game;
     
 	{
         // Register class
@@ -25,18 +28,16 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
         if (!RegisterClassExW(&wcex))
             return 1;
 
-        auto screenWidth = 0u, screenHeight = 0u;
-        App.ScreenSize(screenWidth, screenHeight);
 
-        RECT rc = { 0, 0, static_cast<LONG>(screenWidth), static_cast<LONG>(screenHeight) };
+        RECT rc = { 0, 0, 800, 800 };
 
         AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
 
         HWND hwnd = CreateWindowExW(0, g_pszClassName, g_pszAppName, WS_OVERLAPPEDWINDOW,
             CW_USEDEFAULT, CW_USEDEFAULT, rc.right - rc.left, rc.bottom - rc.top,
-            nullptr, nullptr, nullptr, &App);
+            nullptr, nullptr, nullptr, &game);
 
-       if(!App.Initalise(hwnd))
+       if(!game.initialise(hwnd))
            return 0;
         ShowWindow(hwnd, nCmdShow);
 
@@ -54,7 +55,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
         }
         else
         {
-            App.Tick();
+            //game.Tick();
         }
     }
 
@@ -78,7 +79,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     case WM_PAINT:
         if (App)
         {
-            App->Tick(); // should just black out the screen and/or inform user what window event is causing the draw
+            //App->Tick(); // should just black out the screen and/or inform user what window event is causing the draw
         }
     break;
     case WM_ENTERSIZEMOVE:
@@ -92,7 +93,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         {
             UINT width = LOWORD(lParam);
             UINT height = HIWORD(lParam);
-            App->ScreenSize(width, height);
+            App->setWindowSize(width, height);
         }
         break;
     case WM_DESTROY:
@@ -138,4 +139,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         break;
     }
     return DefWindowProc(hWnd, message, wParam, lParam);
+}
+
+
+bool Game::initialise(HWND window)
+{
+    if (!__super::initialise(window))
+    {
+        return false;
+    }
+    return true;
 }

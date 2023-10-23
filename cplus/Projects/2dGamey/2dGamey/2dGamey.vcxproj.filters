@@ -13,101 +13,27 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="GraphicEngine">
-      <UniqueIdentifier>{789066e5-905f-4c26-ad81-89ea02952853}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GraphicEngine\ShaderFiles">
-      <UniqueIdentifier>{d98859cb-82aa-4f2b-a7ac-98d99b782f1d}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Main.cpp">
+    <ClCompile Include="AABB.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="2dGamey.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="WinApp.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Timer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="AABB.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Adapter.cpp">
-      <Filter>GraphicEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="DXEngine.cpp">
-      <Filter>GraphicEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="SyncedRenderer.cpp">
-      <Filter>GraphicEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="TextFactory.cpp">
-      <Filter>GraphicEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="VertexBuffer.cpp">
-      <Filter>GraphicEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="VertexShader.cpp">
-      <Filter>GraphicEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="PixelShader.cpp">
-      <Filter>GraphicEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="ImageLoader.cpp">
-      <Filter>GraphicEngine</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="pch.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="WinApp.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Timer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="AABB.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Utillity.h">
+    <ClInclude Include="2dGamey.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DXEngine.h">
-      <Filter>GraphicEngine</Filter>
+    <ClInclude Include="pch.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SyncedRenderer.h">
-      <Filter>GraphicEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="VertexBuffer.h">
-      <Filter>GraphicEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="VertexShader.h">
-      <Filter>GraphicEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="Adapter.h">
-      <Filter>GraphicEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="TextFactory.h">
-      <Filter>GraphicEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="PixelShader.h">
-      <Filter>GraphicEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="ImageLoader.h">
-      <Filter>GraphicEngine</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="PixelShader.hlsl">
-      <Filter>GraphicEngine\ShaderFiles</Filter>
-    </FxCompile>
-    <FxCompile Include="VertexShader.hlsl">
-      <Filter>GraphicEngine\ShaderFiles</Filter>
-    </FxCompile>
   </ItemGroup>
 </Project>
