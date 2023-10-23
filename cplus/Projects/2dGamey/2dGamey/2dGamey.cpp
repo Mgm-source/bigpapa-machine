@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "2dGamey.h"
+#include "GraphicsEngine/DXEngine.h"
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 LPCWSTR g_pszAppName = L"SandBox";
@@ -64,7 +65,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-    winApp* App = reinterpret_cast<winApp*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
+    Game* App = reinterpret_cast<Game*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
 
     switch (message)
     {
@@ -141,6 +142,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
+Game::~Game()
+{
+    m_engine.release();
+}
 
 bool Game::initialise(HWND window)
 {
@@ -148,5 +153,17 @@ bool Game::initialise(HWND window)
     {
         return false;
     }
+    m_engine.intialise(nullptr, window);
     return true;
+}
+
+void Game::OnMouseEvent(int x, int y, unsigned int state)
+{
+    winApp::OnMouseEvent(x, y, state);
+    static int i = 0;
+    if (m_mouse.isRightButtonDown())
+    {
+        i++;
+    }
+
 }
