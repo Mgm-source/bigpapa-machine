@@ -1,7 +1,3 @@
-#include "pch.h"
-#include "WinApp.h"
-#include "ImageLoader.h"
-
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 LPCWSTR g_pszAppName = L"SandBox";
 LPCWSTR g_pszClassName = L"GameWindwow";
