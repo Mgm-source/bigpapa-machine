@@ -10,5 +10,6 @@ public:
 	bool initialise(HWND window);
 	void OnMouseEvent(int x, int y, unsigned int state = 0);
 	void handleMessage(UINT message, WPARAM wParam, LPARAM lParam) override;
+	bool start() override; 
 	void Run() override;
 };

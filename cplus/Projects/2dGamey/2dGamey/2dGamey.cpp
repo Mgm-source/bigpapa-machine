@@ -70,9 +70,31 @@ void Game::Run()
     m_engine.present(0);
 }
 
+bool Game::start()
+{
+    winApp::start();
+
+    // Main message loo
+    MSG msg = {};
+
+    while (WM_QUIT != msg.message)
+    {
+        if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
+        {
+            TranslateMessage(&msg);
+            DispatchMessage(&msg);
+        }
+        else
+        {
+            Run();
+        }
+    }
+
+    return true;
+}
+
 int main()
 {
     Game game;
     game.start();
-    game.Run();
 }
