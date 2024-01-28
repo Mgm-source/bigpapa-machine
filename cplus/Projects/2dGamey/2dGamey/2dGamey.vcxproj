@@ -167,12 +167,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="2dGamey.cpp" />
+    <ClCompile Include="GameWindow.cpp" />
     <ClCompile Include="AABB.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="pch.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="2dGamey.h" />
+    <ClInclude Include="GameWindow.h" />
     <ClInclude Include="AABB.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
