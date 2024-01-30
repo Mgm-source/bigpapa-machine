@@ -22,10 +22,4 @@ void GameWindow::onUpdate()
 {
     m_engine.clearRenderTarget();
     m_engine.present(0);
-
-    if (m_mouse.isLeftButtonDown())
-    {
-        std::cout << "screen resolution:" << m_screenHeight << "," << m_screenWidth << std::endl;
-        std::cout << "mouse position:" << m_mouse.getX() << "," << m_mouse.getY() << std::endl;
-    }
 }
