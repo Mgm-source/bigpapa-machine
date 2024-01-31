@@ -4,7 +4,7 @@
 
 class GameWindow : public Window
 {
-	DXEngine m_engine;
+	 DXEngine* m_engine;
 public:
 	GameWindow();
 	~GameWindow() = default;
