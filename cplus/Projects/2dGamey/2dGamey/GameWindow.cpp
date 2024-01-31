@@ -3,9 +3,16 @@
 #include "GraphicsEngine/DXEngine.h"
 #include <iostream>
 
-GameWindow::GameWindow() : Window(), m_engine{ DXEngine::get() }
+GameWindow::GameWindow() : m_engine{ DXEngine::get() }, m_vBuffer{}, m_vShader{}, m_pShader{}, Window()
 {
 
+}
+
+GameWindow::~GameWindow()
+{
+	m_pShader->release();
+	m_vBuffer->release();
+	m_vShader->release();
 }
 
 bool GameWindow::init()

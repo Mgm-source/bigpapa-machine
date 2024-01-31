@@ -4,10 +4,14 @@
 
 class GameWindow : public Window
 {
-	 DXEngine* m_engine;
+	DXEngine* m_engine;
+	VertexBuffer* m_vBuffer;
+	VertexShader* m_vShader;
+	PixelShader* m_pShader;
+
 public:
 	GameWindow();
-	~GameWindow() = default;
+	~GameWindow();
 	bool init();
 	void onCreate() override;
 	void onUpdate() override;
