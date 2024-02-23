@@ -5,9 +5,10 @@
 class GameWindow : public Window
 {
 	DXEngine* m_engine;
-	VertexBuffer* m_vBuffer;
-	VertexShader* m_vShader;
-	PixelShader* m_pShader;
+	VertexBuffer* m_pvBuffer;
+	VertexShader* m_pvShader;
+	PixelShader* m_ppShader;
+	ConstantBuffer* m_pcBuffer;
 
 public:
 	GameWindow();

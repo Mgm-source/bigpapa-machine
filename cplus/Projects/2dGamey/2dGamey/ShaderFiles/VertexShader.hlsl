@@ -1,4 +1,25 @@
-float4 vertexMain( float4 pos : POSITION ) : SV_POSITION
+struct VS_INPUT
 {
-	return pos;
+    float3 position : POSITION;
+    float3 position2 : POSITION1;
+    float3 color : COLOR;
+};
+
+struct VS_OUTPUT
+{
+    float4 position : SV_POSITION;
+    float3 color : COLOR;
+};
+
+cbuffer VS_CONSTANT : register(b0)
+{
+    unsigned int m_time;
+};
+
+VS_OUTPUT vertexMain(VS_INPUT input)
+{
+    VS_OUTPUT output = (VS_OUTPUT) 0;
+    output.position = float4(lerp(input.position, input.position2, (sin(m_time / 10000.0f) + 1.0f) / 2.0f), 1);
+    output.color = input.color;
+    return output;
 }
