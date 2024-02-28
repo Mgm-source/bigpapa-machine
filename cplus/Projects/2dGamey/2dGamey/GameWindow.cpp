@@ -4,18 +4,20 @@
 #include "GraphicsEngine/ImageLoader.h"
 #include <iostream>
 
-GameWindow::GameWindow() : m_pvBuffer{ nullptr }, m_pvShader{ nullptr }, m_ppShader{ nullptr }, m_pcBuffer{nullptr}, Window()
+GameWindow::GameWindow() : m_pvBuffer{ nullptr }, m_pvShader{ nullptr }, m_ppShader{ nullptr }, m_pcBuffer{nullptr},m_timer {}, Window()
 {
 	m_engine = DXEngine::instance();
+	m_timer.setFixedTimerStep();
+	m_timer.setTargetElapsedSeconds(60);
 }
 
 GameWindow::~GameWindow()
 {
-	m_ppShader->release();
-	m_pvBuffer->release();
-	m_pvShader->release();
-	m_engine->release();
-	m_pcBuffer->release();
+	delete m_ppShader;
+	delete m_pvBuffer;
+	delete m_pvShader;
+	delete m_engine;
+	delete m_pcBuffer;
 }
 
 bool GameWindow::init()
@@ -72,7 +74,7 @@ void GameWindow::onUpdate()
 	DXEngine::instance()->setViewPort(m_screenWidth, m_screenHeight);
 
 	Constant cc = {};
-	cc.m_time = GetTickCount();
+	cc.m_time = GetTickCount64();
 
 	m_pcBuffer->update(DXEngine::instance()->getContext(), &cc);
 
