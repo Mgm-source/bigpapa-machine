@@ -8,7 +8,6 @@ GameWindow::GameWindow() : m_pvBuffer{ nullptr }, m_pvShader{ nullptr }, m_ppSha
 {
 	m_engine = DXEngine::instance();
 	m_timer.setFixedTimerStep();
-	m_timer.setTargetElapsedSeconds(60);
 }
 
 GameWindow::~GameWindow()
@@ -37,9 +36,9 @@ void GameWindow::onCreate()
 	{{-0.5f,  0.5f, 0.0f}, {-0.10f, 0.70f, 0.0f}, {0.0f, 1.0f,0.0f }},
 	{{0.5f,  -0.5f, 0.0f}, { 0.5f,	-0.5f, 0.0f}, {0.0f, 0.0f,1.0f }},
 
-	{{-0.5f,  0.5f, 0.0f}, {-0.5f, -0.5f, 0.0f}, {0.0f, 0.0f,0.0f }},
-	{{0.5f,  0.5f, 0.0f},  {-0.5f,  0.5f, 0.0f}, {0.0f, 0.0f,0.0f }},
-	{{0.5f, -0.5f, 0.0f},  {0.5f,  -0.5f, 0.0f}, {0.0f, 0.0f,0.0f }},
+	{{-0.5f,  0.5f, 0.0f}, {-0.5f, -0.5f, 0.0f}, {0.0f, 0.0f,1.0f }},
+	{{0.5f,  0.5f, 0.0f},  {-0.5f,  0.5f, 0.0f}, {0.0f, 1.0f,0.0f }},
+	{{0.5f, -0.5f, 0.0f},  {0.5f,  -0.5f, 0.0f}, {1.0f, 0.0f,0.0f }},
 	};
 
 	m_pvBuffer = DXEngine::instance()->CreateVertexBuffer();
@@ -70,17 +69,31 @@ void GameWindow::onCreate()
 
 void GameWindow::onUpdate()
 {
+	m_timer.Tick([&]() {
+		update(m_timer.getElapsedSeconds());
+	});
+
+	render();
+}
+
+void GameWindow::update(double elapsedseconds)
+{
+	Constant cc = {};
+	cc.m_time = m_timer.getTotalTicks() / 1000;
+	cc.m_world.setTraslation(DirectX::XMFLOAT3(((m_screenWidth - m_mouse.getX() * 2 ) / (m_screenWidth)) / -1, ((m_screenHeight - m_mouse.getY() * 2) / (m_screenHeight)), 1));
+	cc.m_view.setIdentity();
+	cc.m_screen.setOrthogonal(DirectX::XMFLOAT4(m_screenWidth / 400.0f, m_screenHeight / 400.0f, -4.0f, 4.0f));
+	m_pcBuffer->update(DXEngine::instance()->getContext(), &cc);
+}
+
+void GameWindow::render()
+{
 	DXEngine::instance()->clearRenderTarget();
 	DXEngine::instance()->setViewPort(m_screenWidth, m_screenHeight);
 
-	Constant cc = {};
-	cc.m_time = GetTickCount64();
-
-	m_pcBuffer->update(DXEngine::instance()->getContext(), &cc);
-
 	DXEngine::instance()->setConstantBuffer(m_pvShader, m_pcBuffer);
 	DXEngine::instance()->setConstantBuffer(m_ppShader, m_pcBuffer);
-	
+
 	DXEngine::instance()->setVertexShader(m_pvShader);
 	DXEngine::instance()->setPixelShader(m_ppShader);
 
@@ -89,5 +102,4 @@ void GameWindow::onUpdate()
 	DXEngine::instance()->drawTriangles(m_pvBuffer->length(), 0);
 
 	DXEngine::instance()->present(0);
-
 }

@@ -18,6 +18,7 @@ public:
 	bool init();
 	void onCreate() override;
 	void onUpdate() override;
+	void update(double elapsedsecond);
+	void render();
 };
 
-void update();

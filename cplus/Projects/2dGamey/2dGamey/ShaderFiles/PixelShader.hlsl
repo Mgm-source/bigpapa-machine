@@ -12,12 +12,15 @@ struct PS_OUTPUT
 
 cbuffer VS_CONSTANT : register(b0)
 {
+    row_major float4x4 m_world;
+    row_major float4x4 m_view;
+    row_major float4x4 m_screen;
     unsigned int m_time;
 };
 
 PS_OUTPUT pixelMain(PS_INPUT input)
 {
     PS_OUTPUT output = (PS_OUTPUT) 0;
-    output.color = float4(lerp(input.color, input.color2, (sin(m_time / 10000.0f) + 1.0f) / 2.0f), 1);
+    output.color = float4(lerp(input.color, input.color2, (sin(m_time / 10000.0f) + 1.0f) / 2.0f), 0);
     return output;
 }
