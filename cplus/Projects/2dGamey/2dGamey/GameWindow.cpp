@@ -4,10 +4,12 @@
 #include "GraphicsEngine/ImageLoader.h"
 #include <iostream>
 
-GameWindow::GameWindow() : m_pvBuffer{ nullptr }, m_pvShader{ nullptr }, m_ppShader{ nullptr }, m_pcBuffer{nullptr},m_timer {}, Window()
+GameWindow::GameWindow() : m_pvBuffer{ nullptr }, m_pvShader{ nullptr }, m_ppShader{ nullptr },
+m_pcBuffer{ nullptr }, m_piBuffer{ nullptr }, m_timer{}, Window(L"GameWindow",L"2dGamey")
 {
 	m_engine = DXEngine::instance();
 	m_timer.setFixedTimerStep();
+	setWindowSize(800, 800);
 }
 
 GameWindow::~GameWindow()
@@ -17,6 +19,7 @@ GameWindow::~GameWindow()
 	delete m_pvShader;
 	delete m_engine;
 	delete m_pcBuffer;
+	delete m_piBuffer;
 }
 
 bool GameWindow::init()
@@ -32,16 +35,19 @@ void GameWindow::onCreate()
 	DXEngine::instance()->intialise(nullptr, m_window,m_screenWidth,m_screenHeight);
 
 	Vertex3 v[] = {
-	{{-0.5f, -0.5f, 0.0f}, {-0.30f, -0.11f, 0.0f}, {1.0f, 0.0f,0.0f }},
-	{{-0.5f,  0.5f, 0.0f}, {-0.10f, 0.70f, 0.0f}, {0.0f, 1.0f,0.0f }},
-	{{0.5f,  -0.5f, 0.0f}, { 0.5f,	-0.5f, 0.0f}, {0.0f, 0.0f,1.0f }},
-
-	{{-0.5f,  0.5f, 0.0f}, {-0.5f, -0.5f, 0.0f}, {0.0f, 0.0f,1.0f }},
-	{{0.5f,  0.5f, 0.0f},  {-0.5f,  0.5f, 0.0f}, {0.0f, 1.0f,0.0f }},
-	{{0.5f, -0.5f, 0.0f},  {0.5f,  -0.5f, 0.0f}, {1.0f, 0.0f,0.0f }},
+	{{-0.5f, -0.5f, 0.5f},  {1.0f, 0.0f, 0.0f}},
+	{{-0.5f,  0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}},
+	{{0.5f,   0.5f, -0.5f}, {0.0f, 0.0f, 1.0f}},
+	{{0.5f,  -0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}},
+	{{0.5f,  -0.5f, 0.5f},  {1.0f, 0.0f, 0.0f}},
+	{{0.5f,  0.5f,  0.5f},  {0.0f, 1.0f, 0.0f}},
+	{{-0.5f,  0.5f, 0.5f},  {0.0f, 0.0f, 1.0f}},
+	{{-0.5f, -0.5f,  0.5f}, {0.0f, 1.0f, 0.0f}},
 	};
 
 	m_pvBuffer = DXEngine::instance()->CreateVertexBuffer();
+
+	m_piBuffer = DXEngine::instance()->CreateIndexBuffer();
 
 	void* shaderByteCode = nullptr;
 	size_t shaderSize = 0;
@@ -78,12 +84,32 @@ void GameWindow::onUpdate()
 
 void GameWindow::update(double elapsedseconds)
 {
+	static float zoom = 1; // implement a camera class instead of having a static variable. 
+
+	if (m_mouse.isWheelUp())
+	{
+		zoom +=10;
+		m_logger.log(L"mouse up", Severity::INFO);
+	}
+
+	if (m_mouse.isWheelDown())
+	{
+		if (zoom == 0)
+		{
+			zoom =  0.1;
+		}
+		zoom -= 10;
+		m_logger.log(L"mouse down", Severity::INFO);
+	}
 	Constant cc = {};
 	cc.m_time = m_timer.getTotalTicks() / 1000;
 	cc.m_world.setTraslation(DirectX::XMFLOAT3(((m_screenWidth - m_mouse.getX() * 2 ) / (m_screenWidth)) / -1, ((m_screenHeight - m_mouse.getY() * 2) / (m_screenHeight)), 1));
 	cc.m_view.setIdentity();
-	cc.m_screen.setOrthogonal(DirectX::XMFLOAT4(m_screenWidth / 400.0f, m_screenHeight / 400.0f, -4.0f, 4.0f));
+	cc.m_screen.setOrthogonal(DirectX::XMFLOAT4((m_screenWidth / (zoom)),(m_screenHeight / (zoom)), -2.0f, 2.0f));
 	m_pcBuffer->update(DXEngine::instance()->getContext(), &cc);
+
+	m_logger.log(std::to_wstring(cc.m_world.matrix4x4[3][0]) + L"," + std::to_wstring(cc.m_world.matrix4x4[3][1]), Severity::INFO);
+	m_logger.log(std::to_wstring(cc.m_screen.matrix4x4[0][0]) + L"," + std::to_wstring(cc.m_screen.matrix4x4[1][1]), Severity::INFO);
 }
 
 void GameWindow::render()

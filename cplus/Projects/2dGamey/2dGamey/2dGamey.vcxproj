@@ -169,12 +169,14 @@
   <ItemGroup>
     <ClCompile Include="GameWindow.cpp" />
     <ClCompile Include="AABB.cpp" />
+    <ClCompile Include="Logger.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pch.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameWindow.h" />
     <ClInclude Include="AABB.h" />
+    <ClInclude Include="Logger.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
