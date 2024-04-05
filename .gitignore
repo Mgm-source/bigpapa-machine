@@ -363,3 +363,6 @@ MigrationBackup/
 FodyWeavers.xsd
 
 *.exe
+
+# logging file
+*.txt
