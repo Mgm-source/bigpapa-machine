@@ -2,7 +2,6 @@
 #include "Window.h"
 #include "GraphicsEngine/DXEngine.h"
 #include "Timer.h"
-#include "Logger.h"
 
 class GameWindow : public Window
 {
@@ -13,7 +12,6 @@ class GameWindow : public Window
 	PixelShader* m_ppShader;
 	ConstantBuffer* m_pcBuffer;
 	M_TMR::Timer m_timer;
-	Logger m_logger;
 
 
 public:
