@@ -22,13 +22,14 @@ VS_OUTPUT vertexMain(VS_INPUT input)
 {
     VS_OUTPUT output = (VS_OUTPUT) 0;
     //world space
-    output.position = mul(input.position,m_world);
+    output.position = mul(input.position, m_world);
     
     // view space
     output.position = mul(output.position, m_view);
                          
     // screen space      
     output.position = mul(output.position, m_screen);
+    
     
     output.color = input.color;
     

@@ -17,9 +17,13 @@ cbuffer VS_CONSTANT : register(b0)
     unsigned int m_time;
 };
 
+Texture2D my_texture;
+SamplerState my_Sampler;
+
 PS_OUTPUT pixelMain(PS_INPUT input)
 {
     PS_OUTPUT output = (PS_OUTPUT) 0;
-    output.color = float4(input.color, 1);
+    output.color = my_texture.Sample(my_Sampler, input.color.xy);
+    
     return output;
 }

@@ -5,21 +5,23 @@
 #include <iostream>
 
 GameWindow::GameWindow() : m_pvBuffer{ nullptr }, m_pvShader{ nullptr }, m_ppShader{ nullptr },
-m_pcBuffer{ nullptr }, m_piBuffer{ nullptr }, m_timer{}, Window(L"GameWindow",L"2dGamey")
+m_pcBuffer{ nullptr }, m_piBuffer{ nullptr }, m_pTexture{nullptr}, m_timer {}, Window(L"GameWindow", L"2dGamey")
 {
-	m_engine = DXEngine::instance();
+	m_engine = DXEngine::getInstance();
 	m_timer.setFixedTimerStep();
 	setWindowSize(800, 800);
 }
 
 GameWindow::~GameWindow()
 {
+	m_engine->getContext()->ClearState();
 	delete m_ppShader;
 	delete m_pvBuffer;
 	delete m_pvShader;
 	delete m_engine;
 	delete m_pcBuffer;
 	delete m_piBuffer;
+	delete m_pTexture;
 }
 
 bool GameWindow::init()
@@ -29,57 +31,61 @@ bool GameWindow::init()
 
 void GameWindow::onCreate()
 {
-	//ImageLoader::Image sprite(ImageLoader::ImageType::PNG, 50, 50, 4);
-	//sprite.load("test.png");
 
-	DXEngine::instance()->intialise(nullptr, m_window,m_screenWidth,m_screenHeight);
+	m_engine->intialise(nullptr, m_window,m_screenWidth,m_screenHeight);
 
 	Vertex3 v[] = {
-	{{-0.5f, -0.5f, 0.5f},  {1.0f, 0.0f, 0.0f}},
-	{{-0.5f,  0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}},
-	{{0.5f,   0.5f, -0.5f}, {0.0f, 0.0f, 1.0f}},
-	{{0.5f,  -0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}},
-	{{0.5f,  -0.5f, 0.5f},  {1.0f, 0.0f, 0.0f}},
-	{{0.5f,  0.5f,  0.5f},  {0.0f, 1.0f, 0.0f}},
-	{{-0.5f,  0.5f, 0.5f},  {0.0f, 0.0f, 1.0f}},
-	{{-0.5f, -0.5f,  0.5f}, {0.0f, 1.0f, 0.0f}},
+	{{-0.5f, -0.5f, 0.0f}, {0.0f, 1.0f, 0.0f}},
+	{{-0.5f,  0.5f, 0.0f}, {0.0f, 0.0f, 0.0f}},
+	{{0.5f,   0.5f, 0.0f}, {1.0f, 0.0f, 0.0f}},
+	{{-0.5f, -0.5f, 0.0f}, {0.0f, 1.0f, 0.0f}},
+	{{0.5f,   0.5f, 0.0f}, {1.0f, 0.0f, 0.0f}},
+	{{0.5f,  -0.5f, 0.0f}, {1.0f, 1.0f, 0.0f}},
 	};
 
-	m_pvBuffer = DXEngine::instance()->CreateVertexBuffer();
+	m_pvBuffer = m_engine->CreateVertexBuffer();
 
-	m_piBuffer = DXEngine::instance()->CreateIndexBuffer();
+	m_piBuffer = m_engine->CreateIndexBuffer();
 
 	void* shaderByteCode = nullptr;
 	size_t shaderSize = 0;
 
-	DXEngine::instance()->compileShader(L"Shaderfiles/VertexShader.hlsl", "vs_5_0", "vertexMain", &shaderByteCode, &shaderSize);
+	m_engine->compileShader(L"Shaderfiles/VertexShader.hlsl", "vs_5_0", "vertexMain", &shaderByteCode, &shaderSize);
 
-	m_pvShader = DXEngine::instance()->CreateVertexShader(shaderByteCode, shaderSize);
+	m_pvShader = m_engine->CreateVertexShader(shaderByteCode, shaderSize);
 
 	m_pvBuffer->load(v, sizeof(Vertex3), static_cast<UINT>(std::size(v)), shaderByteCode, shaderSize);
 
-	DXEngine::instance()->releaseCompileShader();
+	m_engine->releaseCompileShader();
 
-	DXEngine::instance()->compileShader(L"ShaderFiles/PixelShader.hlsl", "ps_5_0", "pixelMain", &shaderByteCode, &shaderSize);
+	m_engine->compileShader(L"ShaderFiles/PixelShader.hlsl", "ps_5_0", "pixelMain", &shaderByteCode, &shaderSize);
 
-	m_ppShader = DXEngine::instance()->CreatePixelShader(shaderByteCode, shaderSize);
+	m_ppShader = m_engine->CreatePixelShader(shaderByteCode, shaderSize);
 
-	DXEngine::instance()->releaseCompileShader();
+	m_engine->releaseCompileShader();
 
 	Constant cc = {0};
 
-	m_pcBuffer = DXEngine::instance()->CreateConstantBuffer();
+	m_pcBuffer = m_engine->CreateConstantBuffer();
 
 	m_pcBuffer->load(&cc,sizeof(Constant));
+
+	ImageLoader::Image sprite;
+	m_pTexture = m_engine->CreateTexure();
+	
+	sprite.load("test.png", ImageLoader::ImageType::PNG, 4);
+	m_pTexture->CreateTexture(sprite, m_engine->getDevice());
 }
 
 void GameWindow::onUpdate()
 {
+	
+
 	m_timer.Tick([&]() {
 		update(m_timer.getElapsedSeconds());
+		render();
 	});
 
-	render();
 }
 
 void GameWindow::update(double elapsedseconds)
@@ -96,36 +102,39 @@ void GameWindow::update(double elapsedseconds)
 	{
 		if (zoom == 0)
 		{
-			zoom =  0.1;
+			zoom =  0.1f;
 		}
 		zoom -= 10;
 		m_logger.log(L"mouse down", Severity::INFO);
 	}
-	Constant cc = {};
-	cc.m_time = m_timer.getTotalTicks() / 1000;
-	cc.m_world.setTraslation(DirectX::XMFLOAT3(((m_screenWidth - m_mouse.getX() * 2 ) / (m_screenWidth)) / -1, ((m_screenHeight - m_mouse.getY() * 2) / (m_screenHeight)), 1));
-	cc.m_view.setIdentity();
-	cc.m_screen.setOrthogonal(DirectX::XMFLOAT4((m_screenWidth / (zoom)),(m_screenHeight / (zoom)), -2.0f, 2.0f));
-	m_pcBuffer->update(DXEngine::instance()->getContext(), &cc);
 
-	m_logger.log(std::to_wstring(cc.m_world.matrix4x4[3][0]) + L"," + std::to_wstring(cc.m_world.matrix4x4[3][1]), Severity::INFO);
-	m_logger.log(std::to_wstring(cc.m_screen.matrix4x4[0][0]) + L"," + std::to_wstring(cc.m_screen.matrix4x4[1][1]), Severity::INFO);
+	Constant cc = {};
+	cc.m_time = 1u;
+	cc.m_world.setTraslation(DirectX::XMFLOAT3(((m_screenWidth - m_mouse.getX() * 2) / (m_screenWidth)) / -1, ((m_screenHeight - m_mouse.getY() * 2) / (m_screenHeight)), 0));
+	cc.m_view.setIdentity();
+	cc.m_screen.setOrthogonal(DirectX::XMFLOAT4(2,2, -2.0f, 2.0f));
+	m_pcBuffer->update(&cc);
+
+	//m_logger.log(std::to_wstring(cc.m_world.matrix4x4[3][0]) + L"," + std::to_wstring(cc.m_world.matrix4x4[3][1]), Severity::INFO);
+	//m_logger.log(std::to_wstring(cc.m_screen.matrix4x4[0][0]) + L"," + std::to_wstring(cc.m_screen.matrix4x4[1][1]), Severity::INFO);
 }
 
 void GameWindow::render()
 {
-	DXEngine::instance()->clearRenderTarget();
-	DXEngine::instance()->setViewPort(m_screenWidth, m_screenHeight);
+	m_engine->clearRenderTarget();
+	m_engine->setViewPort(m_screenWidth, m_screenHeight);
 
-	DXEngine::instance()->setConstantBuffer(m_pvShader, m_pcBuffer);
-	DXEngine::instance()->setConstantBuffer(m_ppShader, m_pcBuffer);
+	m_engine->setConstantBuffer(m_pvShader, m_pcBuffer);
+	m_engine->setConstantBuffer(m_ppShader, m_pcBuffer);
 
-	DXEngine::instance()->setVertexShader(m_pvShader);
-	DXEngine::instance()->setPixelShader(m_ppShader);
+	m_engine->setVertexShader(m_pvShader);
+	m_engine->setPixelShader(m_ppShader);
 
-	DXEngine::instance()->setVertexBuffer(m_pvBuffer);
+	m_pTexture->update();
 
-	DXEngine::instance()->drawTriangles(m_pvBuffer->length(), 0);
+	m_engine->setVertexBuffer(m_pvBuffer);
 
-	DXEngine::instance()->present(0);
+	m_engine->drawTriangles(m_pvBuffer->length(), 0);
+
+	m_engine->present(0);
 }

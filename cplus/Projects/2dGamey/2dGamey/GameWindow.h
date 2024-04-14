@@ -11,6 +11,7 @@ class GameWindow : public Window
 	VertexShader* m_pvShader;
 	PixelShader* m_ppShader;
 	ConstantBuffer* m_pcBuffer;
+	GETexture* m_pTexture;
 	M_TMR::Timer m_timer;
 
 
