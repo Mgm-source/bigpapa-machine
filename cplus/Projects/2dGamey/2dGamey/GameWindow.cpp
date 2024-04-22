@@ -35,12 +35,12 @@ void GameWindow::onCreate()
 	m_engine->intialise(nullptr, m_window,m_screenWidth,m_screenHeight);
 
 	Vertex3 v[] = {
-	{{-0.5f, -0.5f, 0.0f}, {0.0f, 1.0f, 0.0f}},
-	{{-0.5f,  0.5f, 0.0f}, {0.0f, 0.0f, 0.0f}},
-	{{0.5f,   0.5f, 0.0f}, {1.0f, 0.0f, 0.0f}},
-	{{-0.5f, -0.5f, 0.0f}, {0.0f, 1.0f, 0.0f}},
-	{{0.5f,   0.5f, 0.0f}, {1.0f, 0.0f, 0.0f}},
-	{{0.5f,  -0.5f, 0.0f}, {1.0f, 1.0f, 0.0f}},
+	{{-0.05f,  0.05f, 0.0f}, {0.0f, 0.0f, 0.0f}},
+	{{0.05f,  -0.05f, 0.0f}, {1.0f, 1.0f, 0.0f}},
+	{{-0.05f, -0.05f, 0.0f}, {0.0f, 1.0f, 0.0f}},
+	{{-0.05f,  0.05f, 0.0f}, {0.0f, 0.0f, 0.0f}},
+	{{0.05f,   0.05f, 0.0f}, {1.0f, 0.0f, 0.0f}},
+	{{0.05f,  -0.05f, 0.0f}, {1.0f, 1.0f, 0.0f}},
 	};
 
 	m_pvBuffer = m_engine->CreateVertexBuffer();
@@ -69,6 +69,12 @@ void GameWindow::onCreate()
 	m_pcBuffer = m_engine->CreateConstantBuffer();
 
 	m_pcBuffer->load(&cc,sizeof(Constant));
+
+	cc.m_time = 1u;
+	cc.m_world.setTraslation(DirectX::XMFLOAT3(-0.95f,0.95f,0));
+	cc.m_view.setIdentity();
+	cc.m_screen.setOrthogonal(DirectX::XMFLOAT4(2, 2, -2.0f, 2.0f));
+	m_pcBuffer->update(&cc);
 
 	ImageLoader::Image sprite;
 	m_pTexture = m_engine->CreateTexure();
@@ -107,13 +113,6 @@ void GameWindow::update(double elapsedseconds)
 		zoom -= 10;
 		m_logger.log(L"mouse down", Severity::INFO);
 	}
-
-	Constant cc = {};
-	cc.m_time = 1u;
-	cc.m_world.setTraslation(DirectX::XMFLOAT3(((m_screenWidth - m_mouse.getX() * 2) / (m_screenWidth)) / -1, ((m_screenHeight - m_mouse.getY() * 2) / (m_screenHeight)), 0));
-	cc.m_view.setIdentity();
-	cc.m_screen.setOrthogonal(DirectX::XMFLOAT4(2,2, -2.0f, 2.0f));
-	m_pcBuffer->update(&cc);
 
 	//m_logger.log(std::to_wstring(cc.m_world.matrix4x4[3][0]) + L"," + std::to_wstring(cc.m_world.matrix4x4[3][1]), Severity::INFO);
 	//m_logger.log(std::to_wstring(cc.m_screen.matrix4x4[0][0]) + L"," + std::to_wstring(cc.m_screen.matrix4x4[1][1]), Severity::INFO);

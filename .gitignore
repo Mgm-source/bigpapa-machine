@@ -366,3 +366,4 @@ FodyWeavers.xsd
 
 # logging file
 *.txt
+*.dmp
