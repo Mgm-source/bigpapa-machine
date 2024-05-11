@@ -9,7 +9,7 @@ struct PS_OUTPUT
     float4 color : SV_Target;
 };
 
-cbuffer VS_CONSTANT : register(b0)
+cbuffer VS_CONSTANT : register(b1)
 {
     row_major float4x4 m_world;
     row_major float4x4 m_view;

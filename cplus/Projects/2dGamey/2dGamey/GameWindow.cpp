@@ -34,6 +34,10 @@ void GameWindow::onCreate()
 
 	m_engine->intialise(nullptr, m_window,m_screenWidth,m_screenHeight);
 
+	UINT numQ = 0;
+	
+	DXEngine::getInstance()->getDevice()->CheckMultisampleQualityLevels(DXGI_FORMAT_B8G8R8A8_UNORM, 4, &numQ);
+
 	Vertex3 v[] = {
 	{{-0.05f,  0.05f, 0.0f}, {0.0f, 0.0f, 0.0f}},
 	{{0.05f,  -0.05f, 0.0f}, {1.0f, 1.0f, 0.0f}},
