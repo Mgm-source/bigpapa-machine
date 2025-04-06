@@ -13,7 +13,7 @@ class GameWindow : public Window
 	ConstantBuffer* m_pcBuffer;
 	GETexture* m_pTexture;
 	M_TMR::Timer m_timer;
-
+	Logger m_logger;
 
 public:
 	GameWindow();
