@@ -5,6 +5,11 @@
 #include <sstream>
 using namespace std;
 
+
+int add(int, int);
+
+void test2();
+
 template<typename T>
 struct simple_allocate
 {
@@ -107,33 +112,18 @@ void print_s(const S& s)
 	cout << endl;
 }
 
-class command
-{
-protected:
-	command() = default;
-public:
-	virtual ~command() = default;
-	void virtual execute() = 0;
-};
 
-
-template<class Receiver>
-class simpleCommand : public command
-{
-	typedef void (Receiver::*Action)();
-	Action m_action;
-	Receiver* m_reciever;
-public:
-	simpleCommand(Receiver* r, Action a) : m_action{ a }, m_reciever{ r } {};
-
-	void virtual execute()
-	{
-		(m_reciever->*m_action)();
-	}
-
-};
 
 int main() {
+
+	Vector<int> a(5);
+
+	a[0] = 1;
+	a[1] = 2;
+	a[2] = 3;
+	a[3] = 4;
+	test2();
+
 	S s = { S::CHAR, {'c'} };
 	print_s(s);
 	s.tag = S::INT;
@@ -149,11 +139,6 @@ int main() {
 	newS->d = 22.1;
 	newS->i = 12;
 	sa.deallocate(newS);
-
-	command* c = new simpleCommand<S>(newS, &S::action);
-
-	c->execute();
-
 
 	std::wstringstream wos;
 

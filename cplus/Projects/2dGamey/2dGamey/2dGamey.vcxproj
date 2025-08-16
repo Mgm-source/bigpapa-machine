@@ -143,6 +143,9 @@
       <AdditionalLibraryDirectories>
       </AdditionalLibraryDirectories>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy "$(ProjectDir)test.png" "$(OutDir)" /s /y /i</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -165,6 +168,9 @@
       <AdditionalLibraryDirectories>
       </AdditionalLibraryDirectories>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy "$(ProjectDir)test.png" "$(OutDir)" /s /y /i</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="GameWindow.cpp" />
@@ -184,6 +190,12 @@
     <ProjectReference Include="..\..\..\..\..\WinApp\WinApp.vcxproj">
       <Project>{675dcda2-d79a-4fd2-9a1e-5f54c12d0585}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <none Include="test.png">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</DeploymentContent>
+    </none>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

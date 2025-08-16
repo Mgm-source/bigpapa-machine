@@ -33,16 +33,19 @@
     <ClInclude Include="MazeGame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MazeBuilder.h">
+    <ClInclude Include="Builder\MazeBuilder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MazeFactory.h">
+    <ClInclude Include="Factory\MazeFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="StandardMazeBuilder.h">
+    <ClInclude Include="Factory\StandardMazeBuilder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MazePrototypeFactory.h">
+    <ClInclude Include="Prototype\MazePrototypeFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Factory\MazeFactoryImp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -68,16 +71,16 @@
     <ClCompile Include="MazeGame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MazeBuilder.cpp">
+    <ClCompile Include="Builder\MazeBuilder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MazeFactory.cpp">
+    <ClCompile Include="Factory\MazeFactoryImp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="StandardMazeBuilder.cpp">
+    <ClCompile Include="Factory\StandardMazeBuilder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MazePrototypeFactory.cpp">
+    <ClCompile Include="Prototype\MazePrototypeFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -9,6 +9,7 @@ namespace M_TMR
         LARGE_INTEGER m_qpCounter;
         uint64_t m_qpCounterMax;
         uint64_t m_qpSecondCounter;
+        uint64_t TicksPerSecond;
 
         // Derived timing data uses a canonical tick format.
         uint64_t m_elapsedTicks;
@@ -25,6 +26,7 @@ namespace M_TMR
         bool m_fixedTimeStep;
         uint64_t m_targetElapsedTicks;
 
+
     public:
 
         Timer():
@@ -36,7 +38,8 @@ namespace M_TMR
             m_framesThisSecond{ 0 },
             m_qpSecondCounter{ 0 },
             m_fixedTimeStep{ false },
-            m_targetElapsedTicks{ TicksPerSecond / 60 }
+            m_targetElapsedTicks{ 0 },
+            TicksPerSecond{0}
         {
 
             if (!QueryPerformanceFrequency(&m_qpFrequency))
@@ -50,6 +53,11 @@ namespace M_TMR
             }
 
             // Initialize max delta to 1/10 of a second.
+
+            TicksPerSecond = static_cast<uint64_t>(m_qpFrequency.QuadPart);
+
+            m_targetElapsedTicks = TicksPerSecond / 60;
+
             m_qpCounterMax = static_cast<uint64_t>(m_qpFrequency.QuadPart / 10);
         }
 
@@ -72,11 +80,11 @@ namespace M_TMR
             return m_totalTicks;
         }
 
-        double getElapsedSeconds() const
+        double getElapsedSeconds() 
         {
             return TicksToSeconds(m_elapsedTicks);
         }
-        double getTotalSeconds() const
+        double getTotalSeconds() 
         {
             return TicksToSeconds(m_totalTicks);
         }
@@ -89,15 +97,11 @@ namespace M_TMR
         void setTargetFramesPerSecond(uint64_t fps) { if(fps) m_targetElapsedTicks = TicksPerSecond / fps; };
 
         // Static Function
-        static constexpr double TicksToSeconds(uint64_t ticks) noexcept { return static_cast<double>(ticks) / TicksPerSecond; }
-        static constexpr uint64_t SecondsToTicks(double seconds) noexcept { return static_cast<uint64_t>(seconds * TicksPerSecond); }
+         constexpr double TicksToSeconds(uint64_t ticks) noexcept { return static_cast<double>(ticks) / TicksPerSecond; }
+         constexpr uint64_t SecondsToTicks(double seconds) noexcept { return static_cast<uint64_t>(seconds * TicksPerSecond); }
 
         template<typename CallBackFunc>
         void Tick(CallBackFunc);
-
-    private:
-        // Static Members
-        static constexpr uint64_t TicksPerSecond = 10000000;
     };
 
     template<typename CallBackFunction>

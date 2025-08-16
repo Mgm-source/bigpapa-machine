@@ -10,7 +10,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	{
 		while (game.isRunning())
 		{
-			game.broadcast();
+			game.pumpEvents();
 		}
 	}
 	return 0;

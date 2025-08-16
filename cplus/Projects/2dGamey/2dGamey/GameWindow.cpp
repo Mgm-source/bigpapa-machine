@@ -89,7 +89,7 @@ void GameWindow::onCreate()
 	m_pTexture->addImage(sprite);
 }
 
-void GameWindow::onUpdate()
+void GameWindow::tickFrame()
 {
 	
 	m_timer.Tick([&]() {

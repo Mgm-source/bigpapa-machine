@@ -39,4 +39,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <none Include="test.png">
+      <Filter>Resource Files</Filter>
+    </none>
+  </ItemGroup>
 </Project>
