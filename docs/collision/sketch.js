@@ -14,7 +14,7 @@ const mouseState =
 }
 
 let shape = [];
-
+let shapeCount = 0;
 let debugShape = [];
 
 const shapeType =
@@ -52,7 +52,7 @@ canvas.addEventListener("click", (ev) => {
     dy = Math.sin(angle);
   }
 
-  shape.push(addShape(ev, dx, dy));
+  shape.push(addShape(ev, dx, dy,shapeCount++));
 });
 
 canvas.addEventListener("mousedown", (ev) => {
@@ -93,12 +93,12 @@ canvas.addEventListener("mousemove", (ev) => {
 
 });
 
-function addShape(ev, dx, dy) {
+function addShape(ev, dx, dy, id) {
   switch (type) {
     case shapeType.circle:
-      return new Circle(ev.x, ev.y, dx, dy, 1, 0);
+      return new Circle(ev.x, ev.y, dx, dy, 1, id);
     case shapeType.rectangle:
-      return new Rectangle(ev.x, ev.y, dx, dy, 1, 0);
+      return new Rectangle(ev.x, ev.y, dx, dy, 1, id);
   }
 }
 
