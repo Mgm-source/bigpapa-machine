@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "AABB.h"
 
 AABB::AABB(Rect rect) : m_box{ rect }

@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "GameWindow.h"
 #include "GraphicsEngine/DXEngine.h"
 #include "GraphicsEngine/ImageLoader.h"

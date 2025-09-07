@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "GameWindow.h"
 
  int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
