@@ -89,6 +89,12 @@ void GameWindow::onCreate()
 	m_pTexture->addImage(sprite);
 }
 
+void GameWindow::run()
+{
+	pumpEvents();
+	tickFrame();
+}
+
 void GameWindow::tickFrame()
 {
 	

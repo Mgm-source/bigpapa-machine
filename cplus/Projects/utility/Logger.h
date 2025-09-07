@@ -1,10 +1,9 @@
 #pragma once
 #include <fstream>
-#include <chrono>
-#include <iomanip>
 
 enum class Severity
 {
+	DEBUG,
 	INFO,
 	WARNING,
 	CRITICAL
@@ -22,23 +21,32 @@ public:
 	{
 	}
 
-	void log(std::wstring message, Severity level)
+	std::wstring getSeverity(Severity level)
 	{
-		std::wstring logInformation;
 		switch (level)
 		{
-			case Severity::INFO:
-			logInformation = L"Information";
-			break;
-			case Severity::WARNING:
-			logInformation = L"Warning";
-			break;
-			case Severity::CRITICAL:
-			logInformation = L"Critical";
-			break;
-		}
+		case Severity::DEBUG:
+			return L"Debug";
 
-		m_log << L"Time:" << getDate() << L" Type:" << logInformation << L" Log:" << message << std::endl;
+		case Severity::INFO:
+			return L"Information";
+			
+		case Severity::CRITICAL:
+			return L"Critical";
+
+		case Severity::WARNING:
+			return L"Warning";
+
+		default:
+				return L"Unkown";
+		}
+	};
+
+
+	void log(std::wstring message, Severity level)
+	{
+
+		m_log << L"Time:" << getDate() << L" Type:" << getSeverity(level) << L" Log:" << message << std::endl;
 	}
 		
 	std::wstring getDate()
@@ -49,9 +57,6 @@ public:
 
 		time(&rawtime);
 		localtime_s(&timeinfo, &rawtime);
-
-		auto now = std::chrono::system_clock::now();
-		auto tt = std::chrono::system_clock::to_time_t(now);
 
 		wcsftime(buffer, 20, L"%Y-%m-%d %H:%M:%S", &timeinfo);
 

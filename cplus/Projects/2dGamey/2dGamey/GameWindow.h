@@ -20,7 +20,8 @@ public:
 	~GameWindow();
 	bool init();
 	void onCreate() override;
-	void tickFrame() override;
+	void run();
+	void tickFrame();
 	void update(double elapsedsecond);
 	void render();
 };

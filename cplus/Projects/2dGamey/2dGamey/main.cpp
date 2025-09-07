@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "GameWindow.h"
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
+ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	PSTR lpCmdLine, int nCmdShow)
 {
 	GameWindow game;
@@ -10,7 +10,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	{
 		while (game.isRunning())
 		{
-			game.pumpEvents();
+			game.run();
 		}
 	}
 	return 0;
