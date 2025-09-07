@@ -19,17 +19,13 @@ function draw() {
 
   for (let i = 0; i < shape.length; i++) {
 
-    for (let j = 0; j < shape.length; j++) {
-      if (shape[i].id != shape[j].id) {
-
+    for (let j = i + 1; j < shape.length; j++) {
         shape[i].coll(shape[j]);
-
       }
-    }
 
     shape[i].wallColl();
     shape[i].update();
-  }
+    }
 
   window.requestAnimationFrame(draw);
 }
