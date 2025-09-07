@@ -1,5 +1,5 @@
 'use strict';
-
+// create class and move stuff to game class or should i port this over to ts hmmmmmmm
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
