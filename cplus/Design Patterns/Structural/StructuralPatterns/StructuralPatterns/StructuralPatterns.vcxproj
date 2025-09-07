@@ -127,37 +127,37 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="ApplicationWindow.h" />
-    <ClInclude Include="CompostiteEquipment.h" />
-    <ClInclude Include="Equipment.h" />
-    <ClInclude Include="FloppyDisk.h" />
-    <ClInclude Include="IconWindow.h" />
-    <ClInclude Include="Manipulator.h" />
-    <ClInclude Include="Point.h" />
-    <ClInclude Include="Shape.h" />
-    <ClInclude Include="TextManipulator.h" />
-    <ClInclude Include="TextShape.h" />
-    <ClInclude Include="TextView.h" />
-    <ClInclude Include="View.h" />
-    <ClInclude Include="Window.h" />
-    <ClInclude Include="WindowImp.h" />
+    <ClInclude Include="Bridge\ApplicationWindow.h" />
+    <ClInclude Include="Composite\CompostiteEquipment.h" />
+    <ClInclude Include="Composite\Equipment.h" />
+    <ClInclude Include="Composite\FloppyDisk.h" />
+    <ClInclude Include="Bridge\IconWindow.h" />
+    <ClInclude Include="Adapter\Manipulator.h" />
+    <ClInclude Include="Adapter\Point.h" />
+    <ClInclude Include="Adapter\Shape.h" />
+    <ClInclude Include="Adapter\TextManipulator.h" />
+    <ClInclude Include="Adapter\TextShape.h" />
+    <ClInclude Include="Adapter\TextView.h" />
+    <ClInclude Include="Bridge\View.h" />
+    <ClInclude Include="Bridge\Window.h" />
+    <ClInclude Include="Bridge\WindowImp.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ApplicationWindow.cpp" />
-    <ClCompile Include="CompostiteEquipment.cpp" />
-    <ClCompile Include="Equipment.cpp" />
-    <ClCompile Include="FloppyDisk.cpp" />
-    <ClCompile Include="IconWindow.cpp" />
-    <ClCompile Include="Manipulator.cpp" />
-    <ClCompile Include="Point.cpp" />
-    <ClCompile Include="Shape.cpp" />
+    <ClCompile Include="Bridge\ApplicationWindow.cpp" />
+    <ClCompile Include="Composite\CompostiteEquipment.cpp" />
+    <ClCompile Include="Composite\Equipment.cpp" />
+    <ClCompile Include="Composite\FloppyDisk.cpp" />
+    <ClCompile Include="Bridge\IconWindow.cpp" />
+    <ClCompile Include="Adapter\Manipulator.cpp" />
+    <ClCompile Include="Adapter\Point.cpp" />
+    <ClCompile Include="Adapter\Shape.cpp" />
     <ClCompile Include="Source.cpp" />
-    <ClCompile Include="TextManipulator.cpp" />
-    <ClCompile Include="TextShape.cpp" />
-    <ClCompile Include="TextView.cpp" />
-    <ClCompile Include="View.cpp" />
-    <ClCompile Include="Window.cpp" />
-    <ClCompile Include="WindowImp.cpp" />
+    <ClCompile Include="Adapter\TextManipulator.cpp" />
+    <ClCompile Include="Adapter\TextShape.cpp" />
+    <ClCompile Include="Adapter\TextView.cpp" />
+    <ClCompile Include="Bridge\View.cpp" />
+    <ClCompile Include="Bridge\Window.cpp" />
+    <ClCompile Include="Bridge\WindowImp.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

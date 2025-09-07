@@ -5,7 +5,8 @@ int main()
 {
 	
 	//Maze maze = mazeGame.CreateMaze();
-	auto factory = MazeFactory::Instance();
+	auto factory =  MazeFactory::instance();
+	factory->MakeRoom(1);
 	//StandardMazeBuilder builder;
 	
 	{

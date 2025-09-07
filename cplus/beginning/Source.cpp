@@ -5,6 +5,11 @@
 #include <sstream>
 #include "boost/signals2.hpp"
 
+
+int add(int, int);
+
+void test2();
+
 template<typename T>
 struct simple_allocate
 {
@@ -85,6 +90,11 @@ struct S
 	S check() {
 		return *this;
 	}
+
+	void action()
+	{
+		cout << c << std::endl << i << std::endl << d;
+	}
 };
 
 struct signalTest
@@ -109,6 +119,7 @@ void print_s(const S& s)
 	}
 	std::cout << std::endl;
 }
+
 
 class Document
 {
@@ -195,6 +206,15 @@ private:
 };
 
 int main() {
+
+	Vector<int> a(5);
+
+	a[0] = 1;
+	a[1] = 2;
+	a[2] = 3;
+	a[3] = 4;
+	test2();
+
 	S s = { S::CHAR, {'c'} };
 	print_s(s);
 	s.tag = S::INT;

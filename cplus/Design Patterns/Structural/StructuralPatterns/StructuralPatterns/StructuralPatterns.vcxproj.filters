@@ -24,46 +24,46 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Shape.h">
+    <ClInclude Include="Adapter\Shape.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TextView.h">
+    <ClInclude Include="Adapter\TextView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TextShape.h">
+    <ClInclude Include="Adapter\TextShape.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Point.h">
+    <ClInclude Include="Adapter\Point.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Manipulator.h">
+    <ClInclude Include="Adapter\Manipulator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TextManipulator.h">
+    <ClInclude Include="Adapter\TextManipulator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Window.h">
+    <ClInclude Include="Bridge\Window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="WindowImp.h">
+    <ClInclude Include="Bridge\WindowImp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="View.h">
+    <ClInclude Include="Bridge\View.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ApplicationWindow.h">
+    <ClInclude Include="Bridge\ApplicationWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IconWindow.h">
+    <ClInclude Include="Bridge\IconWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Equipment.h">
+    <ClInclude Include="Composite\Equipment.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FloppyDisk.h">
+    <ClInclude Include="Composite\FloppyDisk.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CompostiteEquipment.h">
+    <ClInclude Include="Composite\CompostiteEquipment.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -71,47 +71,47 @@
     <ClCompile Include="Source.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TextView.cpp">
+    <ClCompile Include="Adapter\TextView.cpp">
       <Filter>Adapter</Filter>
     </ClCompile>
-    <ClCompile Include="TextShape.cpp">
+    <ClCompile Include="Adapter\TextShape.cpp">
       <Filter>Adapter</Filter>
     </ClCompile>
-    <ClCompile Include="TextManipulator.cpp">
+    <ClCompile Include="Adapter\TextManipulator.cpp">
       <Filter>Adapter</Filter>
     </ClCompile>
-    <ClCompile Include="Shape.cpp">
+    <ClCompile Include="Adapter\Shape.cpp">
       <Filter>Adapter</Filter>
     </ClCompile>
-    <ClCompile Include="Point.cpp">
+    <ClCompile Include="Adapter\Point.cpp">
       <Filter>Adapter</Filter>
     </ClCompile>
-    <ClCompile Include="WindowImp.cpp">
+    <ClCompile Include="Bridge\WindowImp.cpp">
       <Filter>Bridge</Filter>
     </ClCompile>
-    <ClCompile Include="Window.cpp">
+    <ClCompile Include="Bridge\Window.cpp">
       <Filter>Bridge</Filter>
     </ClCompile>
-    <ClCompile Include="View.cpp">
+    <ClCompile Include="Bridge\View.cpp">
       <Filter>Bridge</Filter>
     </ClCompile>
-    <ClCompile Include="Manipulator.cpp">
+    <ClCompile Include="Adapter\Manipulator.cpp">
       <Filter>Bridge</Filter>
     </ClCompile>
-    <ClCompile Include="IconWindow.cpp">
+    <ClCompile Include="Bridge\IconWindow.cpp">
       <Filter>Bridge</Filter>
     </ClCompile>
-    <ClCompile Include="ApplicationWindow.cpp">
+    <ClCompile Include="Bridge\ApplicationWindow.cpp">
       <Filter>Bridge</Filter>
     </ClCompile>
-    <ClCompile Include="Equipment.cpp">
+    <ClCompile Include="Composite\Equipment.cpp">
       <Filter>Compoiste</Filter>
     </ClCompile>
-    <ClCompile Include="FloppyDisk.cpp">
+    <ClCompile Include="Composite\FloppyDisk.cpp">
       <Filter>Compoiste</Filter>
     </ClCompile>
-    <ClCompile Include="CompostiteEquipment.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Composite\CompostiteEquipment.cpp">
+      <Filter>Compoiste</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
