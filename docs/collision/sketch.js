@@ -2,30 +2,120 @@
 
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
+
+canvas.width = 800;
+canvas.height = 800;
+
+const mouseState =
+{
+  lastX: canvas.width / 2,
+  lastY: canvas.height / 2,
+  isClicked: false
+}
+
 let shape = [];
+
+let debugShape = [];
+
+const shapeType =
+{
+  circle: 0,
+  rectangle: 1
+};
+
+let type = shapeType.circle;
 
 document.addEventListener("DOMContentLoaded", () => {
 
-  shape.push(new Circle(500, 80 ,0, 1, 1, 0));
- shape.push(new Circle(100, 89, 1, 1, 1, 1));
-  shape.push(new Circle(500, 200 ,0, 1, 1, 2));
- shape.push(new Circle(300, 100, 1, 1, 1, 3));
+  // shape.push(new Circle(500, 80, 0, 1, 1, 0));
+  // shape.push(new Circle(100, 89, 1, 1, 1, 1));
+  // shape.push(new Circle(500, 200, 0, 1, 1, 2));
+  // shape.push(new Circle(300, 100, 1, 1, 1, 3));
+
   window.requestAnimationFrame(draw);
 
-})
+});
+
+canvas.addEventListener("click", (ev) => {
+
+  // let dx = Math.sign(ev.x - mouseState.lastX);
+  // let dy = Math.sign(ev.y - mouseState.lastY);
+
+  let rawDX = ev.x - mouseState.lastX;
+  let rawDY = ev.y - mouseState.lastY;
+
+
+  let dx = 0, dy = 0;
+  if (rawDX !== 0 || rawDY !== 0) {
+    let angle = Math.atan2(rawDY, rawDX);
+    dx = Math.cos(angle);
+    dy = Math.sin(angle);
+  }
+
+  shape.push(addShape(ev, dx, dy));
+});
+
+canvas.addEventListener("mousedown", (ev) => {
+
+  mouseState.lastX = ev.x;
+  mouseState.lastY = ev.y;
+  mouseState.isClicked = true;
+  console.log(mouseState);
+});
+
+
+canvas.addEventListener("mouseup", (ev) => {
+  mouseState.isClicked = false;
+  debugShape = [];
+  console.log(mouseState);
+});
+
+canvas.addEventListener("mousemove", (ev) => {
+
+  if (!mouseState.isClicked)
+    return;
+
+  // let dx = Math.sign(ev.x - mouseState.lastX);
+  // let dy = Math.sign(ev.y - mouseState.lasty);
+
+  let rawDX = ev.x - mouseState.lastX;
+  let rawDY = ev.y - mouseState.lastY;
+
+
+  let angle = Math.atan2(rawDY, rawDX);
+
+  let dx = Math.cos(angle); // normalized direction x
+  let dy = Math.sin(angle); // normalized direction y
+
+  debugShape[0] = addShape(ev, dx, dy);
+  console.log(mouseState, angle, dx, dy, rawDX, rawDY);
+
+
+});
+
+function addShape(ev, dx, dy) {
+  switch (type) {
+    case shapeType.circle:
+      return new Circle(ev.x, ev.y, dx, dy, 1, 0);
+    case shapeType.rectangle:
+      return new Rectangle(ev.x, ev.y, dx, dy, 1, 0);
+  }
+}
 
 function draw() {
+
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+  debugShape.forEach((s) => s.display());
 
   for (let i = 0; i < shape.length; i++) {
 
     for (let j = i + 1; j < shape.length; j++) {
-        shape[i].coll(shape[j]);
-      }
+      shape[i].coll(shape[j]);
+    }
 
     shape[i].wallColl();
     shape[i].update();
-    }
+  }
 
   window.requestAnimationFrame(draw);
 }
@@ -34,7 +124,7 @@ class Shape {
   id = null;
   w = 40;
   h = 40;
-  speed = 1;
+  speed = 2;
 
   type = null;
 
@@ -78,7 +168,7 @@ class Shape {
         this.vy = Math.abs(this.vy);
       }
 
-      if (this.y > canvas.height-this.r) {
+      if (this.y > canvas.height - this.r) {
         this.vy = -Math.abs(this.vy);
       }
 
@@ -86,7 +176,7 @@ class Shape {
         this.vx = Math.abs(this.vx);
       }
 
-      if (this.x > canvas.width-this.r) {
+      if (this.x > canvas.width - this.r) {
         this.vx = -Math.abs(this.vx);
       }
 
@@ -94,97 +184,97 @@ class Shape {
 
   }
 
-coll(other) {
-  // Rectangle vs Rectangle (AABB)
-  if (this.type === 'rectangle' && other.type === 'rectangle') {
-    const overlapX = this.x < other.x + other.w && this.x + this.w > other.x;
-    const overlapY = this.y < other.y + other.h && this.y + this.h > other.y;
+  coll(other) {
+    // Rectangle vs Rectangle (AABB)
+    if (this.type === 'rectangle' && other.type === 'rectangle') {
+      const overlapX = this.x < other.x + other.w && this.x + this.w > other.x;
+      const overlapY = this.y < other.y + other.h && this.y + this.h > other.y;
 
-    if (overlapX && overlapY) {
-      this.elastic(other);
+      if (overlapX && overlapY) {
+        this.elastic(other);
+      }
+      return;
     }
-    return;
-  }
 
-  // Circle vs Circle
-  if (this.type === 'circle' && other.type === 'circle') {
-    const dx = other.x - this.x;
-    const dy = other.y - this.y;
-    const distSq = dx * dx + dy * dy;
-    const minDist = this.r + other.r;
-    const minDistSq = minDist * minDist;
+    // Circle vs Circle
+    if (this.type === 'circle' && other.type === 'circle') {
+      const dx = other.x - this.x;
+      const dy = other.y - this.y;
+      const distSq = dx * dx + dy * dy;
+      const minDist = this.r + other.r;
+      const minDistSq = minDist * minDist;
 
-    if (distSq < minDistSq) {
-      const distance = Math.sqrt(distSq);
-      if (distance === 0) return; 
+      if (distSq < minDistSq) {
+        const distance = Math.sqrt(distSq);
+        if (distance === 0) return;
 
-      const midX = (this.x + other.x) / 2;
-      const midY = (this.y + other.y) / 2;
+        const midX = (this.x + other.x) / 2;
+        const midY = (this.y + other.y) / 2;
 
-      ctx.beginPath();
-      ctx.strokeStyle = "green";
-      ctx.moveTo(midX, midY);
-      ctx.lineTo(this.x, this.y);
-      ctx.stroke();
+        ctx.beginPath();
+        ctx.strokeStyle = "green";
+        ctx.moveTo(midX, midY);
+        ctx.lineTo(this.x, this.y);
+        ctx.stroke();
 
-      ctx.beginPath();
-      ctx.strokeStyle = "green";
-      ctx.moveTo(midX, midY);
-      ctx.lineTo(other.x, other.y);
-      ctx.stroke();
+        ctx.beginPath();
+        ctx.strokeStyle = "green";
+        ctx.moveTo(midX, midY);
+        ctx.lineTo(other.x, other.y);
+        ctx.stroke();
 
-      // Overlap resolution
-      const overlap = 0.5 * (minDist - distance);
-      const nx = dx / distance;
-      const ny = dy / distance;
+        // Overlap resolution
+        const overlap = 0.5 * (minDist - distance);
+        const nx = dx / distance;
+        const ny = dy / distance;
 
-      this.x -= overlap * nx;
-      this.y -= overlap * ny;
-      other.x += overlap * nx;
-      other.y += overlap * ny;
+        this.x -= overlap * nx;
+        this.y -= overlap * ny;
+        other.x += overlap * nx;
+        other.y += overlap * ny;
 
-      // Elastic collision
-      const tangentX = -ny;
-      const tangentY = nx;
+        // Elastic collision
+        const tangentX = -ny;
+        const tangentY = nx;
 
-      const thisDotTangent = this.vx * tangentX + this.vy * tangentY;
-      const otherDotTangent = other.vx * tangentX + other.vy * tangentY;
+        const thisDotTangent = this.vx * tangentX + this.vy * tangentY;
+        const otherDotTangent = other.vx * tangentX + other.vy * tangentY;
 
-      const thisDotNormal = this.vx * nx + this.vy * ny;
-      const otherDotNormal = other.vx * nx + other.vy * ny;
+        const thisDotNormal = this.vx * nx + this.vy * ny;
+        const otherDotNormal = other.vx * nx + other.vy * ny;
 
-      const m1 = (thisDotNormal * (this.m - other.m) + 2 * other.m * otherDotNormal) / (this.m + other.m);
-      const m2 = (otherDotNormal * (other.m - this.m) + 2 * this.m * thisDotNormal) / (this.m + other.m);
+        const m1 = (thisDotNormal * (this.m - other.m) + 2 * other.m * otherDotNormal) / (this.m + other.m);
+        const m2 = (otherDotNormal * (other.m - this.m) + 2 * this.m * thisDotNormal) / (this.m + other.m);
 
-      this.vx = tangentX * thisDotTangent + nx * m1;
-      this.vy = tangentY * thisDotTangent + ny * m1;
-      other.vx = tangentX * otherDotTangent + nx * m2;
-      other.vy = tangentY * otherDotTangent + ny * m2;
+        this.vx = tangentX * thisDotTangent + nx * m1;
+        this.vy = tangentY * thisDotTangent + ny * m1;
+        other.vx = tangentX * otherDotTangent + nx * m2;
+        other.vy = tangentY * otherDotTangent + ny * m2;
+      }
+      return;
     }
-    return;
-  }
 
-  // Circle vs Rectangle
-  if (this.type === 'circle' && other.type === 'rectangle') {
-    const closestX = Math.max(other.x, Math.min(this.x, other.x + other.w));
-    const closestY = Math.max(other.y, Math.min(this.y, other.y + other.h));
+    // Circle vs Rectangle
+    if (this.type === 'circle' && other.type === 'rectangle') {
+      const closestX = Math.max(other.x, Math.min(this.x, other.x + other.w));
+      const closestY = Math.max(other.y, Math.min(this.y, other.y + other.h));
 
-    const dx = this.x - closestX;
-    const dy = this.y - closestY;
+      const dx = this.x - closestX;
+      const dy = this.y - closestY;
 
-    if (dx * dx + dy * dy < this.r * this.r) {
-      this.elastic(other);
-      // Optional: Add position correction
+      if (dx * dx + dy * dy < this.r * this.r) {
+        this.elastic(other);
+        // Optional: Add position correction
+      }
+      return;
     }
-    return;
-  }
 
-  // Rectangle vs Circle — delegate
-  if (this.type === 'rectangle' && other.type === 'circle') {
-    other.coll(this);
-    return;
+    // Rectangle vs Circle — delegate
+    if (this.type === 'rectangle' && other.type === 'circle') {
+      other.coll(this);
+      return;
+    }
   }
-}
 
   elastic(other) {
 
@@ -259,9 +349,9 @@ class Circle extends Shape {
 
 }
 
-  // move(x,y){
-  //   if(x != undefined && x > 0 || y != undefined && y > 0){
-  //     this.x = x;
-  //     this.y = y;
-  //   }
-  // }
+// move(x,y){
+//   if(x != undefined && x > 0 || y != undefined && y > 0){
+//     this.x = x;
+//     this.y = y;
+//   }
+// }
