@@ -12,7 +12,12 @@ document.addEventListener("DOMContentLoaded", function () {
         "d": ["d", "a", "mousedown"],
         "a": ["a", "d", "mousedown"],
         "w": ["w", "s", "mousedown"],
-        "s": ["s", "w", "mousedown"]
+        "s": ["s", "w", "mousedown"],
+
+        "l": ["l", "'", "mousedown"],
+        "'": ["'", "l", "mousedown"],
+        "p": ["p", ";", "mousedown"],
+        ";": [";", "p", "mousedown"]
     }
 
     let currentStack = [];
@@ -39,8 +44,18 @@ document.addEventListener("DOMContentLoaded", function () {
         if (currentKey) correctKey = currentKey[counter] === captureObj.key;
 
         if (correctKey) {
+            
             currentStack.push(captureObj.timeStamp);
-            if (currentStack.length > 1) ctx.fillText("Time in Milliseconds : " + (currentStack[counter] - currentStack[counter - 1]).toFixed(2), 0, 50);
+
+            if (currentStack.length > 1) 
+            {
+                ctx.fillText("Current time in Milliseconds : " + (currentStack[counter] - currentStack[counter - 1]).toFixed(2), 0, 50);
+                
+                if(currentStack.length == 3)
+                {
+                    ctx.fillText("Previous time in Milliseconds : " + (currentStack[counter-1] - currentStack[counter - 2]).toFixed(2), 0, 40);
+                }
+            }
             counter++;
         } else {
             errorCounter++;

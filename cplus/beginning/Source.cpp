@@ -3,7 +3,7 @@
 #include <thread>
 #include <limits>
 #include <sstream>
-using namespace std;
+#include "boost/signals2.hpp"
 
 
 int add(int, int);
@@ -32,7 +32,7 @@ template<typename T>
 class Vector {
 public:
 	Vector(int size) {
-		if (size < 0) throw length_error{ "Vector Constructor size" };
+		if (size < 0) throw std::length_error{ "Vector Constructor size" };
 		element = new T[size];
 		length = size;
 	}
@@ -40,7 +40,7 @@ public:
 	~Vector() { delete[] element; };
 
 	T& operator[](int i) {
-		if (i < 0 || size() <= i) throw out_of_range{ "Vector::operator[]" };
+		if (i < 0 || size() <= i) throw std::out_of_range{ "Vector::operator[]" };
 		return element[i]; 
 	}
 	int size() const{ 
@@ -63,15 +63,15 @@ T* end(Vector<T>& element) {
 
 typedef Vector<int>intArray;
 void f() {
-	cout << "hello";
+	std::cout << "hello";
 };
 struct F {
-	void operator()() { cout << "Munashe!\n"; };
+	void operator()() { std::cout << "Munashe!\n"; };
 };
 
 void test() {
-	thread t1{ f };
-	thread t2{ F() };
+	std::thread t1{ f };
+	std::thread t2{ F() };
 
 	t1.join();
 	t2.join();
@@ -97,22 +97,113 @@ struct S
 	}
 };
 
+struct signalTest
+{
+	void operator()() 
+	{
+		std::cout << "This is me sending out a signal";
+	}
+};
+
 
 void print_s(const S& s) 
 {
 	switch (s.tag) 
 	{
-	case S::CHAR: cout << s.c; 
+	case S::CHAR: std::cout << s.c; 
 		break;
-	case S::INT: cout << s.i; 
+	case S::INT: std::cout << s.i; 
 		break;
-	case S::DOUBLE: cout << s.d;
+	case S::DOUBLE: std::cout << s.d;
 		break;
 	}
-	cout << endl;
+	std::cout << std::endl;
 }
 
 
+class Document
+{
+public:
+	typedef boost::signals2::signal<void()>  signal_t;
+
+public:
+	Document()
+	{}
+
+	/* Connect a slot to the signal which will be emitted whenever
+	  text is appended to the document. */
+	boost::signals2::connection connect(const signal_t::slot_type& subscriber)
+	{
+		return m_sig.connect(subscriber);
+	}
+
+	void append(const char* s)
+	{
+		m_text += s;
+		m_sig();
+	}
+
+	const std::string& getText() const
+	{
+		return m_text;
+	}
+
+private:
+	signal_t    m_sig;
+	std::string m_text;
+};
+
+
+class TextView
+{
+public:
+	TextView(Document& doc) : m_document(doc)
+	{
+		m_connection = m_document.connect(boost::bind(&TextView::refresh, this));
+	}
+
+	~TextView()
+	{
+		m_connection.disconnect();
+	}
+
+	void refresh() const
+	{
+		std::cout << "TextView: " << m_document.getText() << std::endl;
+	}
+private:
+	Document& m_document;
+	boost::signals2::connection  m_connection;
+};
+
+class HexView
+{
+public:
+	HexView(Document& doc) : m_document(doc)
+	{
+		m_connection = m_document.connect(boost::bind(&HexView::refresh,this));
+	}
+
+	~HexView()
+	{
+		m_connection.disconnect();
+	}
+
+	void refresh() const
+	{
+		const std::string& s = m_document.getText();
+
+		std::cout << "HexView:";
+
+		for (std::string::const_iterator it = s.begin(); it != s.end(); ++it)
+			std::cout << ' ' << std::hex << static_cast<int>(*it);
+
+		std::cout << std::endl;
+	}
+private:
+	Document& m_document;
+	boost::signals2::connection  m_connection;
+};
 
 int main() {
 
@@ -145,4 +236,9 @@ int main() {
 	wos << L"float, " << std::numeric_limits<float>::max()
 		<< L"Int, " << static_cast<float>(std::numeric_limits<int>::max());
 
+	Document    doc;
+	TextView    v1(doc);
+	HexView     v2(doc);
+
+	doc.append("Hello world!");
 }
