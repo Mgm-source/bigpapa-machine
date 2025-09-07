@@ -139,7 +139,7 @@ void GameWindow::render()
 	m_engine->setVertexShader(m_pvShader);
 	m_engine->setPixelShader(m_ppShader);
 
-	m_pTexture->update(m_engine->getContext());
+	m_pTexture->setTexture(m_engine->getContext());
 
 	m_engine->setVertexBuffer(m_pvBuffer);
 
