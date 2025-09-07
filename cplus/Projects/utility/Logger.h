@@ -38,7 +38,7 @@ public:
 			return L"Warning";
 
 		default:
-				return L"Unkown";
+				return L"Unknown";
 		}
 	};
 
@@ -52,7 +52,7 @@ public:
 	std::wstring getDate()
 	{
 		time_t rawtime;
-		struct tm timeinfo;
+		struct tm timeinfo{};
 		wchar_t buffer[20];
 
 		time(&rawtime);

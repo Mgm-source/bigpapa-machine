@@ -146,5 +146,5 @@ void GameWindow::render()
 
 	m_engine->drawTriangles(m_pvBuffer->length(), 0);
 
-	m_engine->present(0);
+	m_engine->present(false);
 }
