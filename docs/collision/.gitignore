@@ -1,0 +1,7 @@
+# Ignore all files in .idea by default
+.idea/*
+
+# But keep these versioned:
+!.idea/modules.xml
+!.idea/misc.xml
+!.idea/*.iml
