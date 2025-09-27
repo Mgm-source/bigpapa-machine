@@ -23,7 +23,7 @@ const shapeType =
   rectangle: 1
 };
 
-let type = shapeType.circle;
+let type = shapeType.rectangle;
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -61,6 +61,11 @@ canvas.addEventListener("mousedown", (ev) => {
   mouseState.lastY = ev.y;
   mouseState.isClicked = true;
   console.log(mouseState);
+
+  if(ev.button == 2)
+  {
+    type = shapeType.circle == type ? shapeType.rectangle : shapeType.circle;
+  }
 });
 
 
@@ -145,19 +150,19 @@ class Shape {
     if (this.type == "rectangle") {
 
       if (this.y < 0) {
-        this.y = Math.abs(this.vy);
+        this.vy = Math.abs(this.vy);
       }
 
       if (this.y > canvas.height - this.h) {
-        this.y = canvas.height - this.h;
+        this.vy = -Math.abs(this.vy);
       }
 
       if (this.x < 0) {
-        this.x = 0;
+        this.vx = Math.abs(this.vx);
       }
 
       if (this.x > canvas.width - this.w) {
-        this.x = canvas.width - this.w
+        this.vx = -Math.abs(this.vx)
       }
 
     }
@@ -189,6 +194,8 @@ class Shape {
     if (this.type === 'rectangle' && other.type === 'rectangle') {
       const overlapX = this.x < other.x + other.w && this.x + this.w > other.x;
       const overlapY = this.y < other.y + other.h && this.y + this.h > other.y;
+
+      // keep them seperate can only touch or have them repel it each other
 
       if (overlapX && overlapY) {
         this.elastic(other);
